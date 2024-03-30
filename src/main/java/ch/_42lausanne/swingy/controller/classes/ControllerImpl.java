@@ -3,8 +3,8 @@ package ch._42lausanne.swingy.controller.classes;
 import ch._42lausanne.swingy.controller.interfaces.Controller;
 import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.game.classes.Model;
-import ch._42lausanne.swingy.model.game.enums.ActiveStage;
 import ch._42lausanne.swingy.model.game.enums.Direction;
+import ch._42lausanne.swingy.model.game.enums.Phase;
 import ch._42lausanne.swingy.view.interfaces.GenericViewer;
 
 public record ControllerImpl(Model model, GenericViewer viewer) implements Controller {
@@ -39,12 +39,24 @@ public record ControllerImpl(Model model, GenericViewer viewer) implements Contr
 
     @Override
     public void runFromBattle() {
+        // TODO run from battle
+        viewer.updateView();
+    }
+
+    public void continueTheAdventure() {
+        model.setPhase(Phase.MAP);
         viewer.updateView();
     }
 
     @Override
-    public void continueTheAdventure() {
-        model.setActiveStage(ActiveStage.MAP_STAGE);
+    public void searchForDroppedArtifacts() {
+        model.searchForDroppedArtifacts();
+        viewer.updateView();
+    }
+
+    @Override
+    public void keepArtifact() {
+        model.keepArtifact();
         viewer.updateView();
     }
 }

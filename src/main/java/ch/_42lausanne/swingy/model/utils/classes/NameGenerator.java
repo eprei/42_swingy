@@ -21,11 +21,7 @@ public class NameGenerator {
     private static final Random random = new Random();
 
     public static @NotNull String generateRandomName() {
-        String name = ADJECTIVES.get(random.nextInt(ADJECTIVES.size())) + " " +
+        return ADJECTIVES.get(random.nextInt(ADJECTIVES.size())) + " " +
                 NOUNS.get(random.nextInt(NOUNS.size()));
-        System.out.println(name);
-        return name;
-//        return ADJECTIVES.get(random.nextInt(ADJECTIVES.size())) + " " +
-//                NOUNS.get(random.nextInt(NOUNS.size()));
     }
 }

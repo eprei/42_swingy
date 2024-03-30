@@ -1,19 +1,34 @@
 package ch._42lausanne.swingy.view.classes.console;
 
+import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
+import ch._42lausanne.swingy.model.artifacts.classes.ArtifactType;
+import ch._42lausanne.swingy.model.game.enums.ObjectType;
+
 public class UserMessages {
-    private static final int[] randomSeeds = new int[]{0, 0, 0, 0, 0};
+    private static final int[] randomSeeds = new int[]{0, 0, 0, 0, 0, 0};
+
+    public static String BANNER = """
+            _____/\\\\\\\\\\\\\\\\\\\\\\____________________________________________________________________       \s
+             ___/\\\\\\/////////\\\\\\__________________________________________________________________      \s
+              __\\//\\\\\\______\\///_____________________/\\\\\\_________________/\\\\\\\\\\\\\\\\_____/\\\\\\__/\\\\\\_     \s
+               ___\\////\\\\\\__________/\\\\____/\\\\___/\\\\_\\///___/\\\\/\\\\\\\\\\\\____/\\\\\\////\\\\\\___\\//\\\\\\/\\\\\\__    \s
+                ______\\////\\\\\\______\\/\\\\\\__/\\\\\\\\_/\\\\\\__/\\\\\\_\\/\\\\\\////\\\\\\__\\//\\\\\\\\\\\\\\\\\\____\\//\\\\\\\\\\___   \s
+                 _________\\////\\\\\\___\\//\\\\\\/\\\\\\\\\\/\\\\\\__\\/\\\\\\_\\/\\\\\\__\\//\\\\\\__\\///////\\\\\\_____\\//\\\\\\____  \s
+                  __/\\\\\\______\\//\\\\\\___\\//\\\\\\\\\\/\\\\\\\\\\___\\/\\\\\\_\\/\\\\\\___\\/\\\\\\__/\\\\_____\\\\\\__/\\\\_/\\\\\\_____ \s
+                   _\\///\\\\\\\\\\\\\\\\\\\\\\/_____\\//\\\\\\\\//\\\\\\____\\/\\\\\\_\\/\\\\\\___\\/\\\\\\_\\//\\\\\\\\\\\\\\\\__\\//\\\\\\\\/______\s
+                    ___\\///////////________\\///__\\///_____\\///__\\///____\\///___\\////////____\\////________
+            """;
     public static String USAGE = """
             Usage:
                     java -jar swingy.jar console
                     java -jar swingy.jar gui
             """;
-    public static String[] MOVEMENT_INSTRUCTIONS = new String[]{"""
+    public static String[] MOVEMENT_INSTRUCTIONS = {"""
             Choose your direction!
-
-            North (w): You will move north.
-            South (s): You will move south.
-            East (d): You will move east.
-            West (a): You will move west.
+            (w): North
+            (s): South
+            (d): East
+            (a): West
 
             Enter the command corresponding to the direction you want to move:""",
 
@@ -22,21 +37,25 @@ public class UserMessages {
             "Where to next? (w, a, s, d):",
 
             "Which direction do you want to go? (w, a, s, d):"};
-    public static String[] FIGHT_OR_RUN = new String[]
-            {"You have encountered a villain!\n",
-                    """
-            
+    public static String[] FIGHT_OR_RUN = {
+            "You have encountered a villain!\n",
+            """
             What do you want to do?
             Fight (f): You will engage the enemy in battle. Your chances of success depend on your strength and skills.
-            Run (r): You will try to escape from the enemy. Your chances of success depend on your speed and stealth.
+            Run (r): You will try to escape from the enemy. Your chances of success depend on your speed and stealth."""
+    };
 
-            Choose your action by entering the letter "f" to fight or the letter "r" to run:"""
-            };
-
-    public static String[] YOU_WIN_THE_BATTLE = new String[]{
+    public static String[] YOU_WIN_THE_BATTLE = {
             "Congratulations! You have emerged victorious from the battle!",
             "Your skills and bravery have led you to triumph!",
             "You have conquered your foes and stand triumphant!"
+    };
+
+    public static String[] YOU_LOSE_THE_BATTLE = new String[]{
+            "Oh no! You have been defeated in battle!",
+            "Your enemies have overwhelmed you.",
+            "You have fallen in battle. Your quest is over.",
+            "Better luck next time, brave warrior!"
     };
 
     public static String[] YOU_WIN_THE_MAP = new String[]{
@@ -61,6 +80,19 @@ public class UserMessages {
             "Better luck next time!"
     };
 
+    public static String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
+
+    public static String[] ARTIFACT_KEPT = {"The artifact ", " has been kept\n"};
+
+    public static String[] DROPPED_ARTIFACT = {"You have found an Artifact\n", "\nYou can keep it (k) or leave it (l)"};
+
+    public static String[] EXPERIENCIE_GAINED = {" has gained ", " points of experience (XP)"};
+
+    public static String printBanner() {
+        System.out.println(BANNER);
+        return BANNER;
+    }
+
     public static String printUsage() {
         System.out.println(USAGE);
         return USAGE;
@@ -84,20 +116,50 @@ public class UserMessages {
         return message;
     }
 
+    public static String printYouLoseTheBattle() {
+        String message = YOU_LOSE_THE_BATTLE[randomSeeds[2]++ % YOU_LOSE_THE_BATTLE.length];
+        System.out.println(message);
+        return message;
+    }
+
     public static String printYouWinTheMap() {
-        String message = YOU_WIN_THE_MAP[randomSeeds[2]++ % YOU_WIN_THE_MAP.length];
+        String message = YOU_WIN_THE_MAP[randomSeeds[3]++ % YOU_WIN_THE_MAP.length];
         System.out.println(message);
         return message;
     }
 
     public static String printYouWinTheGame() {
-        String message = YOU_WIN_THE_GAME[randomSeeds[3]++ % YOU_WIN_THE_GAME.length];
+        String message = YOU_WIN_THE_GAME[randomSeeds[4]++ % YOU_WIN_THE_GAME.length];
         System.out.println(message);
         return message;
     }
 
     public static String printLoseGame() {
-        String message = YOU_LOSE_THE_GAME[randomSeeds[4]++ % YOU_LOSE_THE_GAME.length];
+        String message = YOU_LOSE_THE_GAME[randomSeeds[5]++ % YOU_LOSE_THE_GAME.length];
+        System.out.println(message);
+        return message;
+    }
+
+    public static String printDroppedArtifact(Artifact artifact) {
+        String message = DROPPED_ARTIFACT[0] + artifact + DROPPED_ARTIFACT[1];
+        System.out.println(message);
+        return message;
+    }
+
+    public static String printArtifactKept(ArtifactType type) {
+        String message = ARTIFACT_KEPT[0] + type + ARTIFACT_KEPT[1];
+        System.out.println(message);
+        return message;
+    }
+
+    public static String printLevelUp(ObjectType type, String name, int level) {
+        String message = LEVEL_UP[0] + type + " " + name + LEVEL_UP[1] + level + ".";
+        System.out.println(message);
+        return message;
+    }
+
+    public static String printExeriencieGained(ObjectType type, String name, int experienceGained) {
+        String message = type + " " + name + EXPERIENCIE_GAINED[0] + experienceGained + EXPERIENCIE_GAINED[1] + ".";
         System.out.println(message);
         return message;
     }

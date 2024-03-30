@@ -1,8 +1,8 @@
 package ch._42lausanne.swingy.view.classes.console;
 
+import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
 import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.game.enums.Direction;
-import ch._42lausanne.swingy.model.utils.classes.TimerSimulator;
 import ch._42lausanne.swingy.view.classes.GenericViewerImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,14 +11,12 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void welcomeView() {
-        log.info("welcome view");
         Hero heroSelected = model.getHeroes().get(1);
         controller.selectHero(heroSelected);
     }
 
     @Override
     public void mapView() {
-        log.info("map view");
         model.getMap().printMap();
 
         UserMessages.printMovementInstructions();
@@ -36,7 +34,6 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void fightOrRunStageView() {
-        log.info("fightOrRunStageView");
         model.getMap().printMap();
 
         UserMessages.printFightOrRun(model.getMap().getBattle().getVillain().toString());
@@ -62,10 +59,7 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void winBattleView() {
-        log.info("winBattleView");
-        UserMessages.printYouWinTheBattle();
-        TimerSimulator.Sleep(750);
-        controller.continueTheAdventure();
+        controller.searchForDroppedArtifacts();
     }
 
     @Override
@@ -74,8 +68,22 @@ public class ConsoleViewer extends GenericViewerImpl {
     }
 
     @Override
+    public void artifactDroppedView() {
+        Artifact artifact = model.getMap().getBattle().getArtifactDropped();
+
+        UserMessages.printDroppedArtifact(artifact);
+
+        String userChoice = inputReader.nextLine();
+
+        // TODO validate input: Annotation based user input validation
+        switch (userChoice) {
+            case "k" -> controller.keepArtifact();
+            case "l" -> controller.continueTheAdventure();
+        }
+    }
+
+    @Override
     public void winMapView() {
-        log.info("winMapView");
         UserMessages.printYouWinTheMap();
     }
 
@@ -83,12 +91,6 @@ public class ConsoleViewer extends GenericViewerImpl {
     public void winGameView() {
         log.info("winGameView");
         UserMessages.printYouWinTheGame();
-    }
-
-    @Override
-    public void loseGameView() {
-        log.info("loseGameView");
-        UserMessages.printLoseGame();
     }
 
     @Override

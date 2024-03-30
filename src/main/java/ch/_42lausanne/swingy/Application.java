@@ -33,6 +33,7 @@ public class Application {
     }
 
     private static void launchGame() {
+        UserMessages.printBanner();
         model = new Model();
         controller = new ControllerImpl(model, viewer);
         viewer.setController(controller);

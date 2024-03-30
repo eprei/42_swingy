@@ -22,11 +22,11 @@ public interface GenericViewer {
 
     void looseBattleView();
 
+    void artifactDroppedView();
+
     void winMapView();
 
     void winGameView();
-
-    void loseGameView();
 
     void exitMapView();
 

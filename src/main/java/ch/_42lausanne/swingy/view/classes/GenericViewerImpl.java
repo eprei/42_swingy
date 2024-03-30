@@ -29,19 +29,19 @@ public abstract class GenericViewerImpl implements GenericViewer {
     }
 
     private void handleActiveState() {
-        switch (model.getActiveStage()) {
-            case WELCOME_STAGE -> welcomeView();
-            case MAP_STAGE -> mapView();
-            case FIGHT_OR_RUN_STAGE -> fightOrRunStageView();
-            case RUN_STAGE -> runView();
-            case FIGHT_STAGE -> fightView();
-            case WIN_BATTLE_STAGE -> winBattleView();
-            case LOOSE_BATTLE_STAGE -> looseBattleView();
-            case WIN_MAP_STAGE -> winMapView();
-            case WIN_GAME_STAGE -> winGameView();
-            case LOSE_GAME_STAGE -> loseGameView();
-            case EXIT_MAP_STAGE -> exitMapView();
-            case EXIT_GAME_STAGE -> exitGameView();
+        switch (model.getPhase()) {
+            case WELCOME -> welcomeView();
+            case MAP -> mapView();
+            case FIGHT_OR_RUN -> fightOrRunStageView();
+            case RUN -> runView();
+            case FIGHT -> fightView();
+            case WIN_BATTLE -> winBattleView();
+            case LOOSE_BATTLE -> looseBattleView();
+            case ARTIFACT_DROPPED -> artifactDroppedView();
+            case WIN_MAP -> winMapView();
+            case WIN_GAME -> winGameView();
+            case EXIT_MAP -> exitMapView();
+            case EXIT_GAME -> exitGameView();
         }
     }
 }

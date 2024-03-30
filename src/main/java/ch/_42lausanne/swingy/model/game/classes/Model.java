@@ -1,11 +1,13 @@
 package ch._42lausanne.swingy.model.game.classes;
 
+import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
 import ch._42lausanne.swingy.model.characters.classes.BlackSmithBuilder;
 import ch._42lausanne.swingy.model.characters.classes.CharacterBuilderDirector;
 import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.characters.classes.MagicianBuilder;
-import ch._42lausanne.swingy.model.game.enums.ActiveStage;
 import ch._42lausanne.swingy.model.game.enums.Direction;
+import ch._42lausanne.swingy.model.game.enums.Phase;
+import ch._42lausanne.swingy.view.classes.console.UserMessages;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +26,7 @@ public class Model {
     private CharacterBuilderDirector builderDirector;
     @Getter
     @Setter
-    private ActiveStage activeStage;
+    private Phase phase;
 
     public Model() {
         heroes = new ArrayList<>();
@@ -36,7 +38,8 @@ public class Model {
         builderDirector.buildCharacter();
         Hero magician = (Hero) builderDirector.getCharacter();
         heroes.add(magician);
-        this.activeStage = ActiveStage.WELCOME_STAGE;
+        magician.setLevel(2);
+        this.phase = Phase.WELCOME;
     }
 
     public void movingHandler(Direction direction) {
@@ -63,10 +66,22 @@ public class Model {
     public void setHero(Hero hero) {
         this.hero = hero;
         map = new Map(this);
-        this.activeStage = ActiveStage.MAP_STAGE;
+        this.phase = Phase.MAP;
     }
 
     public void fight() {
         map.doBattle();
+    }
+
+    public void searchForDroppedArtifacts() {
+        map.searchForDroppedArtifacts();
+    }
+
+    public void keepArtifact() {
+        Artifact dropedArtifact = map.getBattle().getArtifactDropped();
+        hero.setArtifacts(dropedArtifact);
+        UserMessages.printArtifactKept(dropedArtifact.getType());
+
+        this.phase = Phase.MAP;
     }
 }

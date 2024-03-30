@@ -42,17 +42,17 @@ public class GuiViewer extends GenericViewerImpl {
     }
 
     @Override
+    public void artifactDroppedView() {
+
+    }
+
+    @Override
     public void winMapView() {
 
     }
 
     @Override
     public void winGameView() {
-
-    }
-
-    @Override
-    public void loseGameView() {
 
     }
 

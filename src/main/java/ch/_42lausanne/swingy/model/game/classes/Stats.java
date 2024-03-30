@@ -37,19 +37,19 @@ public class Stats {
         return new Stats(12, 10, 90);
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats weaponStats() {
-        return new Stats(5, 0, 0);
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Stats weaponStats(int villainAttack) {
+        return new Stats(villainAttack / 2, 0, 0);
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats armorStats() {
-        return new Stats(0, 5, 0);
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Stats armorStats(int villainDefense) {
+        return new Stats(0, villainDefense / 2, 0);
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats helmetStats() {
-        return new Stats(0, 0, 5);
+    @Contract(value = "_ -> new", pure = true)
+    public static @NotNull Stats helmStats(int villainHitPoints) {
+        return new Stats(0, 0, villainHitPoints / 6);
     }
 
 }

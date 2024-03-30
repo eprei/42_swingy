@@ -18,4 +18,7 @@ public interface Controller {
 
     void continueTheAdventure();
 
+    void searchForDroppedArtifacts();
+
+    void keepArtifact();
 }

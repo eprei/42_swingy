@@ -39,7 +39,7 @@ public class VillainBuilder implements CharacterBuilder {
     @Override
     public CharacterBuilder buildStats() {
         // TODO calculate stats based in Villain's lvl
-        this.villain.setStats(new Stats(3, 6, 25));
+        this.villain.setStats(new Stats(6, 10, 80));
         return this;
     }
 
