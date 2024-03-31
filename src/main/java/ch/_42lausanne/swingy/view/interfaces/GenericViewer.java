@@ -6,9 +6,13 @@ public interface GenericViewer {
 
     void setController(ControllerImpl controller);
 
-    void updateView();
-
     void welcomeView();
+
+    void createHeroView();
+
+    void selectHeroView();
+
+    void updateView();
 
     void mapView();
 

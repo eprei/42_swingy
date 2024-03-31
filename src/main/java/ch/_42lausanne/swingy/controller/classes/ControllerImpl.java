@@ -22,24 +22,25 @@ public record ControllerImpl(Model model, GenericViewer viewer) implements Contr
 
     @Override
     public void fightBattle() {
-        model.fight();
+        model.fight(true);
         viewer.updateView();
     }
 
     @Override
     public void createHero() {
+        model.setPhase(Phase.CREATE_HERO);
         viewer.updateView();
     }
 
     @Override
-    public void selectHero(Hero heroSelected) {
-        model.setHero(heroSelected);
+    public void selectHero() {
+        model.setPhase(Phase.SELECT_HERO);
         viewer.updateView();
     }
 
     @Override
-    public void runFromBattle() {
-        // TODO run from battle
+    public void tryToRunFromBattle() {
+        model.tryToRunFromBattle();
         viewer.updateView();
     }
 
@@ -57,6 +58,19 @@ public record ControllerImpl(Model model, GenericViewer viewer) implements Contr
     @Override
     public void keepArtifact() {
         model.keepArtifact();
+        viewer.updateView();
+    }
+
+    @Override
+    public void goToWelcomeWindow() {
+        model.setPhase(Phase.WELCOME);
+    }
+
+    @Override
+    public void selectHeroIndex(String heroIndex) {
+        Hero heroSelected = model.getHeroes().get(Integer.parseInt(heroIndex));
+        model.setHero(heroSelected);
+        model.setPhase(Phase.MAP);
         viewer.updateView();
     }
 }

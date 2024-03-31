@@ -11,15 +11,18 @@ import model.characters.interfaces.MoveHero;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Data
 public class Map implements MoveHero {
+    private final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 2;
     private Hero hero;
     private Dimension mapSize;
     private int[][] mapGrid;
     private List<Character> villains;
     private Battle battle;
     private Model model;
+    private int villainsToPlace;
 
     public Map(Model model) {
         this.model = model;
@@ -40,19 +43,38 @@ public class Map implements MoveHero {
     }
 
     private void populateMapWithVillains() {
-        model.getBuilderDirector().setCharacterBuilder(new VillainBuilder());
+        int villainsPlaced = 0;
 
-        for (int i = 0; i < mapSize.getHeight(); i++) {
-            for (int j = 0; j < mapSize.getWidth(); j++) {
-                if ((i + j) % 3 == 0) {
-                    mapGrid[i][j] = ObjectType.VILLAIN.ordinal();
-                    // TODO create villains of varying power
-                    model.getBuilderDirector().buildCharacter();
-                    Character villain = model.getBuilderDirector().getCharacter();
-                    villains.add(villain);
-                }
+        while (villainsPlaced < villainsToPlace) {
+            Random random = new Random();
+            int i = random.nextInt((int) mapSize.getHeight());
+            int j = random.nextInt((int) mapSize.getWidth());
+            if (mapGrid[i][j] == ObjectType.EMPTY_SPACE.ordinal()) {
+                mapGrid[i][j] = ObjectType.VILLAIN.ordinal();
+                buildVillains();
+                villainsPlaced++;
             }
         }
+    }
+
+    private void buildVillains() {
+        model.getBuilderDirector().setCharacterBuilder(new VillainBuilder());
+        model.getBuilderDirector().buildCharacter();
+        Character villain = model.getBuilderDirector().getCharacter();
+        setVillainStats(villain);
+//        System.out.printf(villain.toString());
+        villains.add(villain);
+    }
+
+    private void setVillainStats(Character villain) {
+        int enemyAttack = (int) (hero.getStats().getAttack() * VILLAIN_SPREAD_COEFFICIENT);
+        int enemyDefense = (int) (hero.getStats().getDefense() * VILLAIN_SPREAD_COEFFICIENT);
+        int enemyHitPoints = (int) (hero.getStats().getHitPoints() * VILLAIN_SPREAD_COEFFICIENT);
+
+        Stats enemyStats = new Stats(enemyAttack, enemyDefense, enemyHitPoints);
+
+        villain.setStats(enemyStats);
+        villain.setInitialHp(enemyHitPoints);
     }
 
     private void setMapSize() {
@@ -60,6 +82,7 @@ public class Map implements MoveHero {
         int height = (hero.getLevel() - 1) * 5 + 10;
         mapSize = new Dimension();
         mapSize.setSize(width, height);
+        villainsToPlace = (int) (width * height * VILLAIN_SPREAD_COEFFICIENT);
     }
 
     private void createMap() {
@@ -82,7 +105,7 @@ public class Map implements MoveHero {
         System.out.println();
     }
 
-    private void verifyDirection(int widthVariation, int heightVariation) {
+    private void checkAndMoveHero(int widthVariation, int heightVariation) {
         int oldWidth = hero.getPosition().width;
         int oldHeight = hero.getPosition().height;
         int newWidth = oldWidth + widthVariation;
@@ -90,12 +113,23 @@ public class Map implements MoveHero {
 
         checkMapBoundaries(newWidth, newHeight);
 
-        if (model.getPhase() != Phase.WIN_MAP) {
-            checkVillains(newWidth, newHeight);
-            mapGrid[oldWidth][oldHeight] = ObjectType.EMPTY_SPACE.ordinal();
-            mapGrid[newWidth][newHeight] = hero.getType().ordinal();
-            hero.setPosition(new Dimension(newWidth, newHeight));
+        if (model.getPhase() == Phase.WIN_MAP) {
+            return;
         }
+
+        checkVillains(newWidth, newHeight);
+
+        if (model.getPhase() == Phase.FIGHT_OR_RUN) {
+            return;
+        }
+
+        moveHeroToEmptySquare(oldWidth, oldHeight, newWidth, newHeight);
+    }
+
+    private void moveHeroToEmptySquare(int oldWidth, int oldHeight, int newWidth, int newHeight) {
+        mapGrid[oldWidth][oldHeight] = ObjectType.EMPTY_SPACE.ordinal();
+        mapGrid[newWidth][newHeight] = hero.getType().ordinal();
+        hero.setPosition(new Dimension(newWidth, newHeight));
     }
 
     private void checkMapBoundaries(int newWidth, int newHeight) {
@@ -113,36 +147,36 @@ public class Map implements MoveHero {
 
     @Override
     public void moveHeroToNorth() {
-        verifyDirection(0, -1);
+        checkAndMoveHero(0, -1);
     }
 
     @Override
     public void moveHeroToEast() {
-        verifyDirection(1, 0);
+        checkAndMoveHero(1, 0);
     }
 
     @Override
     public void moveHeroToSouth() {
-        verifyDirection(0, 1);
+        checkAndMoveHero(0, 1);
     }
 
     @Override
     public void moveHeroToWest() {
-        verifyDirection(-1, 0);
+        checkAndMoveHero(-1, 0);
     }
 
-    public void doBattle() {
-        battle.simulateBattle();
+    public void battleAccepted(boolean heroAttacksFirst) {
+        battle.simulateBattle(heroAttacksFirst);
 
         if (hero.getIsAlive()) {
-            updateHeroPosition();
+            moveHeroToTheWonSquare();
             model.setPhase(Phase.WIN_BATTLE);
         } else {
             model.setPhase(Phase.LOOSE_BATTLE);
         }
     }
 
-    private void updateHeroPosition() {
+    private void moveHeroToTheWonSquare() {
         int oldWidth = hero.getPosition().width;
         int oldHeight = hero.getPosition().height;
         int newWidth = battle.getBattleCoordinates().width;
@@ -159,5 +193,10 @@ public class Map implements MoveHero {
         } else {
             model.setPhase(Phase.ARTIFACT_DROPPED);
         }
+    }
+
+    public void successfulEscapeFromBattle() {
+        battle = null;
+        model.setPhase(Phase.MAP);
     }
 }

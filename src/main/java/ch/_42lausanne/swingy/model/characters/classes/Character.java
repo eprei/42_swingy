@@ -1,11 +1,12 @@
 package ch._42lausanne.swingy.model.characters.classes;
 
+import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
 import ch._42lausanne.swingy.model.game.classes.Stats;
 import ch._42lausanne.swingy.model.game.enums.ObjectType;
+import ch._42lausanne.swingy.model.utils.classes.RandomnessGenerator;
 import lombok.Data;
 
 import java.awt.*;
-import java.util.Random;
 
 @Data
 public class Character {
@@ -16,9 +17,10 @@ public class Character {
     protected Boolean isAlive = true;
     protected int level;
     protected int experience = 0;
+    protected int initialHp;
+    protected Artifact artifact;
 
     public String toString() {
-
         return "---------------------------\n" +
                 "| name: " + name + "\n" +
                 "| attack: " + stats.getAttack() + "\n" +
@@ -27,15 +29,19 @@ public class Character {
                 "---------------------------\n";
     }
 
+    public int getAttack() {
+        return this.artifact == null ? stats.getAttack() : stats.getAttack() + artifact.getStats().getAttack();
+    }
+
+    public int getDefense() {
+        return this.artifact == null ? stats.getDefense() : stats.getDefense() + artifact.getStats().getDefense();
+    }
+
     public void attackEnemy(Character enemy) {
-        // TODO calculate attack with artifacts
-        int damage = this.stats.getAttack() - enemy.getStats().getDefense();
+        int damage = ((10 - enemy.getDefense()) * this.getAttack()) / 10;
         damage = Math.max(damage, 0);
 
-        Random random = new Random();
-        int randomSeed = random.nextInt(11);
-
-        if (randomSeed < 7) {
+        if (RandomnessGenerator.rollDice(0.7)) {
             enemy.takeDamage(damage);
             System.out.println(this.name + " attacks " + enemy.getName() + " for " + damage + " damage!");
         } else {
@@ -44,11 +50,12 @@ public class Character {
     }
 
     public void takeDamage(int damage) {
+//        this.stats.setHitPoints(this.stats.getHitPoints() - damage);
         this.stats.setHitPoints(this.stats.getHitPoints() - damage);
         this.isAlive = this.stats.getHitPoints() > 0;
     }
 
-    public int getStrenght() {
+    public int getStrength() {
         return stats.getAttack() + stats.getDefense();
     }
 }

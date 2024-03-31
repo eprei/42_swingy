@@ -2,6 +2,8 @@ package ch._42lausanne.swingy.model.game.enums;
 
 public enum Phase {
     WELCOME,
+    CREATE_HERO,
+    SELECT_HERO,
     MAP,
     FIGHT_OR_RUN,
     RUN,

@@ -31,6 +31,8 @@ public abstract class GenericViewerImpl implements GenericViewer {
     private void handleActiveState() {
         switch (model.getPhase()) {
             case WELCOME -> welcomeView();
+            case CREATE_HERO -> createHeroView();
+            case SELECT_HERO -> selectHeroView();
             case MAP -> mapView();
             case FIGHT_OR_RUN -> fightOrRunStageView();
             case RUN -> runView();

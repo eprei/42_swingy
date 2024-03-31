@@ -7,6 +7,7 @@ import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.characters.classes.MagicianBuilder;
 import ch._42lausanne.swingy.model.game.enums.Direction;
 import ch._42lausanne.swingy.model.game.enums.Phase;
+import ch._42lausanne.swingy.model.utils.classes.RandomnessGenerator;
 import ch._42lausanne.swingy.view.classes.console.UserMessages;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,17 +15,13 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Model {
 
-    @Getter
+    private final List<Hero> heroes;
     private Hero hero;
-    @Getter
-    private List<Hero> heroes;
-    @Getter
     private Map map;
-    @Getter
     private CharacterBuilderDirector builderDirector;
-    @Getter
     @Setter
     private Phase phase;
 
@@ -38,7 +35,7 @@ public class Model {
         builderDirector.buildCharacter();
         Hero magician = (Hero) builderDirector.getCharacter();
         heroes.add(magician);
-        magician.setLevel(2);
+        magician.setLevel(0);
         this.phase = Phase.WELCOME;
     }
 
@@ -65,12 +62,14 @@ public class Model {
 
     public void setHero(Hero hero) {
         this.hero = hero;
+        System.out.printf("You have chosen %s. May the force be with you!\n\n", hero.getName());
+
         map = new Map(this);
         this.phase = Phase.MAP;
     }
 
-    public void fight() {
-        map.doBattle();
+    public void fight(boolean heroAttacksFirst) {
+        map.battleAccepted(heroAttacksFirst);
     }
 
     public void searchForDroppedArtifacts() {
@@ -79,9 +78,19 @@ public class Model {
 
     public void keepArtifact() {
         Artifact dropedArtifact = map.getBattle().getArtifactDropped();
-        hero.setArtifacts(dropedArtifact);
+        hero.setArtifact(dropedArtifact);
         UserMessages.printArtifactKept(dropedArtifact.getType());
 
         this.phase = Phase.MAP;
+    }
+
+    public void tryToRunFromBattle() {
+        if (RandomnessGenerator.rollDice(0.5)) {
+            UserMessages.printRunSuccessful();
+            map.successfulEscapeFromBattle();
+        } else {
+            UserMessages.printRunFailed();
+            this.fight(false);
+        }
     }
 }

@@ -1,7 +1,6 @@
 package ch._42lausanne.swingy.view.classes.console;
 
 import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
-import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.game.enums.Direction;
 import ch._42lausanne.swingy.view.classes.GenericViewerImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +10,32 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void welcomeView() {
-        Hero heroSelected = model.getHeroes().get(1);
-        controller.selectHero(heroSelected);
+        UserMessages.printWelcome();
+
+        String userChoice = inputReader.nextLine();
+
+        // TODO validate input: Annotation based user input validation
+        switch (userChoice) {
+            case "c" -> controller.createHero();
+            case "p" -> controller.selectHero();
+        }
+
+    }
+
+    @Override
+    public void createHeroView() {
+        // TODO
+    }
+
+    @Override
+    public void selectHeroView() {
+        UserMessages.printAvailableHeroes(model.getHeroes());
+
+        String heroIndex = inputReader.nextLine();
+
+        // TODO validate input: Annotation based user input validation
+        // TODO Check that its a valid index
+        controller.selectHeroIndex(heroIndex);
     }
 
     @Override
@@ -24,7 +47,7 @@ public class ConsoleViewer extends GenericViewerImpl {
 
         // TODO validate input: Annotation based user input validation
 
-        switch (direction) {
+        switch (direction.toLowerCase()) {
             case "w" -> controller.handleMovement(Direction.NORTH);
             case "d" -> controller.handleMovement(Direction.EAST);
             case "s" -> controller.handleMovement(Direction.SOUTH);
@@ -34,8 +57,6 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void fightOrRunStageView() {
-        model.getMap().printMap();
-
         UserMessages.printFightOrRun(model.getMap().getBattle().getVillain().toString());
 
         String userChoice = inputReader.nextLine();
@@ -43,7 +64,7 @@ public class ConsoleViewer extends GenericViewerImpl {
         // TODO validate input: Annotation based user input validation
         switch (userChoice) {
             case "f" -> controller.fightBattle();
-            case "r" -> controller.runFromBattle();
+            case "r" -> controller.tryToRunFromBattle();
         }
     }
 
@@ -89,8 +110,9 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void winGameView() {
-        log.info("winGameView");
         UserMessages.printYouWinTheGame();
+        inputReader.nextLine();
+        controller.goToWelcomeWindow();
     }
 
     @Override

@@ -12,6 +12,16 @@ public class GuiViewer extends GenericViewerImpl {
     }
 
     @Override
+    public void createHeroView() {
+        
+    }
+
+    @Override
+    public void selectHeroView() {
+
+    }
+
+    @Override
     public void mapView() {
 
     }

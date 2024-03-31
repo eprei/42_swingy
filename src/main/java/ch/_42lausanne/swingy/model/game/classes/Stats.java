@@ -19,7 +19,7 @@ public class Stats {
 
     @Contract(value = " -> new", pure = true)
     public static @NotNull Stats archerStats() {
-        return new Stats(16, 8, 80);
+        return new Stats(8, 4, 80);
     }
 
     @Contract(value = " -> new", pure = true)
@@ -29,12 +29,12 @@ public class Stats {
 
     @Contract(value = " -> new", pure = true)
     public static @NotNull Stats warriorStats() {
-        return new Stats(14, 12, 100);
+        return new Stats(7, 6, 100);
     }
 
     @Contract(value = " -> new", pure = true)
     public static @NotNull Stats magicianStats() {
-        return new Stats(12, 10, 90);
+        return new Stats(6, 5, 90);
     }
 
     @Contract(value = "_ -> new", pure = true)
@@ -48,8 +48,8 @@ public class Stats {
     }
 
     @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Stats helmStats(int villainHitPoints) {
-        return new Stats(0, 0, villainHitPoints / 6);
+    public static @NotNull Stats helmStats(int villainInitialHitPoints) {
+        return new Stats(0, 0, villainInitialHitPoints / 4);
     }
 
 }

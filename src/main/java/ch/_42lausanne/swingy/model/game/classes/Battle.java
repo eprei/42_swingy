@@ -3,6 +3,7 @@ package ch._42lausanne.swingy.model.game.classes;
 import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
 import ch._42lausanne.swingy.model.characters.classes.Character;
 import ch._42lausanne.swingy.model.characters.classes.Hero;
+import ch._42lausanne.swingy.model.utils.classes.RandomnessGenerator;
 import ch._42lausanne.swingy.view.classes.console.UserMessages;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Battle {
     private final Hero hero;
@@ -30,13 +30,29 @@ public class Battle {
         villain = villains.getFirst();
     }
 
-    private static void performBattleRounds(Character @NotNull [] contenders) {
+    private void performBattleRounds(boolean heroAttacksFirst) {
+        Character[] contenders = getContendersOrder(heroAttacksFirst);
+
         while (contenders[0].getIsAlive() && contenders[1].getIsAlive()) {
             contenders[0].attackEnemy(contenders[1]);
             if (contenders[1].getIsAlive()) {
                 contenders[1].attackEnemy(contenders[0]);
             }
         }
+    }
+
+    @NotNull
+    private Character[] getContendersOrder(boolean heroAttacksFirst) {
+        Character[] contenders = new Character[2];
+
+        if (heroAttacksFirst) {
+            contenders[0] = this.hero;
+            contenders[1] = this.villain;
+        } else {
+            contenders[0] = this.villain;
+            contenders[1] = this.hero;
+        }
+        return contenders;
     }
 
     private void findWinner() {
@@ -50,35 +66,15 @@ public class Battle {
         }
     }
 
-    public void simulateBattle() {
-        Character[] contenders = mixContenders(hero, villain);
-
-        performBattleRounds(contenders);
+    public void simulateBattle(boolean heroAttacksFirst) {
+        performBattleRounds(heroAttacksFirst);
         findWinner();
     }
 
     private void dropArtifact() {
-        Random random = new Random();
-        int randomSeed = random.nextInt(11);
-        if (5 < randomSeed) {
+        if (RandomnessGenerator.rollDice(0.5)) {
             artifactDropped = Artifact.buildRandomArtifact(villain);
         }
     }
-
-    private Character[] mixContenders(Hero hero, Character villain) {
-        Character[] contenders = new Character[2];
-        Random random = new Random();
-
-        boolean randomBoolean = random.nextBoolean();
-        if (randomBoolean) {
-            contenders[0] = hero;
-            contenders[1] = villain;
-        } else {
-            contenders[0] = villain;
-            contenders[1] = hero;
-        }
-
-        return contenders;
-    }
-
+    
 }

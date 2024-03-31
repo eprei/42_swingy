@@ -25,7 +25,7 @@ public class Artifact {
         switch (randomSeed) {
             case 0 -> artifact = new Weapon(villain.getStats().getAttack());
             case 1 -> artifact = new Armor(villain.getStats().getDefense());
-            case 2 -> artifact = new Helm(villain.getStats().getHitPoints());
+            case 2 -> artifact = new Helm(villain.getInitialHp());
         }
 
         return artifact;
@@ -33,10 +33,9 @@ public class Artifact {
 
     @Override
     public String toString() {
-        return "type: " + type +
-                "\nattack: " + stats.getAttack() +
-                "\ndefense: " + stats.getDefense() +
-                "\nhitPoints: " + stats.getHitPoints()
-                + "\n";
+        return "type: " + type + "\n" +
+                "attack: " + stats.getAttack() + "\n" +
+                "defense: " + stats.getDefense() + "\n" +
+                "hitPoints: " + stats.getHitPoints() + "\n";
     }
 }

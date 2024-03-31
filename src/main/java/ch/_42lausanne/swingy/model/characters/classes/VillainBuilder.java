@@ -31,14 +31,12 @@ public class VillainBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildLvl() {
-        // TODO calculate lvl based on Hero's lvl
         this.villain.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        // TODO calculate stats based in Villain's lvl
         this.villain.setStats(new Stats(6, 10, 80));
         return this;
     }

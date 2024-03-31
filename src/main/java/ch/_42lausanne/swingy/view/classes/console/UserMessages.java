@@ -2,7 +2,11 @@ package ch._42lausanne.swingy.view.classes.console;
 
 import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
 import ch._42lausanne.swingy.model.artifacts.classes.ArtifactType;
+import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.game.enums.ObjectType;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserMessages {
     private static final int[] randomSeeds = new int[]{0, 0, 0, 0, 0, 0};
@@ -23,14 +27,20 @@ public class UserMessages {
                     java -jar swingy.jar console
                     java -jar swingy.jar gui
             """;
+
+    public static String WELCOME = """
+            Choose your destiny:
+                        
+                    (c) Create Character: Forge your own hero with unique abilities and appearance.
+                    (p) Play: Select a predefined character to start your journey immediately.""";
+
     public static String[] MOVEMENT_INSTRUCTIONS = {"""
             Choose your direction!
-            (w): North
-            (s): South
-            (d): East
-            (a): West
-
-            Enter the command corresponding to the direction you want to move:""",
+            
+                    (w): North
+                    (s): South
+                    (d): East
+                    (a): West""",
 
             "Enter your move (w, a, s, d):",
 
@@ -41,8 +51,9 @@ public class UserMessages {
             "You have encountered a villain!\n",
             """
             What do you want to do?
-            Fight (f): You will engage the enemy in battle. Your chances of success depend on your strength and skills.
-            Run (r): You will try to escape from the enemy. Your chances of success depend on your speed and stealth."""
+            
+                    Fight (f): You will engage the enemy in battle. Your chances of success depend on your strength and skills.
+                    Run (r): You will try to escape from the enemy but if you don't succeed you will have to fight him and he will attack you first."""
     };
 
     public static String[] YOU_WIN_THE_BATTLE = {
@@ -80,6 +91,11 @@ public class UserMessages {
             "Better luck next time!"
     };
 
+    public static String PRESS_ANY_KEY_TO_CONTINUE = "Press any key to continue.";
+
+    public static String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
+    public static String RUN_FAILED = "The enemy is closing in! You must fight or die!";
+
     public static String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
 
     public static String[] ARTIFACT_KEPT = {"The artifact ", " has been kept\n"};
@@ -87,6 +103,8 @@ public class UserMessages {
     public static String[] DROPPED_ARTIFACT = {"You have found an Artifact\n", "\nYou can keep it (k) or leave it (l)"};
 
     public static String[] EXPERIENCIE_GAINED = {" has gained ", " points of experience (XP)"};
+
+    public static String SELECT_HERO = "Select one of the following available heroes by entering its id.\n";
 
     public static String printBanner() {
         System.out.println(BANNER);
@@ -129,7 +147,7 @@ public class UserMessages {
     }
 
     public static String printYouWinTheGame() {
-        String message = YOU_WIN_THE_GAME[randomSeeds[4]++ % YOU_WIN_THE_GAME.length];
+        String message = YOU_WIN_THE_GAME[randomSeeds[4]++ % YOU_WIN_THE_GAME.length] + PRESS_ANY_KEY_TO_CONTINUE;
         System.out.println(message);
         return message;
     }
@@ -162,5 +180,26 @@ public class UserMessages {
         String message = type + " " + name + EXPERIENCIE_GAINED[0] + experienceGained + EXPERIENCIE_GAINED[1] + ".";
         System.out.println(message);
         return message;
+    }
+
+    public static String printRunSuccessful() {
+        System.out.println(RUN_SUCCESSFUL);
+        return RUN_SUCCESSFUL;
+    }
+
+    public static String printRunFailed() {
+        System.out.println(RUN_FAILED);
+        return RUN_FAILED;
+    }
+
+    public static String printWelcome() {
+        System.out.println(WELCOME);
+        return WELCOME;
+    }
+
+    public static void printAvailableHeroes(List<Hero> heroes) {
+        System.out.print(SELECT_HERO);
+        AtomicInteger i = new AtomicInteger();
+        heroes.forEach(hero -> System.out.printf(hero.toString(i.getAndIncrement())));
     }
 }

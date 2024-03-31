@@ -1,6 +1,5 @@
 package ch._42lausanne.swingy.controller.interfaces;
 
-import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.game.enums.Direction;
 
 public interface Controller {
@@ -8,17 +7,22 @@ public interface Controller {
 
     void createHero();
 
-    void selectHero(Hero heroSelected);
 
     void handleMovement(Direction direction);
 
     void fightBattle();
 
-    void runFromBattle();
+    void selectHero();
+
+    void tryToRunFromBattle();
 
     void continueTheAdventure();
 
     void searchForDroppedArtifacts();
 
     void keepArtifact();
+
+    void goToWelcomeWindow();
+
+    void selectHeroIndex(String heroIndex);
 }
