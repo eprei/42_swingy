@@ -1,12 +1,10 @@
 package ch._42lausanne.swingy.model.game.classes;
 
 import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
-import ch._42lausanne.swingy.model.characters.classes.BlackSmithBuilder;
-import ch._42lausanne.swingy.model.characters.classes.CharacterBuilderDirector;
-import ch._42lausanne.swingy.model.characters.classes.Hero;
-import ch._42lausanne.swingy.model.characters.classes.MagicianBuilder;
+import ch._42lausanne.swingy.model.characters.classes.*;
 import ch._42lausanne.swingy.model.game.enums.Direction;
-import ch._42lausanne.swingy.model.game.enums.Phase;
+import ch._42lausanne.swingy.model.game.enums.ObjectType;
+import ch._42lausanne.swingy.model.game.enums.PhasesOfTheGame;
 import ch._42lausanne.swingy.model.utils.classes.RandomnessGenerator;
 import ch._42lausanne.swingy.view.classes.console.UserMessages;
 import lombok.Getter;
@@ -19,31 +17,19 @@ import java.util.List;
 public class Model {
 
     private final List<Hero> heroes;
+    private final CharacterBuilderDirector builderDirector;
     private Hero hero;
     private Map map;
-    private CharacterBuilderDirector builderDirector;
     @Setter
-    private Phase phase;
+    private PhasesOfTheGame phase;
 
     public Model() {
         heroes = new ArrayList<>();
-        builderDirector = new CharacterBuilderDirector(new BlackSmithBuilder());
-        builderDirector.buildCharacter();
-        Hero blackSmith = (Hero) builderDirector.getCharacter();
-        heroes.add(blackSmith);
-        builderDirector = new CharacterBuilderDirector(new MagicianBuilder());
-        builderDirector.buildCharacter();
-        Hero magician = (Hero) builderDirector.getCharacter();
-        heroes.add(magician);
-        magician.setLevel(0);
-        this.phase = Phase.WELCOME;
+        builderDirector = new CharacterBuilderDirector();
+        this.phase = PhasesOfTheGame.WELCOME;
     }
 
     public void movingHandler(Direction direction) {
-        moveHero(direction);
-    }
-
-    private void moveHero(Direction direction) {
         switch (direction) {
             case Direction.NORTH:
                 map.moveHeroToNorth();
@@ -60,16 +46,15 @@ public class Model {
         }
     }
 
-    public void setHero(Hero hero) {
-        this.hero = hero;
-        System.out.printf("You have chosen %s. May the force be with you!\n\n", hero.getName());
-
+    public void setHero(int heroIndex) {
+        this.hero = heroes.get(heroIndex);
+        UserMessages.printHeroChoice(this.hero.getName());
+        Map.setMapId(0);
         map = new Map(this);
-        this.phase = Phase.MAP;
     }
 
     public void fight(boolean heroAttacksFirst) {
-        map.battleAccepted(heroAttacksFirst);
+        map.doTheBattle(heroAttacksFirst);
     }
 
     public void searchForDroppedArtifacts() {
@@ -80,17 +65,36 @@ public class Model {
         Artifact dropedArtifact = map.getBattle().getArtifactDropped();
         hero.setArtifact(dropedArtifact);
         UserMessages.printArtifactKept(dropedArtifact.getType());
-
-        this.phase = Phase.MAP;
     }
 
     public void tryToRunFromBattle() {
         if (RandomnessGenerator.rollDice(0.5)) {
-            UserMessages.printRunSuccessful();
             map.successfulEscapeFromBattle();
+            setPhase(PhasesOfTheGame.RUN_SUCCESSFUL);
         } else {
-            UserMessages.printRunFailed();
-            this.fight(false);
+            setPhase(PhasesOfTheGame.RUN_FAILED);
         }
+    }
+
+    public void createNewHero(String heroName, ObjectType heroType) {
+        switch (heroType) {
+            case ARCHER -> builderDirector.setCharacterBuilder(new ArcherBuilder());
+            case BLACKSMITH -> builderDirector.setCharacterBuilder(new BlackSmithBuilder());
+            case WARRIOR -> builderDirector.setCharacterBuilder(new WarriorBuilder());
+            case MAGICIAN -> builderDirector.setCharacterBuilder(new MagicianBuilder());
+        }
+
+        builderDirector.buildCharacter(heroName);
+        Hero newHero = (Hero) builderDirector.getCharacter();
+        heroes.add(newHero);
+        UserMessages.printHeroSuccessfullyCreated(newHero);
+    }
+
+    public void createNextMap() {
+        map = new Map(this);
+    }
+
+    public boolean maximumLevelReached() {
+        return map.maximumLevelReached();
     }
 }

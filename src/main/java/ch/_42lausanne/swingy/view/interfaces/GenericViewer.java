@@ -16,11 +16,11 @@ public interface GenericViewer {
 
     void mapView();
 
-    void fightOrRunStageView();
+    void fightOrRunView();
 
-    void runView();
+    void runSuccessfulView();
 
-    void fightView();
+    void runFailedView();
 
     void winBattleView();
 

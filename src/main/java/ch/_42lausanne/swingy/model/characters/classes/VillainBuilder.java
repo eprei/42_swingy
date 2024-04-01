@@ -3,7 +3,6 @@ package ch._42lausanne.swingy.model.characters.classes;
 import ch._42lausanne.swingy.model.characters.interfaces.CharacterBuilder;
 import ch._42lausanne.swingy.model.game.classes.Stats;
 import ch._42lausanne.swingy.model.game.enums.ObjectType;
-import ch._42lausanne.swingy.model.utils.classes.NameGenerator;
 
 public class VillainBuilder implements CharacterBuilder {
     private Character villain;
@@ -18,8 +17,8 @@ public class VillainBuilder implements CharacterBuilder {
     }
 
     @Override
-    public CharacterBuilder buildName() {
-        this.villain.setName(NameGenerator.generateRandomName());
+    public CharacterBuilder buildName(String heroName) {
+        this.villain.setName(heroName);
         return this;
     }
 

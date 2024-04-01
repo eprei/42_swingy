@@ -1,7 +1,9 @@
 package ch._42lausanne.swingy.view.classes.console;
 
 import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
+import ch._42lausanne.swingy.model.characters.classes.Character;
 import ch._42lausanne.swingy.model.game.enums.Direction;
+import ch._42lausanne.swingy.model.game.enums.ObjectType;
 import ch._42lausanne.swingy.view.classes.GenericViewerImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,32 +12,47 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void welcomeView() {
+        if (model.getHeroes().isEmpty()) {
+            UserMessages.printNoHeroFound();
+            controller.startHeroCreation();
+        }
+
         UserMessages.printWelcome();
 
         String userChoice = inputReader.nextLine();
 
         // TODO validate input: Annotation based user input validation
         switch (userChoice) {
-            case "c" -> controller.createHero();
+            case "c" -> controller.startHeroCreation();
             case "p" -> controller.selectHero();
         }
-
     }
 
     @Override
     public void createHeroView() {
-        // TODO
+        // TODO validate input: Annotation based user input validation
+
+        UserMessages.printChoseHeroName();
+        String heroName = inputReader.nextLine();
+
+        UserMessages.printChoseHeroType();
+        String chosenHeroType = inputReader.nextLine();
+
+        ObjectType heroType = Character.getHeroTypeObject(chosenHeroType.toLowerCase());
+
+        controller.createHero(heroName, heroType);
+
     }
 
     @Override
     public void selectHeroView() {
         UserMessages.printAvailableHeroes(model.getHeroes());
 
-        String heroIndex = inputReader.nextLine();
+        String chosenHeroIndex = inputReader.nextLine();
 
         // TODO validate input: Annotation based user input validation
         // TODO Check that its a valid index
-        controller.selectHeroIndex(heroIndex);
+        controller.selectHeroByIndex(chosenHeroIndex);
     }
 
     @Override
@@ -56,26 +73,29 @@ public class ConsoleViewer extends GenericViewerImpl {
     }
 
     @Override
-    public void fightOrRunStageView() {
+    public void fightOrRunView() {
         UserMessages.printFightOrRun(model.getMap().getBattle().getVillain().toString());
 
         String userChoice = inputReader.nextLine();
 
         // TODO validate input: Annotation based user input validation
         switch (userChoice) {
-            case "f" -> controller.fightBattle();
+            case "f" -> controller.fightBattle(true);
             case "r" -> controller.tryToRunFromBattle();
         }
     }
 
     @Override
-    public void runView() {
-        log.info("runView");
+    public void runSuccessfulView() {
+        UserMessages.printRunSuccessful();
+        controller.continueTheAdventure();
     }
 
     @Override
-    public void fightView() {
-        log.info("fightView");
+    public void runFailedView() {
+        UserMessages.printRunFailed();
+        inputReader.nextLine();
+        controller.fightBattle(false);
     }
 
     @Override
@@ -85,7 +105,7 @@ public class ConsoleViewer extends GenericViewerImpl {
 
     @Override
     public void looseBattleView() {
-        log.info("looseBattleView");
+        controller.goToWelcomeWindow();
     }
 
     @Override
@@ -106,6 +126,7 @@ public class ConsoleViewer extends GenericViewerImpl {
     @Override
     public void winMapView() {
         UserMessages.printYouWinTheMap();
+        controller.goToNextMap();
     }
 
     @Override

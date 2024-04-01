@@ -40,41 +40,42 @@ public class Hero extends Character {
     }
 
     public String toString() {
-        String text = "---------------------------\n" +
-                "| name: " + name + "\n" +
-                "| attack: " + stats.getAttack() + "\n" +
-                "| defense: " + stats.getDefense() + "\n" +
-                "| hitPoints: " + stats.getHitPoints() + "\n";
+        String text = "╔═════════════════════════╗\n" +
+                "║ name: " + name + "\n" +
+                "║ attack: " + stats.getAttack() + "\n" +
+                "║ defense: " + stats.getDefense() + "\n" +
+                "║ hitPoints: " + stats.getHitPoints() + "\n";
 
         if (artifact != null) {
-            text += "| artifact: " + artifact.getType() +
-                    ", att: " + artifact.getStats().getAttack() +
-                    ", def: " + artifact.getStats().getDefense() +
-                    ", HP: " + artifact.getStats().getHitPoints() + "\n";
+            text += "║ artifact:" + "\n" +
+                    "║ \t\t- type: " + artifact.getType() + "\n" +
+                    "║ \t\t- att: " + artifact.getStats().getAttack() + "\n" +
+                    "║ \t\t- def: " + artifact.getStats().getDefense() + "\n" +
+                    "║ \t\t- HP: " + artifact.getStats().getHitPoints() + "\n";
         }
 
-        return text + "---------------------------\n";
+        return text + "╚═════════════════════════╝\n";
     }
 
     public String toString(int id) {
-        String text = "---------------------------\n" +
-                "| id: " + id + "\n" +
-                "| name: " + name + "\n" +
-                "| type: " + type + "\n" +
-                "| level: " + level + "\n" +
-                "| experience: " + experience + "\n" +
-                "| attack: " + stats.getAttack() + "\n" +
-                "| defense: " + stats.getDefense() + "\n" +
-                "| hitPoints: " + stats.getHitPoints() + "\n";
+        String text = "╔═════════════════════════╗\n" +
+                "║ id: (" + id + ")\n" +
+                "║ name: " + name + "\n" +
+                "║ type: " + type + "\n" +
+                "║ level: " + level + "\n" +
+                "║ experience: " + experience + "\n" +
+                "║ attack: " + stats.getAttack() + "\n" +
+                "║ defense: " + stats.getDefense() + "\n" +
+                "║ hitPoints: " + stats.getHitPoints() + "\n";
 
         if (artifact != null) {
-            text += "| artifact: " + artifact.getType() +
-                    ", att: " + artifact.getStats().getAttack() +
-                    ", def: " + artifact.getStats().getDefense() +
-                    ", HP: " + artifact.getStats().getHitPoints() + "\n";
+            text += "║ artifact: " + artifact.getType() + "\n" +
+                    "║ \t\t- att: " + artifact.getStats().getAttack() + "\n" +
+                    "║ \t\t- def: " + artifact.getStats().getDefense() + "\n" +
+                    "║ \t\t- HP: " + artifact.getStats().getHitPoints() + "\n";
         }
 
-        return text + "---------------------------\n";
+        return text + "╚═════════════════════════╝\n";
     }
 
     public void setArtifact(Artifact artifact) {
@@ -83,4 +84,5 @@ public class Hero extends Character {
             this.stats.setHitPoints(this.stats.getHitPoints() + artifact.getStats().getHitPoints());
         }
     }
+
 }

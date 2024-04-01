@@ -20,13 +20,23 @@ public class Character {
     protected int initialHp;
     protected Artifact artifact;
 
+    public static ObjectType getHeroTypeObject(String usersChoiceOfHero) {
+        return switch (usersChoiceOfHero) {
+            case "a" -> ObjectType.ARCHER;
+            case "b" -> ObjectType.BLACKSMITH;
+            case "w" -> ObjectType.WARRIOR;
+            case "m" -> ObjectType.MAGICIAN;
+            default -> throw new IllegalStateException("Unexpected value: " + usersChoiceOfHero);
+        };
+    }
+
     public String toString() {
-        return "---------------------------\n" +
+        return "+----------------------------+\n" +
                 "| name: " + name + "\n" +
                 "| attack: " + stats.getAttack() + "\n" +
                 "| defense: " + stats.getDefense() + "\n" +
                 "| hitPoints: " + stats.getHitPoints() + "\n" +
-                "---------------------------\n";
+                "+-----------------------------+\n";
     }
 
     public int getAttack() {
@@ -50,12 +60,16 @@ public class Character {
     }
 
     public void takeDamage(int damage) {
-//        this.stats.setHitPoints(this.stats.getHitPoints() - damage);
         this.stats.setHitPoints(this.stats.getHitPoints() - damage);
         this.isAlive = this.stats.getHitPoints() > 0;
     }
 
     public int getStrength() {
         return stats.getAttack() + stats.getDefense();
+    }
+
+    public void restartHp() {
+        this.stats.setHitPoints(this.initialHp);
+        this.isAlive = true;
     }
 }

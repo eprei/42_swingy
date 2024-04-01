@@ -34,9 +34,9 @@ public abstract class GenericViewerImpl implements GenericViewer {
             case CREATE_HERO -> createHeroView();
             case SELECT_HERO -> selectHeroView();
             case MAP -> mapView();
-            case FIGHT_OR_RUN -> fightOrRunStageView();
-            case RUN -> runView();
-            case FIGHT -> fightView();
+            case FIGHT_OR_RUN -> fightOrRunView();
+            case RUN_SUCCESSFUL -> runSuccessfulView();
+            case RUN_FAILED -> runFailedView();
             case WIN_BATTLE -> winBattleView();
             case LOOSE_BATTLE -> looseBattleView();
             case ARTIFACT_DROPPED -> artifactDroppedView();

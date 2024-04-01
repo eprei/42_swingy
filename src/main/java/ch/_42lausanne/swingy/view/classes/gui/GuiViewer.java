@@ -13,7 +13,7 @@ public class GuiViewer extends GenericViewerImpl {
 
     @Override
     public void createHeroView() {
-        
+
     }
 
     @Override
@@ -27,17 +27,17 @@ public class GuiViewer extends GenericViewerImpl {
     }
 
     @Override
-    public void fightOrRunStageView() {
+    public void fightOrRunView() {
 
     }
 
     @Override
-    public void runView() {
+    public void runSuccessfulView() {
 
     }
 
     @Override
-    public void fightView() {
+    public void runFailedView() {
 
     }
 

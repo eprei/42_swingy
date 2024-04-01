@@ -1,10 +1,10 @@
 package ch._42lausanne.swingy.controller.classes;
 
 import ch._42lausanne.swingy.controller.interfaces.Controller;
-import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.game.classes.Model;
 import ch._42lausanne.swingy.model.game.enums.Direction;
-import ch._42lausanne.swingy.model.game.enums.Phase;
+import ch._42lausanne.swingy.model.game.enums.ObjectType;
+import ch._42lausanne.swingy.model.game.enums.PhasesOfTheGame;
 import ch._42lausanne.swingy.view.interfaces.GenericViewer;
 
 public record ControllerImpl(Model model, GenericViewer viewer) implements Controller {
@@ -21,21 +21,31 @@ public record ControllerImpl(Model model, GenericViewer viewer) implements Contr
     }
 
     @Override
-    public void fightBattle() {
-        model.fight(true);
+    public void fightBattle(boolean isTheBattleDesired) {
+        model.fight(isTheBattleDesired);
         viewer.updateView();
     }
 
     @Override
-    public void createHero() {
-        model.setPhase(Phase.CREATE_HERO);
+    public void startHeroCreation() {
+        changePhaseAndUpdateView(PhasesOfTheGame.CREATE_HERO);
+    }
+
+    private void changePhaseAndUpdateView(PhasesOfTheGame phase) {
+        model.setPhase(phase);
         viewer.updateView();
     }
+
+    @Override
+    public void createHero(String heroName, ObjectType heroType) {
+        model.createNewHero(heroName, heroType);
+        changePhaseAndUpdateView(PhasesOfTheGame.WELCOME);
+    }
+
 
     @Override
     public void selectHero() {
-        model.setPhase(Phase.SELECT_HERO);
-        viewer.updateView();
+        changePhaseAndUpdateView(PhasesOfTheGame.SELECT_HERO);
     }
 
     @Override
@@ -45,8 +55,7 @@ public record ControllerImpl(Model model, GenericViewer viewer) implements Contr
     }
 
     public void continueTheAdventure() {
-        model.setPhase(Phase.MAP);
-        viewer.updateView();
+        changePhaseAndUpdateView(PhasesOfTheGame.MAP);
     }
 
     @Override
@@ -58,19 +67,29 @@ public record ControllerImpl(Model model, GenericViewer viewer) implements Contr
     @Override
     public void keepArtifact() {
         model.keepArtifact();
-        viewer.updateView();
+        changePhaseAndUpdateView(PhasesOfTheGame.MAP);
     }
 
     @Override
     public void goToWelcomeWindow() {
-        model.setPhase(Phase.WELCOME);
+        model.setPhase(PhasesOfTheGame.WELCOME);
     }
 
     @Override
-    public void selectHeroIndex(String heroIndex) {
-        Hero heroSelected = model.getHeroes().get(Integer.parseInt(heroIndex));
-        model.setHero(heroSelected);
-        model.setPhase(Phase.MAP);
+    public void selectHeroByIndex(String heroIndex) {
+        model.setHero(Integer.parseInt(heroIndex));
+        changePhaseAndUpdateView(PhasesOfTheGame.MAP);
+    }
+
+    @Override
+    public void goToNextMap() {
+        if (model.maximumLevelReached()) {
+            model.getHero().restartHp();
+            model.setPhase(PhasesOfTheGame.WIN_GAME);
+        } else {
+            model.createNextMap();
+            model.setPhase(PhasesOfTheGame.MAP);
+        }
         viewer.updateView();
     }
 }

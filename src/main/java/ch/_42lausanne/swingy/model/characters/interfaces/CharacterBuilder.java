@@ -6,7 +6,7 @@ import ch._42lausanne.swingy.model.characters.classes.Character;
 public interface CharacterBuilder {
     void reset();
 
-    CharacterBuilder buildName();
+    CharacterBuilder buildName(String heroName);
 
     CharacterBuilder buildType();
 

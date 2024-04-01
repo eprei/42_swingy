@@ -4,8 +4,12 @@ import ch._42lausanne.swingy.model.characters.classes.Character;
 import ch._42lausanne.swingy.model.characters.classes.Hero;
 import ch._42lausanne.swingy.model.characters.classes.VillainBuilder;
 import ch._42lausanne.swingy.model.game.enums.ObjectType;
-import ch._42lausanne.swingy.model.game.enums.Phase;
+import ch._42lausanne.swingy.model.game.enums.PhasesOfTheGame;
+import ch._42lausanne.swingy.model.utils.classes.NameGenerator;
+import ch._42lausanne.swingy.view.classes.console.UserMessages;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import model.characters.interfaces.MoveHero;
 
 import java.awt.*;
@@ -15,7 +19,13 @@ import java.util.Random;
 
 @Data
 public class Map implements MoveHero {
-    private final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 2;
+    @Getter
+    private static final int FINAL_MAP = 3;
+    private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.5;
+    @Setter
+    @Getter
+    private static int mapId = 0;
+
     private Hero hero;
     private Dimension mapSize;
     private int[][] mapGrid;
@@ -25,6 +35,7 @@ public class Map implements MoveHero {
     private int villainsToPlace;
 
     public Map(Model model) {
+        mapId++;
         this.model = model;
         this.hero = model.getHero();
         this.villains = new ArrayList<>();
@@ -32,6 +43,12 @@ public class Map implements MoveHero {
         createMap();
         populateMapWithVillains();
         setHeroPosition();
+        hero.restartHp();
+        UserMessages.printMapCreated(mapId);
+    }
+
+    public boolean maximumLevelReached() {
+        return mapId >= FINAL_MAP;
     }
 
     private void setHeroPosition() {
@@ -45,7 +62,16 @@ public class Map implements MoveHero {
     private void populateMapWithVillains() {
         int villainsPlaced = 0;
 
-        while (villainsPlaced < villainsToPlace) {
+        for (int o = 0; o < mapSize.getWidth(); o++) {
+            for (int p = 0; p < mapSize.getHeight(); p++) {
+                if (o == 0 || o == mapSize.getHeight() - 1
+                        || p == 0 || p == mapSize.getWidth() - 1) {
+                    mapGrid[o][p] = ObjectType.VILLAIN.ordinal();
+                    buildVillains();
+                    villainsPlaced++;
+                }
+            }
+
             Random random = new Random();
             int i = random.nextInt((int) mapSize.getHeight());
             int j = random.nextInt((int) mapSize.getWidth());
@@ -58,8 +84,9 @@ public class Map implements MoveHero {
     }
 
     private void buildVillains() {
+        // TODO vary stats of the villains
         model.getBuilderDirector().setCharacterBuilder(new VillainBuilder());
-        model.getBuilderDirector().buildCharacter();
+        model.getBuilderDirector().buildCharacter(NameGenerator.generateRandomName());
         Character villain = model.getBuilderDirector().getCharacter();
         setVillainStats(villain);
 //        System.out.printf(villain.toString());
@@ -98,7 +125,13 @@ public class Map implements MoveHero {
     public void printMap() {
         for (int i = 0; i < mapSize.getWidth(); i++) {
             for (int j = 0; j < mapSize.getHeight(); j++) {
-                System.out.printf("| %s ", mapGrid[j][i]);
+                String charToPrint = switch (mapGrid[j][i]) {
+                    case 0 -> " ";
+                    case 1, 2, 3, 4 -> "h";
+                    case 5 -> "v";
+                    default -> throw new IllegalStateException("Unexpected value: " + mapGrid[j][i]);
+                };
+                System.out.printf("| %s ", charToPrint);
             }
             System.out.println("|");
         }
@@ -113,13 +146,13 @@ public class Map implements MoveHero {
 
         checkMapBoundaries(newWidth, newHeight);
 
-        if (model.getPhase() == Phase.WIN_MAP) {
+        if (model.getPhase() == PhasesOfTheGame.WIN_MAP) {
             return;
         }
 
         checkVillains(newWidth, newHeight);
 
-        if (model.getPhase() == Phase.FIGHT_OR_RUN) {
+        if (model.getPhase() == PhasesOfTheGame.FIGHT_OR_RUN) {
             return;
         }
 
@@ -134,14 +167,14 @@ public class Map implements MoveHero {
 
     private void checkMapBoundaries(int newWidth, int newHeight) {
         if (0 > newWidth || mapSize.width <= newWidth || 0 > newHeight || mapSize.height <= newHeight) {
-            model.setPhase(Phase.WIN_MAP);
+            model.setPhase(PhasesOfTheGame.WIN_MAP);
         }
     }
 
     private void checkVillains(int newWidth, int newHeight) {
         if (mapGrid[newWidth][newHeight] == ObjectType.VILLAIN.ordinal()) {
             battle = new Battle(hero, villains, newWidth, newHeight);
-            model.setPhase(Phase.FIGHT_OR_RUN);
+            model.setPhase(PhasesOfTheGame.FIGHT_OR_RUN);
         }
     }
 
@@ -165,14 +198,15 @@ public class Map implements MoveHero {
         checkAndMoveHero(-1, 0);
     }
 
-    public void battleAccepted(boolean heroAttacksFirst) {
+    public void doTheBattle(boolean heroAttacksFirst) {
         battle.simulateBattle(heroAttacksFirst);
 
         if (hero.getIsAlive()) {
             moveHeroToTheWonSquare();
-            model.setPhase(Phase.WIN_BATTLE);
+            model.setPhase(PhasesOfTheGame.WIN_BATTLE);
         } else {
-            model.setPhase(Phase.LOOSE_BATTLE);
+            hero.restartHp();
+            model.setPhase(PhasesOfTheGame.LOOSE_BATTLE);
         }
     }
 
@@ -189,14 +223,13 @@ public class Map implements MoveHero {
 
     public void searchForDroppedArtifacts() {
         if (battle.getArtifactDropped() == null) {
-            model.setPhase(Phase.MAP);
+            model.setPhase(PhasesOfTheGame.MAP);
         } else {
-            model.setPhase(Phase.ARTIFACT_DROPPED);
+            model.setPhase(PhasesOfTheGame.ARTIFACT_DROPPED);
         }
     }
 
     public void successfulEscapeFromBattle() {
         battle = null;
-        model.setPhase(Phase.MAP);
     }
 }

@@ -1,16 +1,18 @@
 package ch._42lausanne.swingy.controller.interfaces;
 
 import ch._42lausanne.swingy.model.game.enums.Direction;
+import ch._42lausanne.swingy.model.game.enums.ObjectType;
 
 public interface Controller {
     void runApplication();
 
-    void createHero();
+    void fightBattle(boolean wanted);
 
+    void startHeroCreation();
+
+    void createHero(String heroName, ObjectType heroType);
 
     void handleMovement(Direction direction);
-
-    void fightBattle();
 
     void selectHero();
 
@@ -24,5 +26,7 @@ public interface Controller {
 
     void goToWelcomeWindow();
 
-    void selectHeroIndex(String heroIndex);
+    void selectHeroByIndex(String heroIndex);
+
+    void goToNextMap();
 }

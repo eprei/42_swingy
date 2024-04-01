@@ -1,13 +1,13 @@
 package ch._42lausanne.swingy.model.game.enums;
 
-public enum Phase {
+public enum PhasesOfTheGame {
     WELCOME,
     CREATE_HERO,
     SELECT_HERO,
     MAP,
     FIGHT_OR_RUN,
-    RUN,
-    FIGHT,
+    RUN_SUCCESSFUL,
+    RUN_FAILED,
     WIN_BATTLE,
     LOOSE_BATTLE,
     ARTIFACT_DROPPED,

@@ -3,46 +3,46 @@ package ch._42lausanne.swingy.model.characters.classes;
 import ch._42lausanne.swingy.model.characters.interfaces.CharacterBuilder;
 import ch._42lausanne.swingy.model.game.classes.Stats;
 import ch._42lausanne.swingy.model.game.enums.ObjectType;
-import ch._42lausanne.swingy.model.utils.classes.NameGenerator;
 
 public class ArcherBuilder implements CharacterBuilder {
-    private Character character;
+    private Character archer;
 
     public ArcherBuilder() {
-        this.character = new Hero();
+        this.archer = new Hero();
     }
 
     @Override
     public void reset() {
-        this.character = new Hero();
+        this.archer = new Hero();
     }
 
     @Override
-    public CharacterBuilder buildName() {
-        this.character.setName(NameGenerator.generateRandomName());
+    public CharacterBuilder buildName(String heroName) {
+        this.archer.setName(heroName);
         return this;
     }
 
     @Override
     public CharacterBuilder buildType() {
-        this.character.setType(ObjectType.ARCHER);
+        this.archer.setType(ObjectType.ARCHER);
         return this;
     }
 
     @Override
     public CharacterBuilder buildLvl() {
-        this.character.setLevel(0);
+        this.archer.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        this.character.setStats(Stats.archerStats());
+        this.archer.setStats(Stats.archerStats());
+        this.archer.setInitialHp(this.archer.getStats().getHitPoints());
         return this;
     }
 
     @Override
     public Character getCharacter() {
-        return this.character;
+        return this.archer;
     }
 }

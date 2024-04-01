@@ -3,15 +3,19 @@ package ch._42lausanne.swingy.view.classes.console;
 import ch._42lausanne.swingy.model.artifacts.classes.Artifact;
 import ch._42lausanne.swingy.model.artifacts.classes.ArtifactType;
 import ch._42lausanne.swingy.model.characters.classes.Hero;
+import ch._42lausanne.swingy.model.game.classes.Map;
 import ch._42lausanne.swingy.model.game.enums.ObjectType;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserMessages {
-    private static final int[] randomSeeds = new int[]{0, 0, 0, 0, 0, 0};
-
-    public static String BANNER = """
+    private static final String USAGE = """
+            Usage:
+                    java -jar swingy.jar console
+                    java -jar swingy.jar gui
+            """;
+    private static final String BANNER = """
             _____/\\\\\\\\\\\\\\\\\\\\\\____________________________________________________________________       \s
              ___/\\\\\\/////////\\\\\\__________________________________________________________________      \s
               __\\//\\\\\\______\\///_____________________/\\\\\\_________________/\\\\\\\\\\\\\\\\_____/\\\\\\__/\\\\\\_     \s
@@ -22,32 +26,19 @@ public class UserMessages {
                    _\\///\\\\\\\\\\\\\\\\\\\\\\/_____\\//\\\\\\\\//\\\\\\____\\/\\\\\\_\\/\\\\\\___\\/\\\\\\_\\//\\\\\\\\\\\\\\\\__\\//\\\\\\\\/______\s
                     ___\\///////////________\\///__\\///_____\\///__\\///____\\///___\\////////____\\////________
             """;
-    public static String USAGE = """
-            Usage:
-                    java -jar swingy.jar console
-                    java -jar swingy.jar gui
-            """;
-
-    public static String WELCOME = """
-            Choose your destiny:
+    private static final String WELCOME = """
+            Do you wish to:
                         
                     (c) Create Character: Forge your own hero with unique abilities and appearance.
-                    (p) Play: Select a predefined character to start your journey immediately.""";
-
-    public static String[] MOVEMENT_INSTRUCTIONS = {"""
+                    (p) Play: Select one of your heroes to start your journey immediately.""";
+    private static final String MOVEMENT_INSTRUCTIONS = """
             Choose your direction!
-            
+                        
                     (w): North
                     (s): South
                     (d): East
-                    (a): West""",
-
-            "Enter your move (w, a, s, d):",
-
-            "Where to next? (w, a, s, d):",
-
-            "Which direction do you want to go? (w, a, s, d):"};
-    public static String[] FIGHT_OR_RUN = {
+                    (a): West""";
+    private static final String[] FIGHT_OR_RUN = {
             "You have encountered a villain!\n",
             """
             What do you want to do?
@@ -55,56 +46,69 @@ public class UserMessages {
                     Fight (f): You will engage the enemy in battle. Your chances of success depend on your strength and skills.
                     Run (r): You will try to escape from the enemy but if you don't succeed you will have to fight him and he will attack you first."""
     };
-
-    public static String[] YOU_WIN_THE_BATTLE = {
+    private static final String[] YOU_WIN_THE_BATTLE = {
             "Congratulations! You have emerged victorious from the battle!",
             "Your skills and bravery have led you to triumph!",
             "You have conquered your foes and stand triumphant!"
     };
-
-    public static String[] YOU_LOSE_THE_BATTLE = new String[]{
-            "Oh no! You have been defeated in battle!",
-            "Your enemies have overwhelmed you.",
+    private static final String[] YOU_LOSE_THE_BATTLE = new String[]{
+            "Oh no! You have been defeated in battle! Better luck next time!",
+            "Your enemies have overwhelmed you. Seek your revenge!",
             "You have fallen in battle. Your quest is over.",
             "Better luck next time, brave warrior!"
     };
-
-    public static String[] YOU_WIN_THE_MAP = new String[]{
-            "Congratulations! You have explored the entire map!",
-            "You have uncovered all the secrets of the map and emerged victorious!",
-            "Your journey across the map is complete. You are a master explorer!",
+    private static final String[] YOU_WIN_THE_MAP = new String[]{
+            "Congratulations! You have explored the entire map!\n",
+            "You have uncovered all the secrets of the map and emerged victorious!\n",
+            "Your journey across the map is complete. You are a master explorer!\n",
     };
-
-    public static String[] YOU_WIN_THE_GAME = new String[]{
-            "The game is over, and you have won!",
-            "You have successfully completed the game.",
-            "You have achieved the ultimate goal of the game.",
-            "Your victory marks the end of this epic adventure.",
-            "Congratulations on your triumph in this challenging game."
+    private static final String GET_READY_FOR_THE_NEXT_MAP = "Get ready for the next one";
+    private static final String[] YOU_WIN_THE_GAME = new String[]{
+            "Congratulations! You have conquered the last Map (",
+            """
+            ).
+            You have won the game!
+            Press any key to continue.""",
     };
-
-    public static String[] YOU_LOSE_THE_GAME = new String[]{
+    private static final String[] YOU_LOSE_THE_GAME = new String[]{
             "The game is over, and you have lost.",
             "You have failed to complete the game.",
             "You have succumbed to the challenges of the game.",
             "Your journey has come to an end in defeat.",
             "Better luck next time!"
     };
-
-    public static String PRESS_ANY_KEY_TO_CONTINUE = "Press any key to continue.";
-
-    public static String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
-    public static String RUN_FAILED = "The enemy is closing in! You must fight or die!";
-
-    public static String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
-
-    public static String[] ARTIFACT_KEPT = {"The artifact ", " has been kept\n"};
-
-    public static String[] DROPPED_ARTIFACT = {"You have found an Artifact\n", "\nYou can keep it (k) or leave it (l)"};
-
-    public static String[] EXPERIENCIE_GAINED = {" has gained ", " points of experience (XP)"};
-
-    public static String SELECT_HERO = "Select one of the following available heroes by entering its id.\n";
+    private static final String PRESS_ANY_KEY_TO_CONTINUE = "Press any key to continue.";
+    private static final String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
+    private static final String RUN_FAILED = """
+            The enemy is closing in! You must fight or die!
+            Press any key to continue:""";
+    private static final String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
+    private static final String[] ARTIFACT_KEPT = {"The artifact ", " has been kept\n"};
+    private static final String[] DROPPED_ARTIFACT = {"You have found an Artifact\n", "\nYou can keep it (k) or leave it (l)"};
+    private static final String[] EXPERIENCIE_GAINED = {" has gained ", " points of experience (XP)"};
+    private static final String SELECT_HERO = "Select one of the following available heroes by entering its id.\n";
+    private static final String CHOSE_HERO_TYPE = """ 
+            What kind of hero do you want to create?
+                
+                    (a) Archer
+                    (b) Blacksmith
+                    (w) Warrior
+                    (m) Magician""";
+    private static final String CHOSE_HERO_NAME = """
+            Please enter the name of the hero you want to create:""";
+    private static final int[] randomSeeds = new int[]{0, 0, 0, 0, 0, 0};
+    private static final String NO_HERO_FOUND = """
+            Looks like we didn't find any heroes available.
+            Let's create one so you can start playing.""";
+    private static final String HERO_SUCCESSFULLY_CREATED = "has been successfully created.";
+    private static final String[] NEW_MAP = {"""
+            \t**************
+            \t*\tMAP\s\s""",
+            """
+            \t *
+            \t**************
+            """};
+    private static final String[] HERO_CHOICE = {"You have chosen ", ". May the force be with you!\n"};
 
     public static String printBanner() {
         System.out.println(BANNER);
@@ -117,9 +121,8 @@ public class UserMessages {
     }
 
     public static String printMovementInstructions() {
-        String message = MOVEMENT_INSTRUCTIONS[randomSeeds[0]++ % MOVEMENT_INSTRUCTIONS.length];
-        System.out.println(message);
-        return message;
+        System.out.println(MOVEMENT_INSTRUCTIONS);
+        return MOVEMENT_INSTRUCTIONS;
     }
 
     public static String printFightOrRun(String villainInfos) {
@@ -146,8 +149,14 @@ public class UserMessages {
         return message;
     }
 
+    public static String printGetReadyForTheNextMap() {
+        String message = GET_READY_FOR_THE_NEXT_MAP;
+        System.out.println(message);
+        return message;
+    }
+
     public static String printYouWinTheGame() {
-        String message = YOU_WIN_THE_GAME[randomSeeds[4]++ % YOU_WIN_THE_GAME.length] + PRESS_ANY_KEY_TO_CONTINUE;
+        String message = YOU_WIN_THE_GAME[0] + Map.getFINAL_MAP() + YOU_WIN_THE_GAME[1];
         System.out.println(message);
         return message;
     }
@@ -201,5 +210,39 @@ public class UserMessages {
         System.out.print(SELECT_HERO);
         AtomicInteger i = new AtomicInteger();
         heroes.forEach(hero -> System.out.printf(hero.toString(i.getAndIncrement())));
+        System.out.println("id of the chosen hero:");
+    }
+
+    public static String printChoseHeroType() {
+        System.out.println(CHOSE_HERO_TYPE);
+        return CHOSE_HERO_TYPE;
+    }
+
+    public static String printChoseHeroName() {
+        System.out.println(CHOSE_HERO_NAME);
+        return CHOSE_HERO_NAME;
+    }
+
+    public static String printNoHeroFound() {
+        System.out.println(NO_HERO_FOUND);
+        return NO_HERO_FOUND;
+    }
+
+    public static String printHeroSuccessfullyCreated(Hero hero) {
+        String message = hero.getName() + " the " + hero.getType() + " " + HERO_SUCCESSFULLY_CREATED;
+        System.out.println(message);
+        return message;
+    }
+
+    public static String printMapCreated(int mapId) {
+        String message = NEW_MAP[0] + mapId + NEW_MAP[1];
+        System.out.println(message);
+        return message;
+    }
+
+    public static String printHeroChoice(String name) {
+        String message = HERO_CHOICE[0] + name + HERO_CHOICE[1];
+        System.out.println(message);
+        return message;
     }
 }
