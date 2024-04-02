@@ -3,6 +3,7 @@ package ch._42lausanne.swingy.model.game;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.builders.*;
 import ch._42lausanne.swingy.model.characters.Hero;
+import ch._42lausanne.swingy.model.presistence.HeroPersistenceService;
 import ch._42lausanne.swingy.model.utils.RandomnessGenerator;
 import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Getter;
@@ -17,14 +18,16 @@ public class ModelImpl implements Model {
 
     private final List<Hero> heroes;
     private final CharacterBuilderDirector builderDirector;
+    private final HeroPersistenceService heroService;
     private Hero selectedHero;
     private Map map;
     @Setter
     private PhasesOfTheGame phase;
 
     public ModelImpl() {
-        heroes = new ArrayList<>();
-        builderDirector = new CharacterBuilderDirector();
+        this.builderDirector = new CharacterBuilderDirector();
+        this.heroService = new HeroPersistenceService();
+        this.heroes = new ArrayList<>();
         this.phase = PhasesOfTheGame.WELCOME;
     }
 

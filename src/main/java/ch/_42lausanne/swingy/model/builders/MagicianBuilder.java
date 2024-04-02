@@ -38,6 +38,12 @@ public class MagicianBuilder implements CharacterBuilder {
     }
 
     @Override
+    public CharacterBuilder buildExperience() {
+        this.magician.setExperience(0);
+        return null;
+    }
+
+    @Override
     public CharacterBuilder buildStats() {
         this.magician.setStats(Stats.magicianStats());
         this.magician.setInitialHp(this.magician.getStats().getHitPoints());

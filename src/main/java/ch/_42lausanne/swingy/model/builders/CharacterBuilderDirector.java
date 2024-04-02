@@ -7,18 +7,12 @@ import lombok.Setter;
 public class CharacterBuilderDirector {
     private CharacterBuilder characterBuilder;
 
-    public CharacterBuilderDirector() {
-    }
-
-    public CharacterBuilderDirector(CharacterBuilder characterBuilder) {
-        this.characterBuilder = characterBuilder;
-    }
-
     public void buildCharacter(String heroName) {
         this.characterBuilder.reset();
         this.characterBuilder.buildName(heroName);
         this.characterBuilder.buildType();
         this.characterBuilder.buildLvl();
+        this.characterBuilder.buildExperience();
         this.characterBuilder.buildStats();
     }
 

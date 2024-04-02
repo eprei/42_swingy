@@ -38,6 +38,12 @@ public class BlackSmithBuilder implements CharacterBuilder {
     }
 
     @Override
+    public CharacterBuilder buildExperience() {
+        this.blackSmith.setExperience(0);
+        return null;
+    }
+
+    @Override
     public CharacterBuilder buildStats() {
         this.blackSmith.setStats(Stats.blacksmithStats());
         this.blackSmith.setInitialHp(this.blackSmith.getStats().getHitPoints());

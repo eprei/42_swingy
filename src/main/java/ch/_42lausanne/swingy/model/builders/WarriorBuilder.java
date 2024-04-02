@@ -38,6 +38,12 @@ public class WarriorBuilder implements CharacterBuilder {
     }
 
     @Override
+    public CharacterBuilder buildExperience() {
+        this.warrior.setExperience(0);
+        return null;
+    }
+
+    @Override
     public CharacterBuilder buildStats() {
         this.warrior.setStats(Stats.warriorStats());
         this.warrior.setInitialHp(this.warrior.getStats().getHitPoints());

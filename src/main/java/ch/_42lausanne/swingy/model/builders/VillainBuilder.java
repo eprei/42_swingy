@@ -1,8 +1,8 @@
 package ch._42lausanne.swingy.model.builders;
 
 import ch._42lausanne.swingy.model.characters.Character;
-import ch._42lausanne.swingy.model.game.Stats;
 import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.Stats;
 
 public class VillainBuilder implements CharacterBuilder {
     private Character villain;
@@ -32,6 +32,12 @@ public class VillainBuilder implements CharacterBuilder {
     public CharacterBuilder buildLvl() {
         this.villain.setLevel(0);
         return this;
+    }
+
+    @Override
+    public CharacterBuilder buildExperience() {
+        this.villain.setExperience(0);
+        return null;
     }
 
     @Override

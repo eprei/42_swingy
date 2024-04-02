@@ -3,12 +3,23 @@ package ch._42lausanne.swingy.model.characters;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.view.console.UserMessages;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Hero extends Character {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     public void gainExperience(Character villain) {
         gainExperienceFromVillain(villain);

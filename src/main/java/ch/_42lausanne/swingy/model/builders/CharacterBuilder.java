@@ -12,6 +12,8 @@ public interface CharacterBuilder {
 
     CharacterBuilder buildLvl();
 
+    CharacterBuilder buildExperience();
+
     CharacterBuilder buildStats();
 
     Character getCharacter();

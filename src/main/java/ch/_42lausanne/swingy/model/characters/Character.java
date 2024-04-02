@@ -16,7 +16,7 @@ public class Character {
     protected Stats stats;
     protected Boolean isAlive = true;
     protected int level;
-    protected int experience = 0;
+    protected int experience;
     protected int initialHp;
     protected Artifact artifact;
 

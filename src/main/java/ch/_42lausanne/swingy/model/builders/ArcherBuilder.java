@@ -36,6 +36,12 @@ public class ArcherBuilder implements CharacterBuilder {
     }
 
     @Override
+    public CharacterBuilder buildExperience() {
+        this.archer.setExperience(0);
+        return null;
+    }
+
+    @Override
     public CharacterBuilder buildStats() {
         this.archer.setStats(Stats.archerStats());
         this.archer.setInitialHp(this.archer.getStats().getHitPoints());
