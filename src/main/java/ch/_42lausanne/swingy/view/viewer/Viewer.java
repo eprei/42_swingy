@@ -1,10 +1,8 @@
 package ch._42lausanne.swingy.view.viewer;
 
-import ch._42lausanne.swingy.controller.Controller;
-
 public interface Viewer {
-
-    void setController(Controller controller);
+    String CONSOLE_VIEW = "console";
+    String GUI_VIEW = "gui";
 
     void welcomeView();
 

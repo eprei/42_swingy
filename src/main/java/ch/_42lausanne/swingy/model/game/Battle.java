@@ -3,10 +3,9 @@ package ch._42lausanne.swingy.model.game;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
-import ch._42lausanne.swingy.model.utils.RandomnessGenerator;
+import ch._42lausanne.swingy.model.util.RandomnessGenerator;
 import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Collections;
@@ -41,7 +40,7 @@ public class Battle {
         }
     }
 
-    @NotNull
+
     private Character[] getContendersOrder(boolean heroAttacksFirst) {
         Character[] contenders = new Character[2];
 

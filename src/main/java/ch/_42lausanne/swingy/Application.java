@@ -1,44 +1,38 @@
 package ch._42lausanne.swingy;
 
 import ch._42lausanne.swingy.controller.Controller;
-import ch._42lausanne.swingy.controller.ControllerImpl;
-import ch._42lausanne.swingy.model.game.Model;
-import ch._42lausanne.swingy.model.game.ModelImpl;
-import ch._42lausanne.swingy.view.console.ConsoleViewer;
 import ch._42lausanne.swingy.view.console.UserMessages;
-import ch._42lausanne.swingy.view.gui.GuiViewer;
 import ch._42lausanne.swingy.view.viewer.Viewer;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Objects;
-
-@Slf4j
 @SpringBootApplication
 public class Application {
-    private static Model model;
-    private static Viewer viewer;
-    private static Controller controller;
+    private static String selectedViewer;
 
     public static void main(String[] args) {
-
-        if (Objects.equals(args[0].toLowerCase(), "console")) {
-            viewer = new ConsoleViewer();
-        } else if (Objects.equals(args[0].toLowerCase(), "gui")) {
-            viewer = new GuiViewer();
-        } else {
+        if (!validArguments(args)) {
             UserMessages.printUsage();
             return;
         }
-        launchGame();
+
+        startGame(args);
     }
 
-    private static void launchGame() {
-        UserMessages.printBanner();
-        model = new ModelImpl();
-        controller = new ControllerImpl(model, viewer);
-        viewer.setController(controller);
+    private static void startGame(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+        Controller controller = context.getBean(Controller.class);
+        controller.setActiveViewer(selectedViewer);
         controller.runApplication();
+    }
+
+    private static boolean validArguments(String[] args) {
+        if (args.length != 1) {
+            return false;
+        }
+        selectedViewer = args[0].toLowerCase();
+        return selectedViewer.equals(Viewer.CONSOLE_VIEW) || selectedViewer.equals(Viewer.GUI_VIEW);
     }
 }
 

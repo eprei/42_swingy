@@ -1,8 +1,6 @@
 package ch._42lausanne.swingy.model.game;
 
 import lombok.Data;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 @Data
 public class Stats {
@@ -17,38 +15,38 @@ public class Stats {
         this.hitPoints = hitPoints;
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats archerStats() {
+    //    @Contract(value = " -> new", pure = true)
+    public static Stats archerStats() {
         return new Stats(8, 4, 80);
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats blacksmithStats() {
+    //    @Contract(value = " -> new", pure = true)
+    public static Stats blacksmithStats() {
         return new Stats(8, 16, 120);
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats warriorStats() {
+    //    @Contract(value = " -> new", pure = true)
+    public static Stats warriorStats() {
         return new Stats(7, 6, 100);
     }
 
-    @Contract(value = " -> new", pure = true)
-    public static @NotNull Stats magicianStats() {
+    //    @Contract(value = " -> new", pure = true)
+    public static Stats magicianStats() {
         return new Stats(6, 5, 90);
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Stats weaponStats(int villainAttack) {
+    //    @Contract(value = "_ -> new", pure = true)
+    public static Stats weaponStats(int villainAttack) {
         return new Stats(villainAttack / 2, 0, 0);
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Stats armorStats(int villainDefense) {
+    //    @Contract(value = "_ -> new", pure = true)
+    public static Stats armorStats(int villainDefense) {
         return new Stats(0, villainDefense / 2, 0);
     }
 
-    @Contract(value = "_ -> new", pure = true)
-    public static @NotNull Stats helmStats(int villainInitialHitPoints) {
+    //    @Contract(value = "_ -> new", pure = true)
+    public static Stats helmStats(int villainInitialHitPoints) {
         return new Stats(0, 0, villainInitialHitPoints / 4);
     }
 

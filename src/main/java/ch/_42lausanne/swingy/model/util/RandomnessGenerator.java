@@ -1,4 +1,4 @@
-package ch._42lausanne.swingy.model.utils;
+package ch._42lausanne.swingy.model.util;
 
 import java.util.Random;
 

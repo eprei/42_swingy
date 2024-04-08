@@ -1,6 +1,5 @@
-package ch._42lausanne.swingy.model.utils;
+package ch._42lausanne.swingy.model.util;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -20,7 +19,7 @@ public class NameGenerator {
 
     private static final Random random = new Random();
 
-    public static @NotNull String generateRandomName() {
+    public static String generateRandomName() {
         return ADJECTIVES.get(random.nextInt(ADJECTIVES.size())) + " " +
                 NOUNS.get(random.nextInt(NOUNS.size()));
     }

@@ -1,28 +1,45 @@
 package ch._42lausanne.swingy.controller;
 
+import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
 import ch._42lausanne.swingy.model.game.Model;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.model.game.PhasesOfTheGame;
+import ch._42lausanne.swingy.view.console.ConsoleViewer;
+import ch._42lausanne.swingy.view.gui.GuiViewer;
 import ch._42lausanne.swingy.view.viewer.Viewer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public record ControllerImpl(Model model, Viewer viewer) implements Controller {
+import java.util.List;
+
+@Component("controllerImpl")
+public class ControllerImpl implements Controller {
+    private final Model model;
+    private Viewer consoleViewer;
+    private Viewer guiViewer;
+    private Viewer activeViewer;
+
+    @Autowired
+    public ControllerImpl(Model model) {
+        this.model = model;
+    }
 
     @Override
     public void runApplication() {
-        viewer.updateView();
+        activeViewer.updateView();
     }
 
     @Override
     public void handleMovement(Direction direction) {
         model.movingHandler(direction);
-        viewer.updateView();
+        activeViewer.updateView();
     }
 
     @Override
     public void fightBattle(boolean isTheBattleDesired) {
         model.fight(isTheBattleDesired);
-        viewer.updateView();
+        activeViewer.updateView();
     }
 
     @Override
@@ -37,7 +54,7 @@ public record ControllerImpl(Model model, Viewer viewer) implements Controller {
 
     private void changePhaseAndUpdateView(PhasesOfTheGame phase) {
         model.setPhase(phase);
-        viewer.updateView();
+        activeViewer.updateView();
     }
 
     @Override
@@ -45,7 +62,6 @@ public record ControllerImpl(Model model, Viewer viewer) implements Controller {
         model.createNewHero(heroName, heroType);
         changePhaseAndUpdateView(PhasesOfTheGame.WELCOME);
     }
-
 
     @Override
     public void selectHero() {
@@ -55,7 +71,7 @@ public record ControllerImpl(Model model, Viewer viewer) implements Controller {
     @Override
     public void tryToRunFromBattle() {
         model.tryToRunFromBattle();
-        viewer.updateView();
+        activeViewer.updateView();
     }
 
     public void continueTheAdventure() {
@@ -65,7 +81,7 @@ public record ControllerImpl(Model model, Viewer viewer) implements Controller {
     @Override
     public void searchForDroppedArtifacts() {
         model.searchForDroppedArtifacts();
-        viewer.updateView();
+        activeViewer.updateView();
     }
 
     @Override
@@ -94,6 +110,29 @@ public record ControllerImpl(Model model, Viewer viewer) implements Controller {
             model.createNextMap();
             model.setPhase(PhasesOfTheGame.MAP);
         }
-        viewer.updateView();
+        activeViewer.updateView();
+    }
+
+    @Override
+    public void setActiveViewer(String typeOfViewerChosenByTheUser) {
+        switch (typeOfViewerChosenByTheUser) {
+            case Viewer.CONSOLE_VIEW -> activeViewer = consoleViewer;
+            case Viewer.GUI_VIEW -> activeViewer = guiViewer;
+        }
+    }
+
+    @Override
+    public void setConsoleViewer(ConsoleViewer consoleViewer) {
+        this.consoleViewer = consoleViewer;
+    }
+
+    @Override
+    public void setGuiViewer(GuiViewer guiViewer) {
+        this.guiViewer = guiViewer;
+    }
+
+    @Override
+    public List<Hero> getHeroes() {
+        return model.getHeroes();
     }
 }

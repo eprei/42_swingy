@@ -1,4 +1,4 @@
-package ch._42lausanne.swingy.model.utils;
+package ch._42lausanne.swingy.model.util;
 
 public class TimerSimulator {
     public static void Sleep(long milliseconds) {

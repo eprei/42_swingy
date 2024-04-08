@@ -1,18 +1,29 @@
 package ch._42lausanne.swingy.view.console;
 
+import ch._42lausanne.swingy.controller.Controller;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.game.Direction;
+import ch._42lausanne.swingy.model.game.Model;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.view.viewer.ViewerImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component("consoleViewer")
 public class ConsoleViewer extends ViewerImpl {
+    @Autowired
+    public ConsoleViewer(Controller controller, Model model) {
+        this.controller = controller;
+        this.model = model;
+        this.controller.setConsoleViewer(this);
+    }
 
     @Override
     public void welcomeView() {
-        if (model.getHeroes().isEmpty()) {
+        if (controller.getHeroes().isEmpty()) {
             UserMessages.printNoHeroFound();
             controller.startHeroCreation();
         }
@@ -46,7 +57,7 @@ public class ConsoleViewer extends ViewerImpl {
 
     @Override
     public void selectHeroView() {
-        UserMessages.printAvailableHeroes(model.getHeroes());
+        UserMessages.printAvailableHeroes(controller.getHeroes());
 
         String chosenHeroIndex = inputReader.nextLine();
 

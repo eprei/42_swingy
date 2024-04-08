@@ -3,11 +3,17 @@ package ch._42lausanne.swingy.model.characters;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.model.game.Stats;
-import ch._42lausanne.swingy.model.utils.RandomnessGenerator;
+import ch._42lausanne.swingy.model.util.RandomnessGenerator;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
+//@Entity
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
 public class Character {
     protected String name;
@@ -19,6 +25,11 @@ public class Character {
     protected int experience;
     protected int initialHp;
     protected Artifact artifact;
+    @Setter
+    @Getter
+    @Id
+    @GeneratedValue
+    private Long id;
 
     public static ObjectType getHeroTypeObject(String usersChoiceOfHero) {
         return switch (usersChoiceOfHero) {
@@ -72,4 +83,5 @@ public class Character {
         this.stats.setHitPoints(this.initialHp);
         this.isAlive = true;
     }
+
 }

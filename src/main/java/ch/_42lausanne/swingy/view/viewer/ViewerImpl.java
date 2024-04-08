@@ -17,12 +17,6 @@ public abstract class ViewerImpl implements Viewer {
     }
 
     @Override
-    public void setController(Controller controller) {
-        this.controller = controller;
-        this.model = controller.getModel();
-    }
-
-    @Override
     public void updateView() {
         handleActiveState();
     }

@@ -3,7 +3,7 @@ package ch._42lausanne.swingy.model.game;
 import ch._42lausanne.swingy.model.builders.VillainBuilder;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
-import ch._42lausanne.swingy.model.utils.NameGenerator;
+import ch._42lausanne.swingy.model.util.NameGenerator;
 import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Data;
 import lombok.Getter;

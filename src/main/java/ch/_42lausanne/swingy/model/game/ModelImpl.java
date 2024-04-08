@@ -3,35 +3,37 @@ package ch._42lausanne.swingy.model.game;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.builders.*;
 import ch._42lausanne.swingy.model.characters.Hero;
-import ch._42lausanne.swingy.model.presistence.HeroPersistenceService;
-import ch._42lausanne.swingy.model.utils.RandomnessGenerator;
+import ch._42lausanne.swingy.model.util.RandomnessGenerator;
+import ch._42lausanne.swingy.service.HeroService;
 import ch._42lausanne.swingy.view.console.UserMessages;
-import lombok.Getter;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Component("modelImpl")
+@Data
 public class ModelImpl implements Model {
 
     private final List<Hero> heroes;
     private final CharacterBuilderDirector builderDirector;
-    private final HeroPersistenceService heroService;
+    private HeroService heroService;
     private Hero selectedHero;
     private Map map;
-    @Setter
     private PhasesOfTheGame phase;
 
-    public ModelImpl() {
-        this.builderDirector = new CharacterBuilderDirector();
-        this.heroService = new HeroPersistenceService();
+
+    @Autowired
+    public ModelImpl(HeroService heroService, CharacterBuilderDirector builderDirector) {
+        this.heroService = heroService;
+        this.builderDirector = builderDirector;
         this.heroes = new ArrayList<>();
         this.phase = PhasesOfTheGame.WELCOME;
     }
 
-    public void movingHandler(@NotNull Direction direction) {
+    public void movingHandler(Direction direction) {
         switch (direction) {
             case Direction.NORTH:
                 map.moveHeroToNorth();
@@ -78,7 +80,7 @@ public class ModelImpl implements Model {
         }
     }
 
-    public void createNewHero(String heroName, @NotNull ObjectType heroType) {
+    public void createNewHero(String heroName, ObjectType heroType) {
         switch (heroType) {
             case ARCHER -> builderDirector.setCharacterBuilder(new ArcherBuilder());
             case BLACKSMITH -> builderDirector.setCharacterBuilder(new BlackSmithBuilder());
@@ -89,6 +91,7 @@ public class ModelImpl implements Model {
         builderDirector.buildCharacter(heroName);
         Hero newHero = (Hero) builderDirector.getCharacter();
         heroes.add(newHero);
+        heroService.save(newHero);
         UserMessages.printHeroSuccessfullyCreated(newHero);
     }
 
@@ -100,3 +103,4 @@ public class ModelImpl implements Model {
         return map.maximumLevelReached();
     }
 }
+

@@ -3,18 +3,17 @@ package ch._42lausanne.swingy.model.characters;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.view.console.UserMessages;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Entity
+@Table(name = "HEROES")
 public class Hero extends Character {
 
     @Id
@@ -97,3 +96,4 @@ public class Hero extends Character {
     }
 
 }
+
