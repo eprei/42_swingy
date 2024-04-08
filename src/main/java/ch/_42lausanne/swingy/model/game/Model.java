@@ -9,7 +9,7 @@ public interface Model {
 
     List<Hero> getHeroes();
 
-    Hero getSelectedHero();
+    Hero getHero();
 
     void movingHandler(Direction direction);
 
@@ -27,5 +27,5 @@ public interface Model {
 
     void createNextMap();
 
-    boolean maximumLevelReached();
+    void goToNextMap();
 }

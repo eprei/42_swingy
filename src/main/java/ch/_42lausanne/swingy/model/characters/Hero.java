@@ -4,8 +4,6 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.view.console.UserMessages;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,12 +11,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "HEROES")
+@Table(name = "HERO")
 public class Hero extends Character {
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     public void gainExperience(Character villain) {
         gainExperienceFromVillain(villain);

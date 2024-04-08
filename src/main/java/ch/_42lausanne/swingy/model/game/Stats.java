@@ -1,18 +1,34 @@
 package ch._42lausanne.swingy.model.game;
 
+import ch._42lausanne.swingy.model.artifacts.Artifact;
+import ch._42lausanne.swingy.model.characters.Hero;
+import jakarta.persistence.*;
 import lombok.Data;
 
+@Entity
+@Table(name = "STAT")
 @Data
 public class Stats {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private int attack;
     private int defense;
+
     private int hitPoints;
+    @OneToOne(mappedBy = "stats")
+    private Hero character;
+    @OneToOne(mappedBy = "stats", cascade = CascadeType.ALL)
+    private Artifact artifact;
 
     public Stats(int attack, int defense, int hitPoints) {
         this.attack = attack;
         this.defense = defense;
         this.hitPoints = hitPoints;
+    }
+
+    public Stats() {
     }
 
     //    @Contract(value = " -> new", pure = true)

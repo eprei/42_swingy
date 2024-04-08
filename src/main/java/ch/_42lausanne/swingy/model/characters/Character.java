@@ -4,34 +4,30 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.model.game.Stats;
 import ch._42lausanne.swingy.model.util.RandomnessGenerator;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.awt.*;
 
-//@Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@MappedSuperclass
 @Data
 public class Character {
     protected String name;
     protected ObjectType type;
     protected Dimension position;
-    protected Stats stats;
     protected Boolean isAlive = true;
     protected int level;
     protected int experience;
     protected int initialHp;
+    @OneToOne(cascade = CascadeType.ALL)
+    protected Stats stats;
+    @OneToOne(mappedBy = "character", cascade = CascadeType.ALL)
     protected Artifact artifact;
-    @Setter
-    @Getter
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public static ObjectType getHeroTypeObject(String usersChoiceOfHero) {
+    public static ObjectType getHeroType(String usersChoiceOfHero) {
         return switch (usersChoiceOfHero) {
             case "a" -> ObjectType.ARCHER;
             case "b" -> ObjectType.BLACKSMITH;

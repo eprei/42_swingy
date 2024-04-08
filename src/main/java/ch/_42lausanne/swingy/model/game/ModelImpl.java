@@ -10,27 +10,28 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component("modelImpl")
 @Data
 public class ModelImpl implements Model {
 
-    private final List<Hero> heroes;
     private final CharacterBuilderDirector builderDirector;
     private final Game game;
     private HeroService heroService;
-    private Hero selectedHero;
+    private Hero hero;
     private Map map;
-
 
     @Autowired
     public ModelImpl(HeroService heroService, CharacterBuilderDirector builderDirector, Game game) {
         this.heroService = heroService;
         this.builderDirector = builderDirector;
-        this.heroes = new ArrayList<>();
         this.game = game;
+    }
+
+    @Override
+    public List<Hero> getHeroes() {
+        return heroService.findAll();
     }
 
     @Override
@@ -53,8 +54,8 @@ public class ModelImpl implements Model {
 
     @Override
     public void selectHero(int heroIndex) {
-        this.selectedHero = heroes.get(heroIndex);
-        UserMessages.printHeroChoice(this.selectedHero.getName());
+        hero = heroService.findAll().get(heroIndex);
+        UserMessages.printHeroChoice(hero.getName());
         Map.setMapId(0);
         map = new Map(this);
     }
@@ -71,8 +72,8 @@ public class ModelImpl implements Model {
 
     @Override
     public void keepArtifact() {
-        Artifact dropedArtifact = map.getBattle().getArtifactDropped();
-        selectedHero.setArtifact(dropedArtifact);
+        Artifact dropedArtifact = map.getBattle().getDroppedArtifact();
+        hero.setArtifact(dropedArtifact);
         UserMessages.printArtifactKept(dropedArtifact.getType());
     }
 
@@ -97,7 +98,6 @@ public class ModelImpl implements Model {
 
         builderDirector.buildCharacter(heroName);
         Hero newHero = (Hero) builderDirector.getCharacter();
-        heroes.add(newHero);
         heroService.save(newHero);
         UserMessages.printHeroSuccessfullyCreated(newHero);
     }
@@ -108,8 +108,15 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public boolean maximumLevelReached() {
-        return map.maximumLevelReached();
+    public void goToNextMap() {
+        if (map.maximumLevelReached()) {
+            hero.restartHp();
+            game.setPhase(Game.Phase.WIN_GAME);
+        } else {
+            createNextMap();
+            game.setPhase(Game.Phase.MAP);
+        }
     }
 }
-
+// TODO CONTINUE HERE Save hero status after heach map, battle,
+//  and restore hp at the end of the game before save the new state

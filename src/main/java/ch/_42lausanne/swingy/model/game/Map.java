@@ -36,7 +36,7 @@ public class Map implements MoveHero {
         mapId++;
         this.model = model;
         this.game = this.model.getGame();
-        this.hero = model.getSelectedHero();
+        this.hero = model.getHero();
         this.villains = new ArrayList<>();
         setMapSize();
         createMap();
@@ -59,8 +59,6 @@ public class Map implements MoveHero {
     }
 
     private void populateMapWithVillains() {
-
-        System.out.printf("villainsToPlace: %s", villainsToPlace);
 
         // Addition of villains all over the map contour
         for (int i = 0; i < mapSize.getWidth(); i++) {
@@ -227,7 +225,7 @@ public class Map implements MoveHero {
     }
 
     public void searchForDroppedArtifacts() {
-        if (battle.getArtifactDropped() == null) {
+        if (battle.getDroppedArtifact() == null) {
             game.setPhase(Game.Phase.MAP);
         } else {
             game.setPhase(Game.Phase.ARTIFACT_DROPPED);

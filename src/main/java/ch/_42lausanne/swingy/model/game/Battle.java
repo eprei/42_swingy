@@ -19,7 +19,7 @@ public class Battle {
     @Getter
     private Dimension battleCoordinates;
     @Getter
-    private Artifact artifactDropped;
+    private Artifact droppedArtifact;
 
     public Battle(Hero hero, List<Character> villains, int newWidth, int newHeight) {
         this.hero = hero;
@@ -72,7 +72,7 @@ public class Battle {
 
     private void dropArtifact() {
         if (RandomnessGenerator.rollDice(0.5)) {
-            artifactDropped = Artifact.buildRandomArtifact(villain);
+            droppedArtifact = Artifact.buildRandomArtifact(villain);
         }
     }
 

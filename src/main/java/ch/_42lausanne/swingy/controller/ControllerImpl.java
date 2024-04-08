@@ -106,13 +106,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void goToNextMap() {
-        if (model.maximumLevelReached()) {
-            model.getSelectedHero().restartHp();
-            game.setPhase(Game.Phase.WIN_GAME);
-        } else {
-            model.createNextMap();
-            game.setPhase(Game.Phase.MAP);
-        }
+        model.goToNextMap();
         activeViewer.updateView();
     }
 
@@ -151,6 +145,6 @@ public class ControllerImpl implements Controller {
 
     @Override
     public Artifact getDroppedArtifact() {
-        return model.getMap().getBattle().getArtifactDropped();
+        return model.getMap().getBattle().getDroppedArtifact();
     }
 }

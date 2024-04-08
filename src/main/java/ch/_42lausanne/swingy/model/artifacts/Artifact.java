@@ -1,20 +1,35 @@
 package ch._42lausanne.swingy.model.artifacts;
 
 import ch._42lausanne.swingy.model.characters.Character;
+import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Stats;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Random;
 
+@Entity
+@Table(name = "ARTIFACT")
 @Data
 public class Artifact {
 
-    private final ArtifactType type;
-    private final Stats stats;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private ArtifactType type;
+
+    @OneToOne
+    private Stats stats;
+    @OneToOne
+    private Hero character;
 
     public Artifact(ArtifactType artifactType, Stats stats) {
         this.type = artifactType;
         this.stats = stats;
+    }
+
+    public Artifact() {
     }
 
     public static Artifact buildRandomArtifact(Character villain) {

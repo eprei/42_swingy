@@ -29,7 +29,6 @@ public class ConsoleViewer extends ViewerImpl {
         }
 
         UserMessages.printWelcome();
-
         String userChoice = inputReader.nextLine();
 
         // TODO validate input: Annotation based user input validation
@@ -49,7 +48,7 @@ public class ConsoleViewer extends ViewerImpl {
         UserMessages.printChoseHeroType();
         String chosenHeroType = inputReader.nextLine();
 
-        ObjectType heroType = Character.getHeroTypeObject(chosenHeroType.toLowerCase());
+        ObjectType heroType = Character.getHeroType(chosenHeroType.toLowerCase());
 
         controller.createHero(heroName, heroType);
 
