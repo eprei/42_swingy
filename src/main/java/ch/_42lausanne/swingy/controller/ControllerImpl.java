@@ -1,10 +1,11 @@
 package ch._42lausanne.swingy.controller;
 
+import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
+import ch._42lausanne.swingy.model.game.Game;
 import ch._42lausanne.swingy.model.game.Model;
 import ch._42lausanne.swingy.model.game.ObjectType;
-import ch._42lausanne.swingy.model.game.PhasesOfTheGame;
 import ch._42lausanne.swingy.view.console.ConsoleViewer;
 import ch._42lausanne.swingy.view.gui.GuiViewer;
 import ch._42lausanne.swingy.view.viewer.Viewer;
@@ -16,13 +17,15 @@ import java.util.List;
 @Component("controllerImpl")
 public class ControllerImpl implements Controller {
     private final Model model;
+    private final Game game;
     private Viewer consoleViewer;
     private Viewer guiViewer;
     private Viewer activeViewer;
 
     @Autowired
-    public ControllerImpl(Model model) {
+    public ControllerImpl(Model model, Game game) {
         this.model = model;
+        this.game = game;
     }
 
     @Override
@@ -49,23 +52,23 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void startHeroCreation() {
-        changePhaseAndUpdateView(PhasesOfTheGame.CREATE_HERO);
+        changePhaseAndUpdateView(Game.Phase.CREATE_HERO);
     }
 
-    private void changePhaseAndUpdateView(PhasesOfTheGame phase) {
-        model.setPhase(phase);
+    private void changePhaseAndUpdateView(Game.Phase phase) {
+        game.setPhase(phase);
         activeViewer.updateView();
     }
 
     @Override
     public void createHero(String heroName, ObjectType heroType) {
         model.createNewHero(heroName, heroType);
-        changePhaseAndUpdateView(PhasesOfTheGame.WELCOME);
+        changePhaseAndUpdateView(Game.Phase.WELCOME);
     }
 
     @Override
     public void selectHero() {
-        changePhaseAndUpdateView(PhasesOfTheGame.SELECT_HERO);
+        changePhaseAndUpdateView(Game.Phase.SELECT_HERO);
     }
 
     @Override
@@ -75,7 +78,7 @@ public class ControllerImpl implements Controller {
     }
 
     public void continueTheAdventure() {
-        changePhaseAndUpdateView(PhasesOfTheGame.MAP);
+        changePhaseAndUpdateView(Game.Phase.MAP);
     }
 
     @Override
@@ -87,35 +90,35 @@ public class ControllerImpl implements Controller {
     @Override
     public void keepArtifact() {
         model.keepArtifact();
-        changePhaseAndUpdateView(PhasesOfTheGame.MAP);
+        changePhaseAndUpdateView(Game.Phase.MAP);
     }
 
     @Override
     public void goToWelcomeWindow() {
-        model.setPhase(PhasesOfTheGame.WELCOME);
+        game.setPhase(Game.Phase.WELCOME);
     }
 
     @Override
     public void selectHeroByIndex(String heroIndex) {
         model.selectHero(Integer.parseInt(heroIndex));
-        changePhaseAndUpdateView(PhasesOfTheGame.MAP);
+        changePhaseAndUpdateView(Game.Phase.MAP);
     }
 
     @Override
     public void goToNextMap() {
         if (model.maximumLevelReached()) {
             model.getSelectedHero().restartHp();
-            model.setPhase(PhasesOfTheGame.WIN_GAME);
+            game.setPhase(Game.Phase.WIN_GAME);
         } else {
             model.createNextMap();
-            model.setPhase(PhasesOfTheGame.MAP);
+            game.setPhase(Game.Phase.MAP);
         }
         activeViewer.updateView();
     }
 
     @Override
-    public void setActiveViewer(String typeOfViewerChosenByTheUser) {
-        switch (typeOfViewerChosenByTheUser) {
+    public void setActiveViewer(String selectedViewer) {
+        switch (selectedViewer) {
             case Viewer.CONSOLE_VIEW -> activeViewer = consoleViewer;
             case Viewer.GUI_VIEW -> activeViewer = guiViewer;
         }
@@ -134,5 +137,20 @@ public class ControllerImpl implements Controller {
     @Override
     public List<Hero> getHeroes() {
         return model.getHeroes();
+    }
+
+    @Override
+    public void printMap() {
+        model.getMap().printMap();
+    }
+
+    @Override
+    public String getVillain() {
+        return model.getMap().getBattle().getVillain().toString();
+    }
+
+    @Override
+    public Artifact getDroppedArtifact() {
+        return model.getMap().getBattle().getArtifactDropped();
     }
 }

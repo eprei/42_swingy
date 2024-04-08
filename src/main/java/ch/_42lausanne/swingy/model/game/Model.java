@@ -5,10 +5,6 @@ import ch._42lausanne.swingy.model.characters.Hero;
 import java.util.List;
 
 public interface Model {
-    PhasesOfTheGame getPhase();
-
-    void setPhase(PhasesOfTheGame phase);
-
     Map getMap();
 
     List<Hero> getHeroes();

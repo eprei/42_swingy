@@ -4,7 +4,7 @@ import ch._42lausanne.swingy.controller.Controller;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.game.Direction;
-import ch._42lausanne.swingy.model.game.Model;
+import ch._42lausanne.swingy.model.game.Game;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.view.viewer.ViewerImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 @Component("consoleViewer")
 public class ConsoleViewer extends ViewerImpl {
     @Autowired
-    public ConsoleViewer(Controller controller, Model model) {
+    public ConsoleViewer(Controller controller, Game game) {
         this.controller = controller;
-        this.model = model;
         this.controller.setConsoleViewer(this);
+        this.game = game;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ConsoleViewer extends ViewerImpl {
 
     @Override
     public void mapView() {
-        model.getMap().printMap();
+        controller.printMap();
 
         UserMessages.printMovementInstructions();
         String direction = inputReader.nextLine();
@@ -85,7 +85,7 @@ public class ConsoleViewer extends ViewerImpl {
 
     @Override
     public void fightOrRunView() {
-        UserMessages.printFightOrRun(model.getMap().getBattle().getVillain().toString());
+        UserMessages.printFightOrRun(controller.getVillain());
 
         String userChoice = inputReader.nextLine();
 
@@ -121,7 +121,7 @@ public class ConsoleViewer extends ViewerImpl {
 
     @Override
     public void artifactDroppedView() {
-        Artifact artifact = model.getMap().getBattle().getArtifactDropped();
+        Artifact artifact = controller.getDroppedArtifact();
 
         UserMessages.printDroppedArtifact(artifact);
 

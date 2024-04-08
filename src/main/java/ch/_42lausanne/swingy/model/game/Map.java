@@ -18,11 +18,11 @@ import java.util.Random;
 public class Map implements MoveHero {
     @Getter
     private static final int FINAL_MAP = 3;
-    private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.5;
+    private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.2;
     @Setter
     @Getter
     private static int mapId = 0;
-
+    private final Game game;
     private Hero hero;
     private Dimension mapSize;
     private int[][] mapGrid;
@@ -31,9 +31,11 @@ public class Map implements MoveHero {
     private ModelImpl model;
     private int villainsToPlace;
 
+
     public Map(ModelImpl model) {
         mapId++;
         this.model = model;
+        this.game = this.model.getGame();
         this.hero = model.getSelectedHero();
         this.villains = new ArrayList<>();
         setMapSize();
@@ -57,25 +59,30 @@ public class Map implements MoveHero {
     }
 
     private void populateMapWithVillains() {
-        int villainsPlaced = 0;
 
-        for (int o = 0; o < mapSize.getWidth(); o++) {
-            for (int p = 0; p < mapSize.getHeight(); p++) {
-                if (o == 0 || o == mapSize.getHeight() - 1
-                        || p == 0 || p == mapSize.getWidth() - 1) {
-                    mapGrid[o][p] = ObjectType.VILLAIN.ordinal();
+        System.out.printf("villainsToPlace: %s", villainsToPlace);
+
+        // Addition of villains all over the map contour
+        for (int i = 0; i < mapSize.getWidth(); i++) {
+            for (int j = 0; j < mapSize.getHeight(); j++) {
+                if (i == 0 || i == mapSize.getHeight() - 1
+                        || j == 0 || j == mapSize.getWidth() - 1) {
+                    mapGrid[i][j] = ObjectType.VILLAIN.ordinal();
                     buildVillains();
-                    villainsPlaced++;
+                    villainsToPlace--;
                 }
             }
+        }
 
+        // Addition of villains randomly within the rest of the map
+        while (villainsToPlace >= 0) {
             Random random = new Random();
-            int i = random.nextInt((int) mapSize.getHeight());
-            int j = random.nextInt((int) mapSize.getWidth());
-            if (mapGrid[i][j] == ObjectType.EMPTY_SPACE.ordinal()) {
-                mapGrid[i][j] = ObjectType.VILLAIN.ordinal();
+            int x = random.nextInt((int) mapSize.getHeight());
+            int y = random.nextInt((int) mapSize.getWidth());
+            if (mapGrid[x][y] == ObjectType.EMPTY_SPACE.ordinal()) {
+                mapGrid[x][y] = ObjectType.VILLAIN.ordinal();
                 buildVillains();
-                villainsPlaced++;
+                villainsToPlace--;
             }
         }
     }
@@ -107,6 +114,7 @@ public class Map implements MoveHero {
         mapSize = new Dimension();
         mapSize.setSize(width, height);
         villainsToPlace = (int) (width * height * VILLAIN_SPREAD_COEFFICIENT);
+
     }
 
     private void createMap() {
@@ -143,13 +151,13 @@ public class Map implements MoveHero {
 
         checkMapBoundaries(newWidth, newHeight);
 
-        if (model.getPhase() == PhasesOfTheGame.WIN_MAP) {
+        if (game.getPhase() == Game.Phase.WIN_MAP) {
             return;
         }
 
         checkVillains(newWidth, newHeight);
 
-        if (model.getPhase() == PhasesOfTheGame.FIGHT_OR_RUN) {
+        if (game.getPhase() == Game.Phase.FIGHT_OR_RUN) {
             return;
         }
 
@@ -164,14 +172,14 @@ public class Map implements MoveHero {
 
     private void checkMapBoundaries(int newWidth, int newHeight) {
         if (0 > newWidth || mapSize.width <= newWidth || 0 > newHeight || mapSize.height <= newHeight) {
-            model.setPhase(PhasesOfTheGame.WIN_MAP);
+            game.setPhase(Game.Phase.WIN_MAP);
         }
     }
 
     private void checkVillains(int newWidth, int newHeight) {
         if (mapGrid[newWidth][newHeight] == ObjectType.VILLAIN.ordinal()) {
             battle = new Battle(hero, villains, newWidth, newHeight);
-            model.setPhase(PhasesOfTheGame.FIGHT_OR_RUN);
+            game.setPhase(Game.Phase.FIGHT_OR_RUN);
         }
     }
 
@@ -200,10 +208,10 @@ public class Map implements MoveHero {
 
         if (hero.getIsAlive()) {
             moveHeroToTheWonSquare();
-            model.setPhase(PhasesOfTheGame.WIN_BATTLE);
+            game.setPhase(Game.Phase.WIN_BATTLE);
         } else {
             hero.restartHp();
-            model.setPhase(PhasesOfTheGame.LOOSE_BATTLE);
+            game.setPhase(Game.Phase.LOOSE_BATTLE);
         }
     }
 
@@ -220,9 +228,9 @@ public class Map implements MoveHero {
 
     public void searchForDroppedArtifacts() {
         if (battle.getArtifactDropped() == null) {
-            model.setPhase(PhasesOfTheGame.MAP);
+            game.setPhase(Game.Phase.MAP);
         } else {
-            model.setPhase(PhasesOfTheGame.ARTIFACT_DROPPED);
+            game.setPhase(Game.Phase.ARTIFACT_DROPPED);
         }
     }
 

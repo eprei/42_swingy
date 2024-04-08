@@ -19,20 +19,21 @@ public class ModelImpl implements Model {
 
     private final List<Hero> heroes;
     private final CharacterBuilderDirector builderDirector;
+    private final Game game;
     private HeroService heroService;
     private Hero selectedHero;
     private Map map;
-    private PhasesOfTheGame phase;
 
 
     @Autowired
-    public ModelImpl(HeroService heroService, CharacterBuilderDirector builderDirector) {
+    public ModelImpl(HeroService heroService, CharacterBuilderDirector builderDirector, Game game) {
         this.heroService = heroService;
         this.builderDirector = builderDirector;
         this.heroes = new ArrayList<>();
-        this.phase = PhasesOfTheGame.WELCOME;
+        this.game = game;
     }
 
+    @Override
     public void movingHandler(Direction direction) {
         switch (direction) {
             case Direction.NORTH:
@@ -50,6 +51,7 @@ public class ModelImpl implements Model {
         }
     }
 
+    @Override
     public void selectHero(int heroIndex) {
         this.selectedHero = heroes.get(heroIndex);
         UserMessages.printHeroChoice(this.selectedHero.getName());
@@ -57,29 +59,34 @@ public class ModelImpl implements Model {
         map = new Map(this);
     }
 
+    @Override
     public void fight(boolean heroAttacksFirst) {
         map.doTheBattle(heroAttacksFirst);
     }
 
+    @Override
     public void searchForDroppedArtifacts() {
         map.searchForDroppedArtifacts();
     }
 
+    @Override
     public void keepArtifact() {
         Artifact dropedArtifact = map.getBattle().getArtifactDropped();
         selectedHero.setArtifact(dropedArtifact);
         UserMessages.printArtifactKept(dropedArtifact.getType());
     }
 
+    @Override
     public void tryToRunFromBattle() {
         if (RandomnessGenerator.rollDice(0.5)) {
             map.successfulEscapeFromBattle();
-            setPhase(PhasesOfTheGame.RUN_SUCCESSFUL);
+            game.setPhase(Game.Phase.RUN_SUCCESSFUL);
         } else {
-            setPhase(PhasesOfTheGame.RUN_FAILED);
+            game.setPhase(Game.Phase.RUN_FAILED);
         }
     }
 
+    @Override
     public void createNewHero(String heroName, ObjectType heroType) {
         switch (heroType) {
             case ARCHER -> builderDirector.setCharacterBuilder(new ArcherBuilder());
@@ -95,10 +102,12 @@ public class ModelImpl implements Model {
         UserMessages.printHeroSuccessfullyCreated(newHero);
     }
 
+    @Override
     public void createNextMap() {
         map = new Map(this);
     }
 
+    @Override
     public boolean maximumLevelReached() {
         return map.maximumLevelReached();
     }

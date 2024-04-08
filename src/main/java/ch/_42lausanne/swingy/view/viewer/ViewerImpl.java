@@ -1,7 +1,7 @@
 package ch._42lausanne.swingy.view.viewer;
 
 import ch._42lausanne.swingy.controller.Controller;
-import ch._42lausanne.swingy.model.game.Model;
+import ch._42lausanne.swingy.model.game.Game;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Scanner;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 @Slf4j
 public abstract class ViewerImpl implements Viewer {
     protected Controller controller;
-    protected Model model;
+    protected Game game;
     protected Scanner inputReader;
 
     public ViewerImpl() {
@@ -18,11 +18,7 @@ public abstract class ViewerImpl implements Viewer {
 
     @Override
     public void updateView() {
-        handleActiveState();
-    }
-
-    private void handleActiveState() {
-        switch (model.getPhase()) {
+        switch (game.getPhase()) {
             case WELCOME -> welcomeView();
             case CREATE_HERO -> createHeroView();
             case SELECT_HERO -> selectHeroView();
@@ -39,4 +35,5 @@ public abstract class ViewerImpl implements Viewer {
             case EXIT_GAME -> exitGameView();
         }
     }
+
 }

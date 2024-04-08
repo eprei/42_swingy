@@ -1,5 +1,6 @@
 package ch._42lausanne.swingy.controller;
 
+import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
 import ch._42lausanne.swingy.model.game.Model;
@@ -38,11 +39,17 @@ public interface Controller {
 
     void goToNextMap();
 
-    void setActiveViewer(String typeOfViewerChosenByTheUser);
+    void setActiveViewer(String selectedViewer);
 
     void setConsoleViewer(ConsoleViewer consoleViewer);
 
     void setGuiViewer(GuiViewer guiViewer);
 
     List<Hero> getHeroes();
+
+    void printMap();
+
+    String getVillain();
+
+    Artifact getDroppedArtifact();
 }
