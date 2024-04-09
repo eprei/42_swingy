@@ -10,15 +10,16 @@ public class CharacterBuilderDirector {
     private CharacterBuilder characterBuilder;
 
     public void buildCharacter(String heroName) {
-        this.characterBuilder.reset();
-        this.characterBuilder.buildName(heroName);
-        this.characterBuilder.buildType();
-        this.characterBuilder.buildLvl();
-        this.characterBuilder.buildExperience();
-        this.characterBuilder.buildStats();
+        characterBuilder
+                .reset()
+                .buildName(heroName)
+                .buildType()
+                .buildLvl()
+                .buildExperience()
+                .buildStats();
     }
 
     public Character getCharacter() {
-        return this.characterBuilder.getCharacter();
+        return characterBuilder.getCharacter();
     }
 }

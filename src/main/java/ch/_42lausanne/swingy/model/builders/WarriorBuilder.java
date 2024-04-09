@@ -11,42 +11,43 @@ public class WarriorBuilder implements CharacterBuilder {
     private Character warrior;
 
     public WarriorBuilder() {
-        this.warrior = new Hero();
+        warrior = new Hero();
     }
 
     @Override
-    public void reset() {
-        this.warrior = new Hero();
+    public CharacterBuilder reset() {
+        warrior = new Hero();
+        return this;
     }
 
     @Override
     public CharacterBuilder buildName(String heroName) {
-        this.warrior.setName(heroName);
+        warrior.setName(heroName);
         return this;
     }
 
     @Override
     public CharacterBuilder buildType() {
-        this.warrior.setType(ObjectType.WARRIOR);
+        warrior.setType(ObjectType.WARRIOR);
         return this;
     }
 
     @Override
     public CharacterBuilder buildLvl() {
-        this.warrior.setLevel(0);
+        warrior.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildExperience() {
-        this.warrior.setExperience(0);
-        return null;
+        warrior.setExperience(0);
+        return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        this.warrior.setStats(Stats.warriorStats());
-        this.warrior.setInitialHp(this.warrior.getStats().getHitPoints());
+        warrior.setStats(Stats.warriorStats());
+        warrior.setInitialHp(warrior.getStats().getHitPoints());
         return this;
     }
 

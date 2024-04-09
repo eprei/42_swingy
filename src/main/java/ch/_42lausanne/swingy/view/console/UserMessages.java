@@ -68,7 +68,7 @@ public class UserMessages {
             """
             ).
             You have won the game!
-            Press any key to continue.""",
+            Press enter to continue.""",
     };
     private static final String[] YOU_LOSE_THE_GAME = new String[]{
             "The game is over, and you have lost.",
@@ -77,16 +77,15 @@ public class UserMessages {
             "Your journey has come to an end in defeat.",
             "Better luck next time!"
     };
-    private static final String PRESS_ANY_KEY_TO_CONTINUE = "Press any key to continue.";
     private static final String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
     private static final String RUN_FAILED = """
             The enemy is closing in! You must fight or die!
-            Press any key to continue:""";
+            Press enter to start the battle:""";
     private static final String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
     private static final String[] ARTIFACT_KEPT = {"The artifact ", " has been kept\n"};
     private static final String[] DROPPED_ARTIFACT = {"You have found an Artifact\n", "\nYou can keep it (k) or leave it (l)"};
-    private static final String[] EXPERIENCIE_GAINED = {" has gained ", " points of experience (XP)"};
-    private static final String SELECT_HERO = "Select one of the following available heroes by entering its id.\n";
+    private static final String[] EXPERIENCE_GAINED = {" has gained ", " points of experience (XP)"};
+    private static final String SELECT_HERO = "Select one of the heroes shown above by entering its id:\n";
     private static final String CHOSE_HERO_TYPE = """ 
             What kind of hero do you want to create?
                 
@@ -186,7 +185,7 @@ public class UserMessages {
     }
 
     public static String printExeriencieGained(ObjectType type, String name, int experienceGained) {
-        String message = type + " " + name + EXPERIENCIE_GAINED[0] + experienceGained + EXPERIENCIE_GAINED[1] + ".";
+        String message = type + " " + name + EXPERIENCE_GAINED[0] + experienceGained + EXPERIENCE_GAINED[1] + ".";
         System.out.println(message);
         return message;
     }
@@ -207,10 +206,9 @@ public class UserMessages {
     }
 
     public static void printAvailableHeroes(List<Hero> heroes) {
-        System.out.print(SELECT_HERO);
         AtomicInteger i = new AtomicInteger();
         heroes.forEach(hero -> System.out.printf(hero.toString(i.getAndIncrement())));
-        System.out.println("id of the chosen hero:");
+        System.out.print(SELECT_HERO);
     }
 
     public static String printChoseHeroType() {

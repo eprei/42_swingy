@@ -3,7 +3,6 @@ package ch._42lausanne.swingy.controller;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
-import ch._42lausanne.swingy.model.game.Model;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.view.console.ConsoleViewer;
 import ch._42lausanne.swingy.view.gui.GuiViewer;
@@ -14,8 +13,6 @@ public interface Controller {
     void runApplication();
 
     void fightBattle(boolean wanted);
-
-    Model getModel();
 
     void startHeroCreation();
 

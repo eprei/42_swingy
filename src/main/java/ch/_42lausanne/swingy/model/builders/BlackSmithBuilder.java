@@ -11,42 +11,43 @@ public class BlackSmithBuilder implements CharacterBuilder {
     private Character blackSmith;
 
     public BlackSmithBuilder() {
-        this.blackSmith = new Hero();
+        blackSmith = new Hero();
     }
 
     @Override
-    public void reset() {
-        this.blackSmith = new Hero();
+    public CharacterBuilder reset() {
+        blackSmith = new Hero();
+        return this;
     }
 
     @Override
     public CharacterBuilder buildName(String heroName) {
-        this.blackSmith.setName(heroName);
+        blackSmith.setName(heroName);
         return this;
     }
 
     @Override
     public CharacterBuilder buildType() {
-        this.blackSmith.setType(ObjectType.BLACKSMITH);
+        blackSmith.setType(ObjectType.BLACKSMITH);
         return this;
     }
 
     @Override
     public CharacterBuilder buildLvl() {
-        this.blackSmith.setLevel(0);
+        blackSmith.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildExperience() {
-        this.blackSmith.setExperience(0);
-        return null;
+        blackSmith.setExperience(0);
+        return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        this.blackSmith.setStats(Stats.blacksmithStats());
-        this.blackSmith.setInitialHp(this.blackSmith.getStats().getHitPoints());
+        blackSmith.setStats(Stats.blacksmithStats());
+        blackSmith.setInitialHp(blackSmith.getStats().getHitPoints());
         return this;
     }
 

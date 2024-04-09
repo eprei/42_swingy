@@ -6,6 +6,8 @@ import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.game.Direction;
 import ch._42lausanne.swingy.model.game.Game;
 import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.view.validator.*;
+import ch._42lausanne.swingy.view.viewer.UserInputValidator;
 import ch._42lausanne.swingy.view.viewer.ViewerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component("consoleViewer")
 public class ConsoleViewer extends ViewerImpl {
+    public static boolean bannerHasBeenShowed = false;
+    private final UserInputValidator userInputValidator;
+
     @Autowired
-    public ConsoleViewer(Controller controller, Game game) {
+    public ConsoleViewer(Controller controller, Game game, UserInputValidator userInputValidator) {
+        this.userInputValidator = userInputValidator;
         this.controller = controller;
         this.controller.setConsoleViewer(this);
         this.game = game;
@@ -23,30 +29,36 @@ public class ConsoleViewer extends ViewerImpl {
 
     @Override
     public void welcomeView() {
+        printBanner();
+
         if (controller.getHeroes().isEmpty()) {
             UserMessages.printNoHeroFound();
             controller.startHeroCreation();
         }
 
         UserMessages.printWelcome();
-        String userChoice = inputReader.nextLine();
+        String userInput = userInputValidator.getUserInput(WelcomeUserInput.class);
 
-        // TODO validate input: Annotation based user input validation
-        switch (userChoice) {
+        switch (userInput) {
             case "c" -> controller.startHeroCreation();
             case "p" -> controller.selectHero();
         }
     }
 
+    private void printBanner() {
+        if (!bannerHasBeenShowed) {
+            UserMessages.printBanner();
+            bannerHasBeenShowed = true;
+        }
+    }
+
     @Override
     public void createHeroView() {
-        // TODO validate input: Annotation based user input validation
-
         UserMessages.printChoseHeroName();
-        String heroName = inputReader.nextLine();
+        String heroName = userInputValidator.getUserInput(HeroNameUserInput.class);
 
         UserMessages.printChoseHeroType();
-        String chosenHeroType = inputReader.nextLine();
+        String chosenHeroType = userInputValidator.getUserInput(HeroTypeUserInput.class);
 
         ObjectType heroType = Character.getHeroType(chosenHeroType.toLowerCase());
 
@@ -56,12 +68,13 @@ public class ConsoleViewer extends ViewerImpl {
 
     @Override
     public void selectHeroView() {
-        UserMessages.printAvailableHeroes(controller.getHeroes());
+        String chosenHeroIndex;
+        do {
+            UserMessages.printAvailableHeroes(controller.getHeroes());
+            chosenHeroIndex = userInputValidator.getUserInput(HeroIndexUserInput.class);
+        } while (controller.getHeroes().size() <= Integer.parseInt(chosenHeroIndex)
+                || Integer.parseInt(chosenHeroIndex) < 0);
 
-        String chosenHeroIndex = inputReader.nextLine();
-
-        // TODO validate input: Annotation based user input validation
-        // TODO Check that its a valid index
         controller.selectHeroByIndex(chosenHeroIndex);
     }
 
@@ -70,9 +83,7 @@ public class ConsoleViewer extends ViewerImpl {
         controller.printMap();
 
         UserMessages.printMovementInstructions();
-        String direction = inputReader.nextLine();
-
-        // TODO validate input: Annotation based user input validation
+        String direction = userInputValidator.getUserInput(DirectionUserInput.class);
 
         switch (direction.toLowerCase()) {
             case "w" -> controller.handleMovement(Direction.NORTH);
@@ -86,9 +97,8 @@ public class ConsoleViewer extends ViewerImpl {
     public void fightOrRunView() {
         UserMessages.printFightOrRun(controller.getVillain());
 
-        String userChoice = inputReader.nextLine();
+        String userChoice = userInputValidator.getUserInput(FightOrRunUserInput.class);
 
-        // TODO validate input: Annotation based user input validation
         switch (userChoice) {
             case "f" -> controller.fightBattle(true);
             case "r" -> controller.tryToRunFromBattle();
@@ -104,7 +114,7 @@ public class ConsoleViewer extends ViewerImpl {
     @Override
     public void runFailedView() {
         UserMessages.printRunFailed();
-        inputReader.nextLine();
+        userInputValidator.getUserInput(AnyKeyIsValidUserInput.class);
         controller.fightBattle(false);
     }
 
@@ -123,10 +133,8 @@ public class ConsoleViewer extends ViewerImpl {
         Artifact artifact = controller.getDroppedArtifact();
 
         UserMessages.printDroppedArtifact(artifact);
+        String userChoice = userInputValidator.getUserInput(ArtifactDroppedUserInput.class);
 
-        String userChoice = inputReader.nextLine();
-
-        // TODO validate input: Annotation based user input validation
         switch (userChoice) {
             case "k" -> controller.keepArtifact();
             case "l" -> controller.continueTheAdventure();
@@ -142,7 +150,7 @@ public class ConsoleViewer extends ViewerImpl {
     @Override
     public void winGameView() {
         UserMessages.printYouWinTheGame();
-        inputReader.nextLine();
+        userInputValidator.getUserInput(AnyKeyIsValidUserInput.class);
         controller.goToWelcomeWindow();
     }
 

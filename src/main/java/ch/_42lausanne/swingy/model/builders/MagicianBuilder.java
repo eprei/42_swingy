@@ -11,42 +11,43 @@ public class MagicianBuilder implements CharacterBuilder {
     private Character magician;
 
     public MagicianBuilder() {
-        this.magician = new Hero();
+        magician = new Hero();
     }
 
     @Override
-    public void reset() {
-        this.magician = new Hero();
+    public CharacterBuilder reset() {
+        magician = new Hero();
+        return this;
     }
 
     @Override
     public CharacterBuilder buildName(String heroName) {
-        this.magician.setName(heroName);
+        magician.setName(heroName);
         return this;
     }
 
     @Override
     public CharacterBuilder buildType() {
-        this.magician.setType(ObjectType.MAGICIAN);
+        magician.setType(ObjectType.MAGICIAN);
         return this;
     }
 
     @Override
     public CharacterBuilder buildLvl() {
-        this.magician.setLevel(0);
+        magician.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildExperience() {
-        this.magician.setExperience(0);
-        return null;
+        magician.setExperience(0);
+        return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        this.magician.setStats(Stats.magicianStats());
-        this.magician.setInitialHp(this.magician.getStats().getHitPoints());
+        magician.setStats(Stats.magicianStats());
+        magician.setInitialHp(magician.getStats().getHitPoints());
         return this;
     }
 

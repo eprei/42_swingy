@@ -4,16 +4,12 @@ import ch._42lausanne.swingy.controller.Controller;
 import ch._42lausanne.swingy.model.game.Game;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Scanner;
-
 @Slf4j
 public abstract class ViewerImpl implements Viewer {
     protected Controller controller;
     protected Game game;
-    protected Scanner inputReader;
 
     public ViewerImpl() {
-        this.inputReader = new Scanner(System.in);
     }
 
     @Override

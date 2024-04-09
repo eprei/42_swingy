@@ -17,8 +17,9 @@ import java.util.Random;
 @Data
 public class Map implements MoveHero {
     @Getter
-    private static final int FINAL_MAP = 3;
-    private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.2;
+    private static final int FINAL_MAP = 7;
+    private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.4;
+    private static final double VILLAIN_POWER_COEFFICIENT = VILLAIN_SPREAD_COEFFICIENT / 1.2;
     @Setter
     @Getter
     private static int mapId = 0;
@@ -91,14 +92,13 @@ public class Map implements MoveHero {
         model.getBuilderDirector().buildCharacter(NameGenerator.generateRandomName());
         Character villain = model.getBuilderDirector().getCharacter();
         setVillainStats(villain);
-//        System.out.printf(villain.toString());
         villains.add(villain);
     }
 
     private void setVillainStats(Character villain) {
-        int enemyAttack = (int) (hero.getStats().getAttack() * VILLAIN_SPREAD_COEFFICIENT);
-        int enemyDefense = (int) (hero.getStats().getDefense() * VILLAIN_SPREAD_COEFFICIENT);
-        int enemyHitPoints = (int) (hero.getStats().getHitPoints() * VILLAIN_SPREAD_COEFFICIENT);
+        int enemyAttack = (int) (hero.getStats().getAttack() * VILLAIN_POWER_COEFFICIENT);
+        int enemyDefense = (int) (hero.getStats().getDefense() * VILLAIN_POWER_COEFFICIENT);
+        int enemyHitPoints = (int) (hero.getStats().getHitPoints() * VILLAIN_POWER_COEFFICIENT);
 
         Stats enemyStats = new Stats(enemyAttack, enemyDefense, enemyHitPoints);
 
@@ -107,8 +107,8 @@ public class Map implements MoveHero {
     }
 
     private void setMapSize() {
-        int width = (hero.getLevel() - 1) * 5 + 10;
-        int height = (hero.getLevel() - 1) * 5 + 10;
+        int width = (hero.getLevel() - 1) * 5 + 10 - 1;
+        int height = (hero.getLevel() - 1) * 5 + 10 - 1;
         mapSize = new Dimension();
         mapSize.setSize(width, height);
         villainsToPlace = (int) (width * height * VILLAIN_SPREAD_COEFFICIENT);
@@ -208,7 +208,6 @@ public class Map implements MoveHero {
             moveHeroToTheWonSquare();
             game.setPhase(Game.Phase.WIN_BATTLE);
         } else {
-            hero.restartHp();
             game.setPhase(Game.Phase.LOOSE_BATTLE);
         }
     }

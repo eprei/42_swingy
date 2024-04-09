@@ -8,46 +8,47 @@ public class VillainBuilder implements CharacterBuilder {
     private Character villain;
 
     public VillainBuilder() {
-        this.villain = new Character();
+        villain = new Character();
     }
 
     @Override
-    public void reset() {
-        this.villain = new Character();
+    public CharacterBuilder reset() {
+        villain = new Character();
+        return this;
     }
 
     @Override
     public CharacterBuilder buildName(String heroName) {
-        this.villain.setName(heroName);
+        villain.setName(heroName);
         return this;
     }
 
     @Override
     public CharacterBuilder buildType() {
-        this.villain.setType(ObjectType.VILLAIN);
+        villain.setType(ObjectType.VILLAIN);
         return this;
     }
 
     @Override
     public CharacterBuilder buildLvl() {
-        this.villain.setLevel(0);
+        villain.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildExperience() {
-        this.villain.setExperience(0);
-        return null;
+        villain.setExperience(0);
+        return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        this.villain.setStats(new Stats(6, 10, 80));
+        villain.setStats(new Stats(6, 10, 80));
         return this;
     }
 
     @Override
     public Character getCharacter() {
-        return this.villain;
+        return villain;
     }
 }

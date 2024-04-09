@@ -35,6 +35,21 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public String getVillain() {
+        return map.getBattle().getVillain().toString();
+    }
+
+    @Override
+    public Artifact getDroppedArtifact() {
+        return map.getBattle().getDroppedArtifact();
+    }
+
+    @Override
+    public void printMap() {
+        map.printMap();
+    }
+
+    @Override
     public void movingHandler(Direction direction) {
         switch (direction) {
             case Direction.NORTH:
@@ -63,6 +78,9 @@ public class ModelImpl implements Model {
     @Override
     public void fight(boolean heroAttacksFirst) {
         map.doTheBattle(heroAttacksFirst);
+        if (game.getPhase() == Game.Phase.LOOSE_BATTLE) {
+            heroService.save(hero);
+        }
     }
 
     @Override
@@ -110,7 +128,7 @@ public class ModelImpl implements Model {
     @Override
     public void goToNextMap() {
         if (map.maximumLevelReached()) {
-            hero.restartHp();
+            heroService.save(hero);
             game.setPhase(Game.Phase.WIN_GAME);
         } else {
             createNextMap();
@@ -118,5 +136,3 @@ public class ModelImpl implements Model {
         }
     }
 }
-// TODO CONTINUE HERE Save hero status after heach map, battle,
-//  and restore hp at the end of the game before save the new state

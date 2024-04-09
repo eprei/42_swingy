@@ -9,47 +9,48 @@ public class ArcherBuilder implements CharacterBuilder {
     private Character archer;
 
     public ArcherBuilder() {
-        this.archer = new Hero();
+        archer = new Hero();
     }
 
     @Override
-    public void reset() {
-        this.archer = new Hero();
+    public CharacterBuilder reset() {
+        archer = new Hero();
+        return this;
     }
 
     @Override
     public CharacterBuilder buildName(String heroName) {
-        this.archer.setName(heroName);
+        archer.setName(heroName);
         return this;
     }
 
     @Override
     public CharacterBuilder buildType() {
-        this.archer.setType(ObjectType.ARCHER);
+        archer.setType(ObjectType.ARCHER);
         return this;
     }
 
     @Override
     public CharacterBuilder buildLvl() {
-        this.archer.setLevel(0);
+        archer.setLevel(0);
         return this;
     }
 
     @Override
     public CharacterBuilder buildExperience() {
-        this.archer.setExperience(0);
-        return null;
+        archer.setExperience(0);
+        return this;
     }
 
     @Override
     public CharacterBuilder buildStats() {
-        this.archer.setStats(Stats.archerStats());
-        this.archer.setInitialHp(this.archer.getStats().getHitPoints());
+        archer.setStats(Stats.archerStats());
+        archer.setInitialHp(archer.getStats().getHitPoints());
         return this;
     }
 
     @Override
     public Character getCharacter() {
-        return this.archer;
+        return archer;
     }
 }

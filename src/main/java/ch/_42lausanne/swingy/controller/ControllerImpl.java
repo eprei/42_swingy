@@ -46,11 +46,6 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public Model getModel() {
-        return this.model;
-    }
-
-    @Override
     public void startHeroCreation() {
         changePhaseAndUpdateView(Game.Phase.CREATE_HERO);
     }
@@ -135,16 +130,16 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void printMap() {
-        model.getMap().printMap();
+        model.printMap();
     }
 
     @Override
     public String getVillain() {
-        return model.getMap().getBattle().getVillain().toString();
+        return model.getVillain();
     }
 
     @Override
     public Artifact getDroppedArtifact() {
-        return model.getMap().getBattle().getDroppedArtifact();
+        return model.getDroppedArtifact();
     }
 }

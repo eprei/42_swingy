@@ -19,7 +19,7 @@ public class Artifact {
 
     private ArtifactType type;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Stats stats;
     @OneToOne
     private Hero character;

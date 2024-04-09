@@ -1,15 +1,19 @@
 package ch._42lausanne.swingy.model.game;
 
+import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 
 import java.util.List;
 
 public interface Model {
-    Map getMap();
 
     List<Hero> getHeroes();
 
-    Hero getHero();
+    String getVillain();
+
+    Artifact getDroppedArtifact();
+
+    void printMap();
 
     void movingHandler(Direction direction);
 

@@ -17,13 +17,12 @@ public class Hero extends Character {
     public void gainExperience(Character villain) {
         gainExperienceFromVillain(villain);
         updateHeroLevel();
-        System.out.printf(this.toString());
     }
 
     private void gainExperienceFromVillain(Character villain) {
         int experienceGained = villain.getStrength() * 60;
-        this.experience += experienceGained;
-        UserMessages.printExeriencieGained(this.type, this.name, experienceGained);
+        experience += experienceGained;
+        UserMessages.printExeriencieGained(type, name, experienceGained);
     }
 
     private void updateHeroLevel() {
@@ -31,23 +30,21 @@ public class Hero extends Character {
         int nextLevel;
         int experienceRequiredForNextLevel = 1000;
 
-        while (this.experience >= experienceRequiredForNextLevel) {
+        while (experience >= experienceRequiredForNextLevel) {
             actualLevel++;
             nextLevel = actualLevel + 1;
             experienceRequiredForNextLevel = nextLevel * 1000 + (nextLevel - 1) * (nextLevel - 1) * 450;
         }
 
-        if (this.level < actualLevel) {
-            this.level = actualLevel;
-            UserMessages.printLevelUp(this.type, this.name, this.level);
+        if (level < actualLevel) {
+            level = actualLevel;
+            UserMessages.printLevelUp(type, name, level);
         }
     }
 
     public String toString() {
         String text = "╔═════════════════════════╗\n" +
                 "║ name: " + name + "\n" +
-                "║ attack: " + stats.getAttack() + "\n" +
-                "║ defense: " + stats.getDefense() + "\n" +
                 "║ hitPoints: " + stats.getHitPoints() + "\n";
 
         if (artifact != null) {
@@ -85,7 +82,7 @@ public class Hero extends Character {
     public void setArtifact(Artifact artifact) {
         this.artifact = artifact;
         if (artifact.getType() == ArtifactType.HELM) {
-            this.stats.setHitPoints(this.stats.getHitPoints() + artifact.getStats().getHitPoints());
+            stats.setHitPoints(this.stats.getHitPoints() + artifact.getStats().getHitPoints());
         }
     }
 
