@@ -34,7 +34,7 @@ public class WarriorBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildLvl() {
-        warrior.setLevel(0);
+        warrior.setLevel(1);
         return this;
     }
 

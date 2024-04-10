@@ -4,6 +4,7 @@ import ch._42lausanne.swingy.model.builders.VillainBuilder;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.util.NameGenerator;
+import ch._42lausanne.swingy.view.console.ConsoleColors;
 import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Data;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.Random;
 @Data
 public class Map implements MoveHero {
     @Getter
-    private static final int FINAL_MAP = 7;
+    private static final int FINAL_MAP = 1;
     private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.4;
     private static final double VILLAIN_POWER_COEFFICIENT = VILLAIN_SPREAD_COEFFICIENT / 1.2;
     @Setter
@@ -130,8 +131,8 @@ public class Map implements MoveHero {
             for (int j = 0; j < mapSize.getHeight(); j++) {
                 String charToPrint = switch (mapGrid[j][i]) {
                     case 0 -> " ";
-                    case 1, 2, 3, 4 -> "h";
-                    case 5 -> "v";
+                    case 1, 2, 3, 4 -> ConsoleColors.GREEN + "h" + ConsoleColors.RESET;
+                    case 5 -> ConsoleColors.RED + "v" + ConsoleColors.RESET;
                     default -> throw new IllegalStateException("Unexpected value: " + mapGrid[j][i]);
                 };
                 System.out.printf("| %s ", charToPrint);
@@ -207,6 +208,7 @@ public class Map implements MoveHero {
         if (hero.getIsAlive()) {
             moveHeroToTheWonSquare();
             game.setPhase(Game.Phase.WIN_BATTLE);
+            // TODO find why programs ends after 2nd victory
         } else {
             game.setPhase(Game.Phase.LOOSE_BATTLE);
         }

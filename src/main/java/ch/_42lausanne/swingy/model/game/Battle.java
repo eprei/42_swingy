@@ -69,6 +69,7 @@ public class Battle {
     public void simulateBattle(boolean heroAttacksFirst) {
         performBattleRounds(heroAttacksFirst);
         findWinner();
+        // TODO debug blacksmith loop when fighting
     }
 
     private void dropArtifact() {

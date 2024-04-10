@@ -34,7 +34,7 @@ public class BlackSmithBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildLvl() {
-        blackSmith.setLevel(0);
+        blackSmith.setLevel(1);
         return this;
     }
 

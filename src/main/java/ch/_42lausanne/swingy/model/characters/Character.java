@@ -4,6 +4,7 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.game.ObjectType;
 import ch._42lausanne.swingy.model.game.Stats;
 import ch._42lausanne.swingy.model.util.RandomnessGenerator;
+import ch._42lausanne.swingy.view.console.ConsoleColors;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -38,12 +39,12 @@ public class Character {
     }
 
     public String toString() {
-        return "+----------------------------+\n" +
-                "| name: " + name + "\n" +
-                "| attack: " + stats.getAttack() + "\n" +
-                "| defense: " + stats.getDefense() + "\n" +
-                "| hitPoints: " + stats.getHitPoints() + "\n" +
-                "+-----------------------------+\n";
+        return ConsoleColors.RED + "+----------------------------+\n" + ConsoleColors.RESET +
+                ConsoleColors.RED + "| name: " + ConsoleColors.RESET + name + "\n" + ConsoleColors.RESET +
+                ConsoleColors.RED + "| attack: " + ConsoleColors.RESET + stats.getAttack() + "\n" +
+                ConsoleColors.RED + "| defense: " + ConsoleColors.RESET + stats.getDefense() + "\n" +
+                ConsoleColors.RED + "| hitPoints: " + ConsoleColors.RESET + stats.getHitPoints() + "\n" +
+                ConsoleColors.RED + "+-----------------------------+\n" + ConsoleColors.RESET;
     }
 
     public int getAttack() {

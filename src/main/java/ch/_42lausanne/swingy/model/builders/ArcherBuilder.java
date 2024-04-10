@@ -32,7 +32,7 @@ public class ArcherBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildLvl() {
-        archer.setLevel(0);
+        archer.setLevel(1);
         return this;
     }
 

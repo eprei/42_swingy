@@ -15,36 +15,36 @@ public class UserMessages {
                     java -jar swingy.jar console
                     java -jar swingy.jar gui
             """;
-    private static final String BANNER = """
-            _____/\\\\\\\\\\\\\\\\\\\\\\____________________________________________________________________       \s
-             ___/\\\\\\/////////\\\\\\__________________________________________________________________      \s
-              __\\//\\\\\\______\\///_____________________/\\\\\\_________________/\\\\\\\\\\\\\\\\_____/\\\\\\__/\\\\\\_     \s
-               ___\\////\\\\\\__________/\\\\____/\\\\___/\\\\_\\///___/\\\\/\\\\\\\\\\\\____/\\\\\\////\\\\\\___\\//\\\\\\/\\\\\\__    \s
-                ______\\////\\\\\\______\\/\\\\\\__/\\\\\\\\_/\\\\\\__/\\\\\\_\\/\\\\\\////\\\\\\__\\//\\\\\\\\\\\\\\\\\\____\\//\\\\\\\\\\___   \s
-                 _________\\////\\\\\\___\\//\\\\\\/\\\\\\\\\\/\\\\\\__\\/\\\\\\_\\/\\\\\\__\\//\\\\\\__\\///////\\\\\\_____\\//\\\\\\____  \s
-                  __/\\\\\\______\\//\\\\\\___\\//\\\\\\\\\\/\\\\\\\\\\___\\/\\\\\\_\\/\\\\\\___\\/\\\\\\__/\\\\_____\\\\\\__/\\\\_/\\\\\\_____ \s
-                   _\\///\\\\\\\\\\\\\\\\\\\\\\/_____\\//\\\\\\\\//\\\\\\____\\/\\\\\\_\\/\\\\\\___\\/\\\\\\_\\//\\\\\\\\\\\\\\\\__\\//\\\\\\\\/______\s
-                    ___\\///////////________\\///__\\///_____\\///__\\///____\\///___\\////////____\\////________
-            """;
-    private static final String WELCOME = """
+    private static final String BANNER =
+            ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "_____/\\\\\\\\\\\\\\\\\\\\\\____________________________________________________________________" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "___/\\\\\\/////////\\\\\\__________________________________________________________________" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "__\\//\\\\\\______\\///_____________________/\\\\\\_________________/\\\\\\\\\\\\\\\\_____/\\\\\\__/\\\\\\_" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "___\\////\\\\\\__________/\\\\____/\\\\___/\\\\_\\///___/\\\\/\\\\\\\\\\\\____/\\\\\\////\\\\\\___\\//\\\\\\/\\\\\\__" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "______\\////\\\\\\______\\/\\\\\\__/\\\\\\\\_/\\\\\\__/\\\\\\_\\/\\\\\\////\\\\\\__\\//\\\\\\\\\\\\\\\\\\____\\//\\\\\\\\\\___" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "_________\\////\\\\\\___\\//\\\\\\/\\\\\\\\\\/\\\\\\__\\/\\\\\\_\\/\\\\\\__\\//\\\\\\__\\///////\\\\\\_____\\//\\\\\\____" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "__/\\\\\\______\\//\\\\\\___\\//\\\\\\\\\\/\\\\\\\\\\___\\/\\\\\\_\\/\\\\\\___\\/\\\\\\__/\\\\_____\\\\\\__/\\\\_/\\\\\\_____" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "_\\///\\\\\\\\\\\\\\\\\\\\\\/_____\\//\\\\\\\\//\\\\\\____\\/\\\\\\_\\/\\\\\\___\\/\\\\\\_\\//\\\\\\\\\\\\\\\\__\\//\\\\\\\\/______" + ConsoleColors.RESET + "\n" +
+                    ConsoleColors.BLACK_BACKGROUND + ConsoleColors.YELLOW_BOLD + "___\\///////////________\\///__\\///_____\\///__\\///____\\///___\\////////____\\////________" + ConsoleColors.RESET + "\n";
+    private static final String WELCOME = ConsoleColors.BLUE_UNDERLINED + """
             Do you wish to:
-                        
-                    (c) Create Character: Forge your own hero with unique abilities and appearance.
-                    (p) Play: Select one of your heroes to start your journey immediately.""";
-    private static final String MOVEMENT_INSTRUCTIONS = """
+            """ + ConsoleColors.RESET + """
+            (c) Create Character: Forge your own hero with unique abilities and appearance.
+            (p) Play: Select one of your heroes to start your journey immediately.""";
+    private static final String MOVEMENT_INSTRUCTIONS = ConsoleColors.BLUE_UNDERLINED + """
             Choose your direction!
-                        
-                    (w): North
-                    (s): South
-                    (d): East
-                    (a): West""";
+            """ + ConsoleColors.RESET
+            + """
+            (w): North
+            (s): South
+            (d): East
+            (a): West""";
     private static final String[] FIGHT_OR_RUN = {
-            "You have encountered a villain!\n",
-            """
-            What do you want to do?
-            
-                    Fight (f): You will engage the enemy in battle. Your chances of success depend on your strength and skills.
-                    Run (r): You will try to escape from the enemy but if you don't succeed you will have to fight him and he will attack you first."""
+            "You have encountered a " + ConsoleColors.RED + "VILLAIN 👺" + ConsoleColors.RESET + "!\n",
+            ConsoleColors.BLUE_UNDERLINED + """
+                    What do you want to do?
+                    """ + ConsoleColors.RESET + """            
+                    (f) ⚔️ Fight: You will engage the enemy in battle. Your chances of success depend on your strength and skills.
+                    (r) 🏃 Run : You will try to escape from the enemy but if you don't succeed you will have to fight him and he will attack you first."""
     };
     private static final String[] YOU_WIN_THE_BATTLE = {
             "Congratulations! You have emerged victorious from the battle!",
@@ -82,32 +82,36 @@ public class UserMessages {
             The enemy is closing in! You must fight or die!
             Press enter to start the battle:""";
     private static final String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
-    private static final String[] ARTIFACT_KEPT = {"The artifact ", " has been kept\n"};
-    private static final String[] DROPPED_ARTIFACT = {"You have found an Artifact\n", "\nYou can keep it (k) or leave it (l)"};
-    private static final String[] EXPERIENCE_GAINED = {" has gained ", " points of experience (XP)"};
-    private static final String SELECT_HERO = "Select one of the heroes shown above by entering its id:\n";
-    private static final String CHOSE_HERO_TYPE = """ 
-            What kind of hero do you want to create?
-                
-                    (a) Archer
-                    (b) Blacksmith
-                    (w) Warrior
-                    (m) Magician""";
-    private static final String CHOSE_HERO_NAME = """
-            Please enter the name of the hero you want to create:""";
+    private static final String[] ARTIFACT_KEPT = {"The" + ConsoleColors.BLUE_UNDERLINED + " ARTIFACT " + ConsoleColors.RESET, " has been kept\n"};
+    private static final String[] DROPPED_ARTIFACT = {"You have found an" + ConsoleColors.PURPLE + " ARTIFACT\n" + ConsoleColors.RESET,
+            "You can " + ConsoleColors.BLUE_UNDERLINED + "keep it"
+                    + ConsoleColors.RESET + " (k) or " + ConsoleColors.BLUE_UNDERLINED +
+                    "leave it" + ConsoleColors.RESET + " (l)"};
+    private static final String[] EXPERIENCE_GAINED = {" has " + ConsoleColors.YELLOW + "gained " + ConsoleColors.RESET, " points of experience (XP)"};
+    private static final String SELECT_HERO = ConsoleColors.BLUE_UNDERLINED +
+            "Select one of the heroes shown above by entering its" + ConsoleColors.RESET + " id:\n";
+    private static final String CHOSE_HERO_TYPE = ConsoleColors.BLUE_UNDERLINED +
+            "What kind of hero do you want to create?\n" + ConsoleColors.RESET + """
+            (a) Archer
+            (b) Blacksmith
+            (w) Warrior
+            (m) Magician""";
+    private static final String CHOSE_HERO_NAME = ConsoleColors.BLUE_UNDERLINED
+            + "Please enter the name of the hero you want to create:"
+            + ConsoleColors.RESET;
     private static final int[] randomSeeds = new int[]{0, 0, 0, 0, 0, 0};
     private static final String NO_HERO_FOUND = """
             Looks like we didn't find any heroes available.
             Let's create one so you can start playing.""";
     private static final String HERO_SUCCESSFULLY_CREATED = "has been successfully created.";
-    private static final String[] NEW_MAP = {"""
-            \t**************
-            \t*\tMAP\s\s""",
-            """
-            \t *
-            \t**************
-            """};
-    private static final String[] HERO_CHOICE = {"You have chosen ", ". May the force be with you!\n"};
+    private static final String[] NEW_MAP = {
+            ConsoleColors.CYAN + "\t**************\n\t*\t" + ConsoleColors.RESET +
+                    "MAP\s\s",
+            ConsoleColors.CYAN + "\t *\n\t**************\n" + ConsoleColors.RESET
+                    + ConsoleColors.RED + "v" + ConsoleColors.RESET + " = villain\t\t"
+                    + ConsoleColors.GREEN + "h" + ConsoleColors.RESET + " = hero"
+    };
+    private static final String[] HERO_CHOICE = {"You have chosen " + ConsoleColors.GREEN, ConsoleColors.RESET + ". May the force be with you!\n"};
 
     public static String printBanner() {
         System.out.println(BANNER);
@@ -185,7 +189,7 @@ public class UserMessages {
     }
 
     public static String printExeriencieGained(ObjectType type, String name, int experienceGained) {
-        String message = type + " " + name + EXPERIENCE_GAINED[0] + experienceGained + EXPERIENCE_GAINED[1] + ".";
+        String message = type + " " + ConsoleColors.GREEN + name + ConsoleColors.RESET + EXPERIENCE_GAINED[0] + experienceGained + EXPERIENCE_GAINED[1] + ".";
         System.out.println(message);
         return message;
     }
@@ -227,7 +231,7 @@ public class UserMessages {
     }
 
     public static String printHeroSuccessfullyCreated(Hero hero) {
-        String message = hero.getName() + " the " + hero.getType() + " " + HERO_SUCCESSFULLY_CREATED;
+        String message = ConsoleColors.GREEN + hero.getName() + ConsoleColors.RESET + " the " + hero.getType() + " " + HERO_SUCCESSFULLY_CREATED;
         System.out.println(message);
         return message;
     }

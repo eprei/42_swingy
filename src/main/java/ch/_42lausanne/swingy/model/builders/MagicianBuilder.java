@@ -34,7 +34,7 @@ public class MagicianBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildLvl() {
-        magician.setLevel(0);
+        magician.setLevel(1);
         return this;
     }
 
