@@ -63,4 +63,4 @@ hs_err_pid*
 replay_pid*
 
 #Datbase
-.data/
+db/.data/

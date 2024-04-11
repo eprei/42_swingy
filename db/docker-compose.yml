@@ -11,6 +11,5 @@ services:
       - "3306:3306"
     volumes:
       - "./.data/db:/var/lib/mysql"
-    environment:
-      MYSQL_ROOT_PASSWORD: pass
-      MYSQL_DATABASE: swingyDb
+    env_file:
+      - .env
