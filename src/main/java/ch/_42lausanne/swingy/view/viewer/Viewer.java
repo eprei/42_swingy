@@ -30,8 +30,4 @@ public interface Viewer {
 
     void winGameView();
 
-    void exitMapView();
-
-    void exitGameView();
-
 }

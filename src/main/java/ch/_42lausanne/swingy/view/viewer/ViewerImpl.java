@@ -27,8 +27,6 @@ public abstract class ViewerImpl implements Viewer {
             case ARTIFACT_DROPPED -> artifactDroppedView();
             case WIN_MAP -> winMapView();
             case WIN_GAME -> winGameView();
-            case EXIT_MAP -> exitMapView();
-            case EXIT_GAME -> exitGameView();
         }
     }
 

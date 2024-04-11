@@ -154,14 +154,4 @@ public class ConsoleViewer extends ViewerImpl {
         controller.goToWelcomeWindow();
     }
 
-    @Override
-    public void exitMapView() {
-        log.info("exitMapView");
-    }
-
-    @Override
-    public void exitGameView() {
-        log.info("exitGameView");
-    }
-
 }

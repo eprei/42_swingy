@@ -76,14 +76,4 @@ public class GuiViewer extends ViewerImpl {
 
     }
 
-    @Override
-    public void exitMapView() {
-
-    }
-
-    @Override
-    public void exitGameView() {
-
-    }
-
 }
