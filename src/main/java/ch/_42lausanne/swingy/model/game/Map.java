@@ -208,7 +208,6 @@ public class Map implements MoveHero {
         if (hero.getIsAlive()) {
             moveHeroToTheWonSquare();
             game.setPhase(Game.Phase.WIN_BATTLE);
-            // TODO find why programs ends after 2nd victory
         } else {
             game.setPhase(Game.Phase.LOOSE_BATTLE);
         }
