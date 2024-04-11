@@ -57,7 +57,7 @@ public class Character {
 
     public void attackEnemy(Character enemy) {
         int damage = ((10 - enemy.getDefense()) * this.getAttack()) / 10;
-        damage = Math.max(damage, 0);
+        damage = Math.max(damage, 1);
 
         if (RandomnessGenerator.rollDice(0.7)) {
             enemy.takeDamage(damage);

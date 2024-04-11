@@ -90,7 +90,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void goToWelcomeWindow() {
-        game.setPhase(Game.Phase.WELCOME);
+        changePhaseAndUpdateView(Game.Phase.WELCOME);
     }
 
     @Override

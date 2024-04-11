@@ -38,7 +38,7 @@ public class Stats {
 
     //    @Contract(value = " -> new", pure = true)
     public static Stats blacksmithStats() {
-        return new Stats(8, 16, 120);
+        return new Stats(4, 8, 120);
     }
 
     //    @Contract(value = " -> new", pure = true)
@@ -48,7 +48,7 @@ public class Stats {
 
     //    @Contract(value = " -> new", pure = true)
     public static Stats magicianStats() {
-        return new Stats(6, 5, 90);
+        return new Stats(7, 5, 90);
     }
 
     //    @Contract(value = "_ -> new", pure = true)

@@ -37,7 +37,7 @@ public class Battle {
             if (contenders[1].getIsAlive()) {
                 contenders[1].attackEnemy(contenders[0]);
             }
-//            TimerSimulator.Sleep(50);
+//            TimerSimulator.Sleep(100);
         }
     }
 
