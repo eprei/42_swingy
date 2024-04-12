@@ -12,4 +12,4 @@ services:
     volumes:
       - "./.data/db:/var/lib/mysql"
     env_file:
-      - .env
+      - env.env
