@@ -2,7 +2,7 @@ package ch._42lausanne.swingy.model.builders;
 
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.model.game.Stats;
 import lombok.Getter;
 
@@ -28,7 +28,7 @@ public class WarriorBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildType() {
-        warrior.setType(ObjectType.WARRIOR);
+        warrior.setType(ObjectTypeEnum.WARRIOR);
         return this;
     }
 

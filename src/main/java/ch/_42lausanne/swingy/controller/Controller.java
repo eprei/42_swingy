@@ -3,7 +3,7 @@ package ch._42lausanne.swingy.controller;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.view.console.ConsoleViewer;
 import ch._42lausanne.swingy.view.gui.GuiViewer;
 
@@ -16,7 +16,7 @@ public interface Controller {
 
     void startHeroCreation();
 
-    void createHero(String heroName, ObjectType heroType);
+    void createHero(String heroName, ObjectTypeEnum heroType);
 
     void handleMovement(Direction direction);
 

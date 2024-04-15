@@ -4,7 +4,7 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Map;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -182,13 +182,13 @@ public class UserMessages {
         return message;
     }
 
-    public static String printLevelUp(ObjectType type, String name, int level) {
+    public static String printLevelUp(ObjectTypeEnum type, String name, int level) {
         String message = LEVEL_UP[0] + type + " " + name + LEVEL_UP[1] + level + ".";
         System.out.println(message);
         return message;
     }
 
-    public static String printExeriencieGained(ObjectType type, String name, int experienceGained) {
+    public static String printExeriencieGained(ObjectTypeEnum type, String name, int experienceGained) {
         String message = type + " " + ConsoleColors.GREEN + name + ConsoleColors.RESET + EXPERIENCE_GAINED[0] + experienceGained + EXPERIENCE_GAINED[1] + ".";
         System.out.println(message);
         return message;

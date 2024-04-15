@@ -5,18 +5,16 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.game.Direction;
 import ch._42lausanne.swingy.model.game.Game;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.view.validator.*;
+import ch._42lausanne.swingy.view.viewer.BaseViewer;
 import ch._42lausanne.swingy.view.viewer.UserInputValidator;
-import ch._42lausanne.swingy.view.viewer.ViewerImpl;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component("consoleViewer")
-public class ConsoleViewer extends ViewerImpl {
-    public static boolean bannerHasBeenShowed = false;
+public class ConsoleViewer extends BaseViewer {
+    public static boolean welcomeBannerHasBeenShowed = false;
     private final UserInputValidator userInputValidator;
 
     @Autowired
@@ -37,7 +35,7 @@ public class ConsoleViewer extends ViewerImpl {
         }
 
         UserMessages.printWelcome();
-        String userInput = userInputValidator.getUserInput(WelcomeUserInput.class);
+        String userInput = userInputValidator.getAndValidateConsoleInput(WelcomeUserInput.class);
 
         switch (userInput) {
             case "c" -> controller.startHeroCreation();
@@ -46,21 +44,21 @@ public class ConsoleViewer extends ViewerImpl {
     }
 
     private void printBanner() {
-        if (!bannerHasBeenShowed) {
+        if (!welcomeBannerHasBeenShowed) {
             UserMessages.printBanner();
-            bannerHasBeenShowed = true;
+            welcomeBannerHasBeenShowed = true;
         }
     }
 
     @Override
     public void createHeroView() {
         UserMessages.printChoseHeroName();
-        String heroName = userInputValidator.getUserInput(HeroNameUserInput.class);
+        String heroName = userInputValidator.getAndValidateConsoleInput(HeroNameUserInput.class);
 
         UserMessages.printChoseHeroType();
-        String chosenHeroType = userInputValidator.getUserInput(HeroTypeUserInput.class);
+        String chosenHeroType = userInputValidator.getAndValidateConsoleInput(HeroTypeUserInput.class);
 
-        ObjectType heroType = Character.getHeroType(chosenHeroType.toLowerCase());
+        ObjectTypeEnum heroType = Character.getHeroType(chosenHeroType.toLowerCase());
 
         controller.createHero(heroName, heroType);
 
@@ -71,7 +69,7 @@ public class ConsoleViewer extends ViewerImpl {
         String chosenHeroIndex;
         do {
             UserMessages.printAvailableHeroes(controller.getHeroes());
-            chosenHeroIndex = userInputValidator.getUserInput(HeroIndexUserInput.class);
+            chosenHeroIndex = userInputValidator.getAndValidateConsoleInput(HeroIndexUserInput.class);
         } while (controller.getHeroes().size() <= Integer.parseInt(chosenHeroIndex)
                 || Integer.parseInt(chosenHeroIndex) < 0);
 
@@ -83,7 +81,7 @@ public class ConsoleViewer extends ViewerImpl {
         controller.printMap();
 
         UserMessages.printMovementInstructions();
-        String direction = userInputValidator.getUserInput(DirectionUserInput.class);
+        String direction = userInputValidator.getAndValidateConsoleInput(DirectionUserInput.class);
 
         switch (direction.toLowerCase()) {
             case "w" -> controller.handleMovement(Direction.NORTH);
@@ -97,7 +95,7 @@ public class ConsoleViewer extends ViewerImpl {
     public void fightOrRunView() {
         UserMessages.printFightOrRun(controller.getVillain());
 
-        String userChoice = userInputValidator.getUserInput(FightOrRunUserInput.class);
+        String userChoice = userInputValidator.getAndValidateConsoleInput(FightOrRunUserInput.class);
 
         switch (userChoice) {
             case "f" -> controller.fightBattle(true);
@@ -114,7 +112,7 @@ public class ConsoleViewer extends ViewerImpl {
     @Override
     public void runFailedView() {
         UserMessages.printRunFailed();
-        userInputValidator.getUserInput(AnyKeyIsValidUserInput.class);
+        userInputValidator.getAndValidateConsoleInput(AnyKeyIsValidUserInput.class);
         controller.fightBattle(false);
     }
 
@@ -133,7 +131,7 @@ public class ConsoleViewer extends ViewerImpl {
         Artifact artifact = controller.getDroppedArtifact();
 
         UserMessages.printDroppedArtifact(artifact);
-        String userChoice = userInputValidator.getUserInput(ArtifactDroppedUserInput.class);
+        String userChoice = userInputValidator.getAndValidateConsoleInput(ArtifactDroppedUserInput.class);
 
         switch (userChoice) {
             case "k" -> controller.keepArtifact();
@@ -150,7 +148,7 @@ public class ConsoleViewer extends ViewerImpl {
     @Override
     public void winGameView() {
         UserMessages.printYouWinTheGame();
-        userInputValidator.getUserInput(AnyKeyIsValidUserInput.class);
+        userInputValidator.getAndValidateConsoleInput(AnyKeyIsValidUserInput.class);
         controller.goToWelcomeWindow();
     }
 

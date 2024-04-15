@@ -1,7 +1,7 @@
 package ch._42lausanne.swingy.model.characters;
 
 import ch._42lausanne.swingy.model.artifacts.Artifact;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.model.game.Stats;
 import ch._42lausanne.swingy.model.util.RandomnessGenerator;
 import ch._42lausanne.swingy.view.console.ConsoleColors;
@@ -14,7 +14,7 @@ import java.awt.*;
 @Data
 public class Character {
     protected String name;
-    protected ObjectType type;
+    protected ObjectTypeEnum type;
     protected Dimension position;
     protected Boolean isAlive = true;
     protected int level;
@@ -28,12 +28,12 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public static ObjectType getHeroType(String usersChoiceOfHero) {
+    public static ObjectTypeEnum getHeroType(String usersChoiceOfHero) {
         return switch (usersChoiceOfHero) {
-            case "a" -> ObjectType.ARCHER;
-            case "b" -> ObjectType.BLACKSMITH;
-            case "w" -> ObjectType.WARRIOR;
-            case "m" -> ObjectType.MAGICIAN;
+            case "a" -> ObjectTypeEnum.ARCHER;
+            case "b" -> ObjectTypeEnum.BLACKSMITH;
+            case "w" -> ObjectTypeEnum.WARRIOR;
+            case "m" -> ObjectTypeEnum.MAGICIAN;
             default -> throw new IllegalStateException("Unexpected value: " + usersChoiceOfHero);
         };
     }

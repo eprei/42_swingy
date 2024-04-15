@@ -7,8 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import javax.swing.*;
+
 @SpringBootApplication
 public class Application {
+    private static final JFrame frame = new JFrame();
     private static String selectedViewer;
 
     public static void main(String[] args) {
@@ -16,7 +19,6 @@ public class Application {
             UserMessages.printUsage();
             return;
         }
-
         startGame(args);
     }
 

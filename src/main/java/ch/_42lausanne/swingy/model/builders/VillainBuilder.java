@@ -1,7 +1,7 @@
 package ch._42lausanne.swingy.model.builders;
 
 import ch._42lausanne.swingy.model.characters.Character;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.model.game.Stats;
 
 public class VillainBuilder implements CharacterBuilder {
@@ -25,7 +25,7 @@ public class VillainBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildType() {
-        villain.setType(ObjectType.VILLAIN);
+        villain.setType(ObjectTypeEnum.VILLAIN);
         return this;
     }
 

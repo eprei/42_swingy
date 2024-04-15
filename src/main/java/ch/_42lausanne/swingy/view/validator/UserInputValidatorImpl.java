@@ -26,7 +26,7 @@ public class UserInputValidatorImpl implements UserInputValidator {
     }
 
     @Override
-    public String getUserInput(Class<?> clazz) {
+    public String getAndValidateConsoleInput(Class<?> clazz) {
         String userInput = null;
         boolean validInput = false;
         Constructor<?> constructor;
@@ -49,5 +49,20 @@ public class UserInputValidatorImpl implements UserInputValidator {
         }
 
         return userInput;
+    }
+
+    @Override
+    public boolean validateGuiInput(String guiInput, Class<?> clazz) {
+        Constructor<?> constructor;
+
+        try {
+            constructor = clazz.getConstructor(String.class);
+            Object inputToValidate = constructor.newInstance(guiInput);
+            Set<ConstraintViolation<Object>> constraintViolations = validator.validate(inputToValidate);
+            return constraintViolations.isEmpty();
+        } catch (Exception e) {
+            log.error(String.valueOf(e));
+            return false;
+        }
     }
 }

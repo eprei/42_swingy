@@ -1,5 +1,7 @@
 package ch._42lausanne.swingy.view.viewer;
 
 public interface UserInputValidator {
-    String getUserInput(Class<?> clazz);
+    String getAndValidateConsoleInput(Class<?> clazz);
+
+    boolean validateGuiInput(String guiInput, Class<?> clazz);
 }

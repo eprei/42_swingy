@@ -67,7 +67,7 @@ public class Map implements MoveHero {
             for (int j = 0; j < mapSize.getHeight(); j++) {
                 if (i == 0 || i == mapSize.getHeight() - 1
                         || j == 0 || j == mapSize.getWidth() - 1) {
-                    mapGrid[i][j] = ObjectType.VILLAIN.ordinal();
+                    mapGrid[i][j] = ObjectTypeEnum.VILLAIN.ordinal();
                     buildVillains();
                     villainsToPlace--;
                 }
@@ -79,8 +79,8 @@ public class Map implements MoveHero {
             Random random = new Random();
             int x = random.nextInt((int) mapSize.getHeight());
             int y = random.nextInt((int) mapSize.getWidth());
-            if (mapGrid[x][y] == ObjectType.EMPTY_SPACE.ordinal()) {
-                mapGrid[x][y] = ObjectType.VILLAIN.ordinal();
+            if (mapGrid[x][y] == ObjectTypeEnum.EMPTY_SPACE.ordinal()) {
+                mapGrid[x][y] = ObjectTypeEnum.VILLAIN.ordinal();
                 buildVillains();
                 villainsToPlace--;
             }
@@ -121,7 +121,7 @@ public class Map implements MoveHero {
 
         for (int i = 0; i < mapSize.getHeight(); i++) {
             for (int j = 0; j < mapSize.getWidth(); j++) {
-                mapGrid[i][j] = ObjectType.EMPTY_SPACE.ordinal();
+                mapGrid[i][j] = ObjectTypeEnum.EMPTY_SPACE.ordinal();
             }
         }
     }
@@ -164,7 +164,7 @@ public class Map implements MoveHero {
     }
 
     private void moveHeroToEmptySquare(int oldWidth, int oldHeight, int newWidth, int newHeight) {
-        mapGrid[oldWidth][oldHeight] = ObjectType.EMPTY_SPACE.ordinal();
+        mapGrid[oldWidth][oldHeight] = ObjectTypeEnum.EMPTY_SPACE.ordinal();
         mapGrid[newWidth][newHeight] = hero.getType().ordinal();
         hero.setPosition(new Dimension(newWidth, newHeight));
     }
@@ -176,7 +176,7 @@ public class Map implements MoveHero {
     }
 
     private void checkVillains(int newWidth, int newHeight) {
-        if (mapGrid[newWidth][newHeight] == ObjectType.VILLAIN.ordinal()) {
+        if (mapGrid[newWidth][newHeight] == ObjectTypeEnum.VILLAIN.ordinal()) {
             battle = new Battle(hero, villains, newWidth, newHeight);
             game.setPhase(Game.Phase.FIGHT_OR_RUN);
         }
@@ -219,7 +219,7 @@ public class Map implements MoveHero {
         int newWidth = battle.getBattleCoordinates().width;
         int newHeight = battle.getBattleCoordinates().height;
 
-        mapGrid[oldWidth][oldHeight] = ObjectType.EMPTY_SPACE.ordinal();
+        mapGrid[oldWidth][oldHeight] = ObjectTypeEnum.EMPTY_SPACE.ordinal();
         mapGrid[newWidth][newHeight] = hero.getType().ordinal();
         hero.setPosition(new Dimension(newWidth, newHeight));
     }

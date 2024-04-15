@@ -1,6 +1,6 @@
 package ch._42lausanne.swingy.model.game;
 
-public enum ObjectType {
+public enum ObjectTypeEnum {
     EMPTY_SPACE,
     ARCHER,
     BLACKSMITH,

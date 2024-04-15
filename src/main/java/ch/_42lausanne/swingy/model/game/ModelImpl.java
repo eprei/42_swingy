@@ -106,7 +106,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void createNewHero(String heroName, ObjectType heroType) {
+    public void createNewHero(String heroName, ObjectTypeEnum heroType) {
         switch (heroType) {
             case ARCHER -> builderDirector.setCharacterBuilder(new ArcherBuilder());
             case BLACKSMITH -> builderDirector.setCharacterBuilder(new BlackSmithBuilder());

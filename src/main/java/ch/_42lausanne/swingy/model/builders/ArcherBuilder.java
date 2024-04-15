@@ -2,7 +2,7 @@ package ch._42lausanne.swingy.model.builders;
 
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
-import ch._42lausanne.swingy.model.game.ObjectType;
+import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.model.game.Stats;
 
 public class ArcherBuilder implements CharacterBuilder {
@@ -26,7 +26,7 @@ public class ArcherBuilder implements CharacterBuilder {
 
     @Override
     public CharacterBuilder buildType() {
-        archer.setType(ObjectType.ARCHER);
+        archer.setType(ObjectTypeEnum.ARCHER);
         return this;
     }
 

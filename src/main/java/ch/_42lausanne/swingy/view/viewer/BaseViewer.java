@@ -2,14 +2,12 @@ package ch._42lausanne.swingy.view.viewer;
 
 import ch._42lausanne.swingy.controller.Controller;
 import ch._42lausanne.swingy.model.game.Game;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-public abstract class ViewerImpl implements Viewer {
+public abstract class BaseViewer implements Viewer {
     protected Controller controller;
     protected Game game;
 
-    public ViewerImpl() {
+    public BaseViewer() {
     }
 
     @Override

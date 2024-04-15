@@ -64,3 +64,5 @@ replay_pid*
 
 #Datbase
 db/.data/
+
+*.env

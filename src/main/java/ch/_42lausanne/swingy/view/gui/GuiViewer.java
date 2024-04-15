@@ -1,24 +1,29 @@
 package ch._42lausanne.swingy.view.gui;
 
 import ch._42lausanne.swingy.controller.Controller;
-import ch._42lausanne.swingy.view.viewer.ViewerImpl;
-import lombok.extern.slf4j.Slf4j;
+import ch._42lausanne.swingy.model.game.Game;
+import ch._42lausanne.swingy.view.SwingUi;
+import ch._42lausanne.swingy.view.viewer.BaseViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component("guiViewer")
-public class GuiViewer extends ViewerImpl {
+public class GuiViewer extends BaseViewer {
+    public static boolean welcomeBannerHasBeenShowed = false;
+    private final SwingUi swingUi;
+
 
     @Autowired
-    public GuiViewer(Controller controller) {
+    public GuiViewer(Controller controller, Game game, SwingUi swingUi) {
+        this.swingUi = swingUi;
         this.controller = controller;
         this.controller.setGuiViewer(this);
+        this.game = game;
     }
 
     @Override
     public void welcomeView() {
-
+        swingUi.enableWelcomeView();
     }
 
     @Override

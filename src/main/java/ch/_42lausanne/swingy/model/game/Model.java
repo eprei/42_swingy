@@ -27,7 +27,7 @@ public interface Model {
 
     void tryToRunFromBattle();
 
-    void createNewHero(String heroName, ObjectType heroType);
+    void createNewHero(String heroName, ObjectTypeEnum heroType);
 
     void createNextMap();
 
