@@ -32,4 +32,6 @@ public interface Model {
     void createNextMap();
 
     void goToNextMap();
+
+    Map getMap();
 }

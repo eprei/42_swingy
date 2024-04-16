@@ -27,6 +27,7 @@ public class Map implements MoveHero {
     private final Game game;
     private Hero hero;
     private Dimension mapSize;
+    @Getter
     private int[][] mapGrid;
     private List<Character> villains;
     private Battle battle;

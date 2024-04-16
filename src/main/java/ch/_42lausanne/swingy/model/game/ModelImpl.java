@@ -135,4 +135,9 @@ public class ModelImpl implements Model {
             game.setPhase(Game.Phase.MAP);
         }
     }
+
+    @Override
+    public Map getMap() {
+        return map;
+    }
 }

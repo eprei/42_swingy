@@ -37,4 +37,37 @@ public class Application {
         return selectedViewer.equals(Viewer.CONSOLE_VIEW) || selectedViewer.equals(Viewer.GUI_VIEW);
     }
 }
-
+//
+//@SpringBootApplication
+//public class Application {
+//    private static final JFrame frame = new JFrame();
+//
+//
+//    private final ConfigurableApplicationContext context;
+//    private final Controller controller;
+//    private final String selectedViewer;
+//
+//    public Application(ConfigurableApplicationContext context, Controller controller) {
+//        this.context = context;
+//        this.controller = controller;
+//        String viewerArg = "gui";
+//        if (viewerArg == null || !viewerArg.equalsIgnoreCase(Viewer.CONSOLE_VIEW) && !viewerArg.equalsIgnoreCase(Viewer.GUI_VIEW)) {
+//            System.out.println("Invalid viewer type. Using default: " + Viewer.CONSOLE_VIEW);
+//            viewerArg = Viewer.CONSOLE_VIEW;
+//        }
+//        this.selectedViewer = viewerArg;
+//
+//    }
+//
+//    public static void main(String[] args) {
+//        SpringApplication.run(Application.class, args);
+//    }
+//
+//    @Bean
+//    public CommandLineRunner runApplication() {
+//        controller.setActiveViewer(selectedViewer);
+//        controller.runApplication();
+//        return args -> {
+//        };
+//    }
+//}
