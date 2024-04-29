@@ -3,28 +3,29 @@ package ch._42lausanne.swingy.model.characters;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.view.console.ConsoleColors;
-import ch._42lausanne.swingy.view.console.UserMessages;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "HERO")
 public class Hero extends Character {
+    private int experienceGained;
+    private boolean leveledUp = false;
 
     public void gainExperience(Character villain) {
         gainExperienceFromVillain(villain);
         updateHeroLevel();
-        System.out.printf(this.toString());
     }
 
     private void gainExperienceFromVillain(Character villain) {
-        int experienceGained = villain.getStrength() * 60;
+        experienceGained = villain.getStrength() * 60;
         experience += experienceGained;
-        UserMessages.printExeriencieGained(type, name, experienceGained);
     }
 
     private void updateHeroLevel() {
@@ -38,7 +39,7 @@ public class Hero extends Character {
 
         if (this.level < actualLevel) {
             this.level = actualLevel;
-            UserMessages.printLevelUp(type, name, this.level);
+            leveledUp = true;
         }
     }
 
@@ -86,6 +87,12 @@ public class Hero extends Character {
         if (artifact.getType() == ArtifactType.HELM) {
             stats.setHitPoints(this.stats.getHitPoints() + artifact.getStats().getHitPoints());
         }
+    }
+
+    public boolean isLeveledUp() {
+        boolean tmp = leveledUp;
+        leveledUp = false;
+        return tmp;
     }
 
 }

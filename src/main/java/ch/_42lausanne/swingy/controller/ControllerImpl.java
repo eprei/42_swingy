@@ -64,6 +64,11 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
+    public Hero getActiveHero() {
+        return model.getMap().getHero();
+    }
+
+    @Override
     public void tryToRunFromBattle() {
         model.tryToRunFromBattle();
         activeViewer.updateView();

@@ -5,7 +5,6 @@ import ch._42lausanne.swingy.model.builders.*;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.util.RandomnessGenerator;
 import ch._42lausanne.swingy.service.HeroService;
-import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -70,7 +69,6 @@ public class ModelImpl implements Model {
     @Override
     public void selectHero(int heroIndex) {
         hero = heroService.findAll().get(heroIndex);
-        UserMessages.printHeroChoice(hero.getName());
         Map.setMapId(0);
         map = new Map(this);
     }
@@ -92,7 +90,6 @@ public class ModelImpl implements Model {
     public void keepArtifact() {
         Artifact dropedArtifact = map.getBattle().getDroppedArtifact();
         hero.setArtifact(dropedArtifact);
-        UserMessages.printArtifactKept(dropedArtifact.getType());
     }
 
     @Override
@@ -117,7 +114,6 @@ public class ModelImpl implements Model {
         builderDirector.buildCharacter(heroName);
         Hero newHero = (Hero) builderDirector.getCharacter();
         heroService.save(newHero);
-        UserMessages.printHeroSuccessfullyCreated(newHero);
     }
 
     @Override

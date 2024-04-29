@@ -23,6 +23,8 @@ public interface Controller {
 
     void selectHero();
 
+    Hero getActiveHero();
+
     void tryToRunFromBattle();
 
     void continueTheAdventure();

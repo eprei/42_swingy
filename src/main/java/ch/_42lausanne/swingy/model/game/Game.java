@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class Game {
+    // CONFIGURABLE
+    @Getter
+    private static final boolean _verbose = false;
     private Phase phase;
 
     public Game() {

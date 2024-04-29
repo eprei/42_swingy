@@ -5,7 +5,6 @@ import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.util.NameGenerator;
 import ch._42lausanne.swingy.view.console.ConsoleColors;
-import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +16,7 @@ import java.util.Random;
 
 @Data
 public class Map implements MoveHero {
+    // CONFIGURABLE
     @Getter
     private static final int FINAL_MAP = 1;
     private static final double VILLAIN_SPREAD_COEFFICIENT = (double) 1 / 1.4;
@@ -46,7 +46,7 @@ public class Map implements MoveHero {
         populateMapWithVillains();
         setHeroPosition();
         hero.restartHp();
-        UserMessages.printMapCreated(mapId);
+//        UserMessages.printMapCreated(mapId);
     }
 
     public boolean maximumLevelReached() {

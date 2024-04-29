@@ -1,14 +1,13 @@
 package ch._42lausanne.swingy.view.console;
 
 import ch._42lausanne.swingy.model.artifacts.Artifact;
-import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-// TODO Refactor: See how to universalize this class
 public class UserMessages {
     public static final String PRESS_ENTER = "Press enter to start the battle:";
     private static final String USAGE = """
@@ -52,34 +51,29 @@ public class UserMessages {
             "Your skills have led you to triumph!",
     };
     private static final String[] YOU_LOSE_THE_BATTLE = new String[]{
-            "Oh no! You have been defeated in battle! Better luck next time!",
-            "Your enemies have overwhelmed you. Seek your revenge!",
+            "You have been defeated! Better luck next time!",
+            "Your enemies have overwhelmed you.",
             "You have fallen in battle. Your quest is over.",
             "Better luck next time, brave warrior!"
     };
     private static final String[] YOU_WIN_THE_MAP = new String[]{
-            "Congratulations! You have explored the entire map!\n",
-            "You have uncovered all the secrets of the map and emerged victorious!\n",
-            "Your journey across the map is complete. You are a master explorer!\n",
+            "Congratulations! You have explored the entire map!",
+            "You have uncovered all the secrets of the map and emerged victorious!",
+            "Your journey across the map is complete. You are a master explorer!",
     };
-    private static final String GET_READY_FOR_THE_NEXT_MAP = "Get ready for the next one";
-    private static final String YOU_WIN_THE_GAME = "You have conquered the last Map, you have won the game!";
-    private static final String[] YOU_LOSE_THE_GAME = new String[]{
-            "The game is over, and you have lost.",
-            "You have failed to complete the game.",
-            "You have succumbed to the challenges of the game.",
-            "Your journey has come to an end in defeat.",
-            "Better luck next time!"
-    };
+    @Getter
+    private static final String YOU_WIN_THE_GAME = "You have won the game!";
+    @Getter
     private static final String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
+    @Getter
     private static final String RUN_FAILED = "The enemy is closing in! You must fight or die!";
     private static final String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
-    private static final String[] ARTIFACT_KEPT = {"The" + ConsoleColors.BLUE_UNDERLINED + " ARTIFACT " + ConsoleColors.RESET, " has been kept\n"};
+    private static final String[] ARTIFACT_KEPT = {"The " + ConsoleColors.BLUE_UNDERLINED + "ARTIFACT" + ConsoleColors.RESET, " has been kept\n"};
     private static final String[] DROPPED_ARTIFACT = {"You have found an" + ConsoleColors.PURPLE + " ARTIFACT\n" + ConsoleColors.RESET,
             "You can " + ConsoleColors.BLUE_UNDERLINED + "keep it"
                     + ConsoleColors.RESET + " (k) or " + ConsoleColors.BLUE_UNDERLINED +
                     "leave it" + ConsoleColors.RESET + " (l)"};
-    private static final String[] EXPERIENCE_GAINED = {" has " + ConsoleColors.YELLOW + "gained " + ConsoleColors.RESET, " points of experience (XP)"};
+    private static final String[] EXPERIENCE_GAINED = {" has gained ", " points of experience (XP)"};
     private static final String SELECT_HERO = ConsoleColors.BLUE_UNDERLINED +
             "Select one of the heroes shown above by entering its" + ConsoleColors.RESET + " id:\n";
     private static final String CHOSE_HERO_TYPE = ConsoleColors.BLUE_UNDERLINED +
@@ -105,105 +99,95 @@ public class UserMessages {
     };
     private static final String[] HERO_CHOICE = {"You have chosen " + ConsoleColors.GREEN, ConsoleColors.RESET + ". May the force be with you!\n"};
 
-    public static String printBanner() {
+    public static void printBanner() {
         System.out.println(BANNER);
-        return BANNER;
     }
 
-    public static String printUsage() {
+    public static void printUsage() {
         System.out.println(USAGE);
-        return USAGE;
     }
 
-    public static String printMovementInstructions() {
+    public static void printMovementInstructions() {
         System.out.println(MOVEMENT_INSTRUCTIONS);
-        return MOVEMENT_INSTRUCTIONS;
     }
 
-    public static String printFightOrRun(String villainInfos) {
+    public static void printFightOrRun(String villainInfos) {
         String message = FIGHT_OR_RUN[0] + villainInfos + FIGHT_OR_RUN[1];
         System.out.println(message);
-        return message;
     }
 
-    public static String printYouWinTheBattle() {
+    public static void printYouWinTheBattle() {
         String message = YOU_WIN_THE_BATTLE[randomSeeds[1]++ % YOU_WIN_THE_BATTLE.length];
         System.out.println(message);
-        return message;
     }
 
-    public static String printYouLoseTheBattle() {
+    public static String getYOU_WIN_THE_BATTLE() {
+        return YOU_WIN_THE_BATTLE[randomSeeds[1]++ % YOU_WIN_THE_BATTLE.length];
+    }
+
+    public static void printYouLoseTheBattle() {
         String message = YOU_LOSE_THE_BATTLE[randomSeeds[2]++ % YOU_LOSE_THE_BATTLE.length];
         System.out.println(message);
-        return message;
     }
 
-    public static String printYouWinTheMap() {
+    public static String getYOU_LOSE_THE_BATTLE() {
+        return YOU_LOSE_THE_BATTLE[randomSeeds[2]++ % YOU_LOSE_THE_BATTLE.length];
+    }
+
+    public static void printYouWinTheMap() {
         String message = YOU_WIN_THE_MAP[randomSeeds[3]++ % YOU_WIN_THE_MAP.length];
         System.out.println(message);
-        return message;
     }
 
-    public static String printGetReadyForTheNextMap() {
-        String message = GET_READY_FOR_THE_NEXT_MAP;
-        System.out.println(message);
-        return message;
+    public static String getYOU_WIN_THE_MAP() {
+        return YOU_WIN_THE_MAP[randomSeeds[3]++ % YOU_WIN_THE_MAP.length];
     }
 
-    public static String printYouWinTheGame() {
-        String message = YOU_WIN_THE_GAME;
-        System.out.println(message);
-        return message;
+    public static void printYouWinTheGame() {
+        System.out.println(YOU_WIN_THE_GAME);
     }
 
-    public static String printLoseGame() {
-        String message = YOU_LOSE_THE_GAME[randomSeeds[5]++ % YOU_LOSE_THE_GAME.length];
-        System.out.println(message);
-        return message;
-    }
-
-    public static String printDroppedArtifact(Artifact artifact) {
+    public static void printDroppedArtifact(Artifact artifact) {
         String message = DROPPED_ARTIFACT[0] + artifact + DROPPED_ARTIFACT[1];
         System.out.println(message);
-        return message;
     }
 
-    public static String printArtifactKept(ArtifactType type) {
-        String message = ARTIFACT_KEPT[0] + type + ARTIFACT_KEPT[1];
+    public static void printArtifactKept(Artifact artifact) {
+        String message = ARTIFACT_KEPT[0] + " " + artifact.getType() + ARTIFACT_KEPT[1];
         System.out.println(message);
-        return message;
     }
 
-    public static String printLevelUp(ObjectTypeEnum type, String name, int level) {
-        String message = LEVEL_UP[0] + type + " " + name + LEVEL_UP[1] + level + ".";
+    public static void printLevelUp(Hero hero) {
+        String message = LEVEL_UP[0] + hero.getType() + " " + ConsoleColors.GREEN + hero.getName() +
+                ConsoleColors.RESET + LEVEL_UP[1] + ConsoleColors.YELLOW + hero.getLevel() + ConsoleColors.RESET + ".";
         System.out.println(message);
-        return message;
     }
 
-    public static String printExeriencieGained(ObjectTypeEnum type, String name, int experienceGained) {
-        String message = type + " " + ConsoleColors.GREEN + name + ConsoleColors.RESET + EXPERIENCE_GAINED[0] + experienceGained + EXPERIENCE_GAINED[1] + ".";
+    public static String[] getLevelUp(Hero hero) {
+        return new String[]{LEVEL_UP[0] + hero.getType() + " " + hero.getName(), LEVEL_UP[1] + hero.getLevel() + "."};
+    }
+
+    public static void printExperienceGained(Hero hero) {
+        String message = hero.getType() + " " + ConsoleColors.GREEN + hero.getName() +
+                ConsoleColors.RESET + EXPERIENCE_GAINED[0] + ConsoleColors.YELLOW +
+                hero.getExperienceGained() + ConsoleColors.RESET + EXPERIENCE_GAINED[1] + ".";
         System.out.println(message);
-        return message;
     }
 
-    public static String printRunSuccessful() {
+    public static void printRunSuccessful() {
         System.out.println(RUN_SUCCESSFUL);
-        return RUN_SUCCESSFUL;
     }
 
-    public static String printRunFailed() {
+    public static void printRunFailed() {
         System.out.println(RUN_FAILED);
-        return RUN_FAILED;
     }
 
-    public static String printPressEnter() {
+    public static void printPressEnter() {
         System.out.println(PRESS_ENTER);
-        return PRESS_ENTER;
     }
 
-    public static String printWelcome() {
+    public static void printWelcome() {
         System.out.println(WELCOME);
-        return WELCOME;
     }
 
     public static void printAvailableHeroes(List<Hero> heroes) {
@@ -212,36 +196,30 @@ public class UserMessages {
         System.out.print(SELECT_HERO);
     }
 
-    public static String printChoseHeroType() {
+    public static void printChoseHeroType() {
         System.out.println(CHOSE_HERO_TYPE);
-        return CHOSE_HERO_TYPE;
     }
 
-    public static String printChoseHeroName() {
+    public static void printChoseHeroName() {
         System.out.println(CHOSE_HERO_NAME);
-        return CHOSE_HERO_NAME;
     }
 
-    public static String printNoHeroFound() {
+    public static void printNoHeroFound() {
         System.out.println(NO_HERO_FOUND);
-        return NO_HERO_FOUND;
     }
 
-    public static String printHeroSuccessfullyCreated(Hero hero) {
-        String message = ConsoleColors.GREEN + hero.getName() + ConsoleColors.RESET + " the " + hero.getType() + " " + HERO_SUCCESSFULLY_CREATED;
+    public static void printHeroSuccessfullyCreated(String name, ObjectTypeEnum type) {
+        String message = ConsoleColors.GREEN + name + ConsoleColors.RESET + " the " + type + " " + HERO_SUCCESSFULLY_CREATED;
         System.out.println(message);
-        return message;
     }
 
-    public static String printMapCreated(int mapId) {
+    public static void printMapHeader(int mapId) {
         String message = NEW_MAP[0] + mapId + NEW_MAP[1];
         System.out.println(message);
-        return message;
     }
 
-    public static String printHeroChoice(String name) {
+    public static void printHeroChoice(String name) {
         String message = HERO_CHOICE[0] + name + HERO_CHOICE[1];
         System.out.println(message);
-        return message;
     }
 }

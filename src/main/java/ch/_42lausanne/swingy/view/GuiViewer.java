@@ -74,6 +74,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     private JButton btnStartUnwantedBattle;
     private JButton btnOkGoNextMap;
     private JButton btnGoToWelcomeWindow;
+    private JLabel lblLvlUp1;
+    private JLabel lblLvlUp2;
     private MapPanel mapPanel;
     private boolean keyboardEnabled = true;
 
@@ -131,7 +133,6 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Refactor: setVisible(false) all unused elements to clean the main window here instead in mapView()
         if (e.getSource() == cmbHeroList) {
             showStatsOfSelectedHero();
         } else if (e.getSource() == btnCreate || e.getSource() == nameInput) {
@@ -144,6 +145,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
             controller.tryToRunFromBattle();
         } else if (e.getSource() == btnOkWinBattle) {
             singleMessagePanel.setVisible(false);
+            lblLvlUp1.setVisible(false);
+            lblLvlUp2.setVisible(false);
             controller.searchForDroppedArtifacts();
         } else if (e.getSource() == btnGoToWelcome) {
             controller.goToWelcomeWindow();
@@ -234,7 +237,7 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     @Override
     public void runSuccessfulView() {
         fightOrRunPanel.setVisible(false);
-        singleMessageLabel.setText(UserMessages.printRunSuccessful());
+        singleMessageLabel.setText(UserMessages.getRUN_SUCCESSFUL());
         singleMessageLabel.setVisible(true);
         btnStartUnwantedBattle.setVisible(false);
         btnSuccessfullyRun.setVisible(true);
@@ -245,7 +248,7 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     public void runFailedView() {
         fightOrRunPanel.setVisible(false);
         singleMessageLabel.setVisible(true);
-        singleMessageLabel.setText(UserMessages.printRunFailed());
+        singleMessageLabel.setText(UserMessages.getRUN_FAILED());
         btnSuccessfullyRun.setVisible(false);
         btnStartUnwantedBattle.setVisible(true);
         singleMessagePanel.setVisible(true);
@@ -257,7 +260,13 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         btnStartUnwantedBattle.setVisible(false);
         fightOrRunPanel.setVisible(false);
         singleMessageLabel.setVisible(true);
-        singleMessageLabel.setText(UserMessages.printYouWinTheBattle());
+        singleMessageLabel.setText(UserMessages.getYOU_WIN_THE_BATTLE());
+        if (controller.getActiveHero().isLeveledUp()) {
+            lblLvlUp1.setText(UserMessages.getLevelUp(controller.getActiveHero())[0]);
+            lblLvlUp2.setText(UserMessages.getLevelUp(controller.getActiveHero())[1]);
+            lblLvlUp1.setVisible(true);
+            lblLvlUp2.setVisible(true);
+        }
         btnOkWinBattle.setVisible(true);
         singleMessagePanel.setVisible(true);
     }
@@ -265,7 +274,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     @Override
     public void looseBattleView() {
         fightOrRunPanel.setVisible(false);
-        singleMessageLabel.setText(UserMessages.printYouLoseTheBattle());
+        btnStartUnwantedBattle.setVisible(false);
+        singleMessageLabel.setText(UserMessages.getYOU_LOSE_THE_BATTLE());
         singleMessageLabel.setVisible(true);
         btnGoToWelcome.setVisible(true);
         singleMessagePanel.setVisible(true);
@@ -296,11 +306,11 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         btnOkWinBattle.setVisible(false);
         singleMessagePanel.setVisible(true);
         if (controller.getMap().maximumLevelReached()) {
-            singleMessageLabel.setText(UserMessages.printYouWinTheGame());
+            singleMessageLabel.setText(UserMessages.getYOU_WIN_THE_GAME());
             btnGoToWelcomeWindow.setVisible(true);
             btnOkGoNextMap.setVisible(false);
         } else {
-            singleMessageLabel.setText(UserMessages.printYouWinTheMap());
+            singleMessageLabel.setText(UserMessages.getYOU_WIN_THE_MAP());
             btnGoToWelcomeWindow.setVisible(false);
             btnOkGoNextMap.setVisible(true);
         }

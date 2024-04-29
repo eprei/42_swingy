@@ -1,6 +1,7 @@
 package ch._42lausanne.swingy.model.characters;
 
 import ch._42lausanne.swingy.model.artifacts.Artifact;
+import ch._42lausanne.swingy.model.game.Game;
 import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.model.game.Stats;
 import ch._42lausanne.swingy.model.util.RandomnessGenerator;
@@ -61,9 +62,13 @@ public class Character {
 
         if (RandomnessGenerator.rollDice(0.7)) {
             enemy.takeDamage(damage);
-            System.out.println(this.name + " attacks " + enemy.getName() + " for " + damage + " damage!");
+            if (Game.is_verbose()) {
+                System.out.println(this.name + " attacks " + enemy.getName() + " for " + damage + " damage!");
+            }
         } else {
-            System.out.println(this.name + " misses his attack on " + enemy.getName());
+            if (Game.is_verbose()) {
+                System.out.println(this.name + " misses his attack on " + enemy.getName());
+            }
         }
     }
 

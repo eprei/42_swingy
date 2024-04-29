@@ -3,8 +3,10 @@ package ch._42lausanne.swingy.view.console;
 import ch._42lausanne.swingy.controller.Controller;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Character;
+import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
 import ch._42lausanne.swingy.model.game.Game;
+import ch._42lausanne.swingy.model.game.Map;
 import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 import ch._42lausanne.swingy.view.validator.*;
 import ch._42lausanne.swingy.view.viewer.BaseViewer;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component("consoleViewer")
 public class ConsoleViewer extends BaseViewer {
-    public static boolean welcomeBannerHasBeenShowed = false;
+    public static boolean welcomeBannerHasBeenShown = false;
     private final UserInputValidator userInputValidator;
 
     @Autowired
@@ -44,9 +46,9 @@ public class ConsoleViewer extends BaseViewer {
     }
 
     private void printBanner() {
-        if (!welcomeBannerHasBeenShowed) {
+        if (!welcomeBannerHasBeenShown) {
             UserMessages.printBanner();
-            welcomeBannerHasBeenShowed = true;
+            welcomeBannerHasBeenShown = true;
         }
     }
 
@@ -60,6 +62,7 @@ public class ConsoleViewer extends BaseViewer {
 
         ObjectTypeEnum heroType = Character.getHeroType(chosenHeroType.toLowerCase());
 
+        UserMessages.printHeroSuccessfullyCreated(heroName, heroType);
         controller.createHero(heroName, heroType);
     }
 
@@ -72,11 +75,13 @@ public class ConsoleViewer extends BaseViewer {
         } while (controller.getHeroes().size() <= Integer.parseInt(chosenHeroIndex)
                 || Integer.parseInt(chosenHeroIndex) < 0);
 
+        UserMessages.printHeroChoice(controller.getHeroes().get(Integer.parseInt(chosenHeroIndex)).getName());
         controller.selectHeroByIndex(chosenHeroIndex);
     }
 
     @Override
     public void mapView() {
+        UserMessages.printMapHeader(Map.getMapId());
         controller.printMap();
 
         UserMessages.printMovementInstructions();
@@ -118,11 +123,20 @@ public class ConsoleViewer extends BaseViewer {
 
     @Override
     public void winBattleView() {
+        Hero activeHero = controller.getActiveHero();
+
+        UserMessages.printYouWinTheBattle();
+        UserMessages.printExperienceGained(activeHero);
+        if (activeHero.isLeveledUp()) {
+            UserMessages.printLevelUp(activeHero);
+        }
+        System.out.print(activeHero);
         controller.searchForDroppedArtifacts();
     }
 
     @Override
     public void looseBattleView() {
+        UserMessages.printYouLoseTheBattle();
         controller.goToWelcomeWindow();
     }
 
@@ -134,7 +148,10 @@ public class ConsoleViewer extends BaseViewer {
         String userChoice = userInputValidator.getAndValidateConsoleInput(ArtifactDroppedUserInput.class);
 
         switch (userChoice) {
-            case "k" -> controller.keepArtifact();
+            case "k" -> {
+                UserMessages.printArtifactKept(controller.getDroppedArtifact());
+                controller.keepArtifact();
+            }
             case "l" -> controller.continueTheAdventure();
         }
     }

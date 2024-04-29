@@ -4,7 +4,6 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Character;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.util.RandomnessGenerator;
-import ch._42lausanne.swingy.view.console.UserMessages;
 import lombok.Getter;
 
 import java.awt.*;
@@ -37,7 +36,6 @@ public class Battle {
             if (contenders[1].getIsAlive()) {
                 contenders[1].attackEnemy(contenders[0]);
             }
-//            TimerSimulator.Sleep(100);
         }
     }
 
@@ -57,12 +55,9 @@ public class Battle {
 
     private void findWinner() {
         if (hero.getIsAlive()) {
-            UserMessages.printYouWinTheBattle();
             hero.gainExperience(villain);
             villains.remove(villain);
             dropArtifact();
-        } else {
-            UserMessages.printYouLoseTheBattle();
         }
     }
 
