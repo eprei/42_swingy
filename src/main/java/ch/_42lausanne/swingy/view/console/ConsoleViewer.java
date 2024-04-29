@@ -61,7 +61,6 @@ public class ConsoleViewer extends BaseViewer {
         ObjectTypeEnum heroType = Character.getHeroType(chosenHeroType.toLowerCase());
 
         controller.createHero(heroName, heroType);
-
     }
 
     @Override
@@ -112,6 +111,7 @@ public class ConsoleViewer extends BaseViewer {
     @Override
     public void runFailedView() {
         UserMessages.printRunFailed();
+        UserMessages.printPressEnter();
         userInputValidator.getAndValidateConsoleInput(AnyKeyIsValidUserInput.class);
         controller.fightBattle(false);
     }
@@ -148,6 +148,7 @@ public class ConsoleViewer extends BaseViewer {
     @Override
     public void winGameView() {
         UserMessages.printYouWinTheGame();
+        System.out.println("Press enter to continue");
         userInputValidator.getAndValidateConsoleInput(AnyKeyIsValidUserInput.class);
         controller.goToWelcomeWindow();
     }

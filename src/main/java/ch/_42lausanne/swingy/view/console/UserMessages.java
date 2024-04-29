@@ -3,13 +3,14 @@ package ch._42lausanne.swingy.view.console;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.artifacts.ArtifactType;
 import ch._42lausanne.swingy.model.characters.Hero;
-import ch._42lausanne.swingy.model.game.Map;
 import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// TODO Refactor: See how to universalize this class
 public class UserMessages {
+    public static final String PRESS_ENTER = "Press enter to start the battle:";
     private static final String USAGE = """
             Usage:
                     java -jar swingy.jar console
@@ -47,9 +48,8 @@ public class UserMessages {
                     (r) 🏃 Run : You will try to escape from the enemy but if you don't succeed you will have to fight him and he will attack you first."""
     };
     private static final String[] YOU_WIN_THE_BATTLE = {
-            "Congratulations! You have emerged victorious from the battle!",
-            "Your skills and bravery have led you to triumph!",
-            "You have conquered your foes and stand triumphant!"
+            "You have emerged victorious from the battle!",
+            "Your skills have led you to triumph!",
     };
     private static final String[] YOU_LOSE_THE_BATTLE = new String[]{
             "Oh no! You have been defeated in battle! Better luck next time!",
@@ -63,13 +63,7 @@ public class UserMessages {
             "Your journey across the map is complete. You are a master explorer!\n",
     };
     private static final String GET_READY_FOR_THE_NEXT_MAP = "Get ready for the next one";
-    private static final String[] YOU_WIN_THE_GAME = new String[]{
-            "Congratulations! You have conquered the last Map (",
-            """
-            ).
-            You have won the game!
-            Press enter to continue.""",
-    };
+    private static final String YOU_WIN_THE_GAME = "You have conquered the last Map, you have won the game!";
     private static final String[] YOU_LOSE_THE_GAME = new String[]{
             "The game is over, and you have lost.",
             "You have failed to complete the game.",
@@ -78,9 +72,7 @@ public class UserMessages {
             "Better luck next time!"
     };
     private static final String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
-    private static final String RUN_FAILED = """
-            The enemy is closing in! You must fight or die!
-            Press enter to start the battle:""";
+    private static final String RUN_FAILED = "The enemy is closing in! You must fight or die!";
     private static final String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
     private static final String[] ARTIFACT_KEPT = {"The" + ConsoleColors.BLUE_UNDERLINED + " ARTIFACT " + ConsoleColors.RESET, " has been kept\n"};
     private static final String[] DROPPED_ARTIFACT = {"You have found an" + ConsoleColors.PURPLE + " ARTIFACT\n" + ConsoleColors.RESET,
@@ -159,7 +151,7 @@ public class UserMessages {
     }
 
     public static String printYouWinTheGame() {
-        String message = YOU_WIN_THE_GAME[0] + Map.getFINAL_MAP() + YOU_WIN_THE_GAME[1];
+        String message = YOU_WIN_THE_GAME;
         System.out.println(message);
         return message;
     }
@@ -202,6 +194,11 @@ public class UserMessages {
     public static String printRunFailed() {
         System.out.println(RUN_FAILED);
         return RUN_FAILED;
+    }
+
+    public static String printPressEnter() {
+        System.out.println(PRESS_ENTER);
+        return PRESS_ENTER;
     }
 
     public static String printWelcome() {
