@@ -76,6 +76,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     private JButton btnGoToWelcomeWindow;
     private JLabel lblLvlUp1;
     private JLabel lblLvlUp2;
+    private JButton btnSwitchToConsole1;
+    private JButton btnSwitchToConsole2;
     private MapPanel mapPanel;
     private boolean keyboardEnabled = true;
 
@@ -129,6 +131,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         btnStartUnwantedBattle.addActionListener(this);
         btnOkGoNextMap.addActionListener(this);
         btnGoToWelcomeWindow.addActionListener(this);
+        btnSwitchToConsole1.addActionListener(this);
+        btnSwitchToConsole2.addActionListener(this);
     }
 
     @Override
@@ -160,6 +164,9 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
             controller.goToNextMap();
         } else if (e.getSource() == btnGoToWelcomeWindow) {
             controller.goToWelcomeWindow();
+        } else if (e.getSource() == btnSwitchToConsole1 || e.getSource() == btnSwitchToConsole2) {
+            globalFrame.setVisible(false);
+            controller.switchActiveViewer();
         }
     }
 
@@ -318,6 +325,11 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
 
     @Override
     public void winGameView() {
+    }
+
+    @Override
+    public void becomeActiveViewer() {
+        globalFrame.setVisible(true);
     }
 
     @Override

@@ -54,4 +54,6 @@ public interface Controller {
     Artifact getDroppedArtifact();
 
     Map getMap();
+
+    void switchActiveViewer();
 }

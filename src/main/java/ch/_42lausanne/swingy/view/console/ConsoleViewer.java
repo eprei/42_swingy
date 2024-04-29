@@ -170,4 +170,11 @@ public class ConsoleViewer extends BaseViewer {
         controller.goToWelcomeWindow();
     }
 
+    @Override
+    public void becomeActiveViewer() {
+        welcomeBannerHasBeenShown = true;
+        System.out.println(ConsoleColors.YELLOW
+                + "View changed successfully. Now you can continue playing from the terminal."
+                + ConsoleColors.RESET);
+    }
 }

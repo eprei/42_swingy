@@ -15,7 +15,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="fe1d7" binding="welcomePanel" layout-manager="GridLayoutManager" row-count="3" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="fe1d7" binding="welcomePanel" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <card name="Card1"/>
@@ -399,9 +399,17 @@
                   </grid>
                 </constraints>
               </vspacer>
+              <component id="ccd21" class="javax.swing.JButton" binding="btnSwitchToConsole1">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Switch to console viewer"/>
+                </properties>
+              </component>
             </children>
           </grid>
-          <grid id="3885e" binding="playPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="3885e" binding="playPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <card name="Card2"/>
@@ -427,7 +435,7 @@
               </grid>
               <grid id="6d962" binding="dialogPanel" layout-manager="CardLayout" hgap="0" vgap="0">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="2" use-parent-layout="false">
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="2" use-parent-layout="false">
                     <preferred-size width="200" height="-1"/>
                   </grid>
                 </constraints>
@@ -822,6 +830,14 @@
                   </grid>
                 </children>
               </grid>
+              <component id="1e840" class="javax.swing.JButton" binding="btnSwitchToConsole2">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Switch to console viewer"/>
+                </properties>
+              </component>
             </children>
           </grid>
         </children>

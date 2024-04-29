@@ -149,4 +149,15 @@ public class ControllerImpl implements Controller {
     public Map getMap() {
         return model.getMap();
     }
+
+    @Override
+    public void switchActiveViewer() {
+        if (activeViewer == guiViewer) {
+            activeViewer = consoleViewer;
+        } else if (activeViewer == consoleViewer) {
+            activeViewer = guiViewer;
+        }
+        activeViewer.becomeActiveViewer();
+        activeViewer.updateView();
+    }
 }

@@ -30,4 +30,6 @@ public interface Viewer {
 
     void winGameView();
 
+    void becomeActiveViewer();
+
 }
