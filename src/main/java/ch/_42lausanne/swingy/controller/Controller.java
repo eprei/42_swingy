@@ -5,8 +5,8 @@ import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.Direction;
 import ch._42lausanne.swingy.model.game.Map;
 import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
-import ch._42lausanne.swingy.view.GuiViewer;
 import ch._42lausanne.swingy.view.console.ConsoleViewer;
+import ch._42lausanne.swingy.view.gui.GuiViewer;
 
 import java.util.List;
 

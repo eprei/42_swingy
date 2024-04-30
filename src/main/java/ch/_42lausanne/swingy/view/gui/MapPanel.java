@@ -1,4 +1,4 @@
-package ch._42lausanne.swingy.view;
+package ch._42lausanne.swingy.view.gui;
 
 import ch._42lausanne.swingy.model.game.Map;
 import lombok.Setter;
