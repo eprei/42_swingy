@@ -89,23 +89,27 @@ public class Map implements MoveHero {
     }
 
     private void buildVillains() {
-        // TODO vary stats of the villains
         model.getBuilderDirector().setCharacterBuilder(new VillainBuilder());
         model.getBuilderDirector().buildCharacter(NameGenerator.generateRandomName());
         Character villain = model.getBuilderDirector().getCharacter();
-        setVillainStats(villain);
+        varyVillainStats(villain);
         villains.add(villain);
     }
 
-    private void setVillainStats(Character villain) {
-        int enemyAttack = (int) (hero.getStats().getAttack() * VILLAIN_POWER_COEFFICIENT);
-        int enemyDefense = (int) (hero.getStats().getDefense() * VILLAIN_POWER_COEFFICIENT);
-        int enemyHitPoints = (int) (hero.getStats().getHitPoints() * VILLAIN_POWER_COEFFICIENT);
+    private void varyVillainStats(Character villain) {
+        Random random = new Random();
+        int baseEnemyAttack = (int) (hero.getStats().getAttack() * VILLAIN_POWER_COEFFICIENT);
+        int baseEnemyDefense = (int) (hero.getStats().getDefense() * VILLAIN_POWER_COEFFICIENT);
+        int baseEnemyHitPoints = (int) (hero.getStats().getHitPoints() * VILLAIN_POWER_COEFFICIENT);
 
-        Stats enemyStats = new Stats(enemyAttack, enemyDefense, enemyHitPoints);
+        int attack = baseEnemyAttack + random.nextInt(3) - 1;
+        int defense = baseEnemyDefense + random.nextInt(3) - 1;
+        int hitPoints = baseEnemyHitPoints + random.nextInt(6) - 3;
+
+        Stats enemyStats = new Stats(attack, defense, hitPoints);
 
         villain.setStats(enemyStats);
-        villain.setInitialHp(enemyHitPoints);
+        villain.setInitialHp(baseEnemyHitPoints);
     }
 
     private void setMapSize() {

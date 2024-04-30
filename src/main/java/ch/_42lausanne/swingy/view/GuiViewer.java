@@ -20,6 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+enum ViewType {
+    WELCOME, MAP, FIGHT_OR_RUN, RUN_SUCCESSFUL, RUN_FAILED, WIN_BATTLE, LOOSE_BATTLE, ARTIFACT_DROPPED, WIN_MAP,
+}
+
 @Component("guiViewer")
 public class GuiViewer extends BaseViewer implements ActionListener, KeyListener {
     private final UserInputValidator inputValidator;
@@ -77,7 +81,24 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     private JLabel lblLvlUp1;
     private JLabel lblLvlUp2;
     private JButton btnSwitchToConsole1;
+    private final JComponent[] welcomeComponents = {mainPanel, backgroundPanel, welcomePanel, createCharacterPanel,
+            btnCreate, selectCharacterPanel, btnPlay, btnSwitchToConsole1};
     private JButton btnSwitchToConsole2;
+    private final JComponent[] mapComponents = {moveInstructionsPanel, mapContainer, dialogPanel, playPanel,
+            btnSwitchToConsole2};
+    private final JComponent[] fightOrRunCompoments = {playPanel, fightOrRunPanel, fightPanel, runPanel, btnFight,
+            lblFight, btnRun, lblRun, btnSwitchToConsole2};
+    private final JComponent[] runSuccessfulComponents = {singleMessageLabel, btnSuccessfullyRun, singleMessagePanel,
+            btnSwitchToConsole2};
+    private final JComponent[] runFailedComponents = {singleMessageLabel, btnStartUnwantedBattle, singleMessagePanel,
+            btnSwitchToConsole2};
+    private final JComponent[] winBattleComponents = {singleMessageLabel, btnOkWinBattle, singleMessagePanel,
+            btnSwitchToConsole2};
+    private final JComponent[] looseBattleComponents = {singleMessageLabel, btnGoToWelcome, singleMessagePanel,
+            btnSwitchToConsole2};
+    private final JComponent[] artifactDroppedComponents = {artifactPanel, btnKeepIt, btnLeaveIt, btnSwitchToConsole2};
+    private final JComponent[] winMapComponents = {singleMessageLabel, singleMessagePanel, btnSwitchToConsole2};
+
     private MapPanel mapPanel;
     private boolean keyboardEnabled = true;
 
@@ -88,10 +109,10 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         this.controller = controller;
         this.game = game;
         this.controller.setGuiViewer(this);
-        // initialize swing components using the Event Dispatch Thread to avoid concurrency problems
         SwingUtilities.invokeLater(this::initializeSwingComponents);
     }
 
+    // initialize swing components using the Event Dispatch Thread to avoid concurrency problems
     private void initializeSwingComponents() {
         // set global frame
         globalFrame = new JFrame("swingy");
@@ -101,7 +122,6 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         globalFrame.setLocationRelativeTo(null);
         globalFrame.setResizable(false);
         globalFrame.setSize(1066, 600);
-        globalFrame.setVisible(true);
         // add custom Map Panel
         mapPanel = new MapPanel(mapContainer.getSize());
         mapContainer.add(mapPanel, BorderLayout.CENTER);
@@ -170,6 +190,20 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         }
     }
 
+    private void hideGraphicElements() {
+        JComponent[] componentsToHide = {
+                btnGoToWelcomeWindow, btnOkGoNextMap, btnPlay, btnStartUnwantedBattle,
+                btnLeaveIt, btnKeepIt, btnFight, btnRun, btnCreate, welcomePanel,
+                moveInstructionsPanel, fightOrRunPanel, artifactPanel, singleMessageLabel,
+                btnSuccessfullyRun, btnGoToWelcome, btnOkWinBattle, lblLvlUp1, lblLvlUp2,
+                btnSwitchToConsole1, btnSwitchToConsole2
+        };
+
+        for (JComponent component : componentsToHide) {
+            component.setVisible(false);
+        }
+    }
+
     private void createHero() {
         boolean validInput = inputValidator.validateGuiInput(nameInput.getText(), HeroNameUserInput.class);
         invalidInputTxt1.setVisible(!validInput);
@@ -195,14 +229,35 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
 
     @Override
     public void welcomeView() {
-        singleMessagePanel.setVisible(false);
-        welcomePanel.setVisible(true);
+        showElementsOf(ViewType.WELCOME);
         btnPlay.setEnabled(!controller.getHeroes().isEmpty());
 
         // TODO: fix bug when multiple characters has the same name
         cmbHeroList.removeAllItems();
         for (Hero hero : controller.getHeroes()) {
             cmbHeroList.addItem(hero.getName());
+        }
+    }
+
+    private void showElementsOf(ViewType viewType) {
+        JComponent[] componentsToShow = null;
+
+        hideGraphicElements();
+
+        switch (viewType) {
+            case WELCOME -> componentsToShow = welcomeComponents;
+            case MAP -> componentsToShow = mapComponents;
+            case FIGHT_OR_RUN -> componentsToShow = fightOrRunCompoments;
+            case RUN_SUCCESSFUL -> componentsToShow = runSuccessfulComponents;
+            case RUN_FAILED -> componentsToShow = runFailedComponents;
+            case WIN_BATTLE -> componentsToShow = winBattleComponents;
+            case LOOSE_BATTLE -> componentsToShow = looseBattleComponents;
+            case ARTIFACT_DROPPED -> componentsToShow = artifactDroppedComponents;
+            case WIN_MAP -> componentsToShow = winMapComponents;
+        }
+
+        for (JComponent component : componentsToShow) {
+            component.setVisible(true);
         }
     }
 
@@ -216,18 +271,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
 
     @Override
     public void mapView() {
-        welcomePanel.setVisible(false);
-        moveInstructionsPanel.setVisible(true);
-        fightOrRunPanel.setVisible(false);
-        artifactPanel.setVisible(false);
-        singleMessageLabel.setVisible(false);
-        btnSuccessfullyRun.setVisible(false);
-        btnGoToWelcome.setVisible(false);
-        btnOkWinBattle.setVisible(false);
-        btnOkGoNextMap.setVisible(false);
-        btnGoToWelcomeWindow.setVisible(false);
-        playPanel.setVisible(true);
-        playPanel.setFocusable(true);
+        enableKeyboard();
+        showElementsOf(ViewType.MAP);
         playPanel.requestFocusInWindow();
         mapPanel.setMap(controller.getMap());
         mapPanel.repaint();
@@ -237,88 +282,64 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     @Override
     public void fightOrRunView() {
         disableKeyboard();
-        moveInstructionsPanel.setVisible(false);
-        fightOrRunPanel.setVisible(true);
+        showElementsOf(ViewType.FIGHT_OR_RUN);
+        mapPanel.setMap(controller.getMap());
     }
 
     @Override
     public void runSuccessfulView() {
-        fightOrRunPanel.setVisible(false);
-        singleMessageLabel.setText(UserMessages.getRUN_SUCCESSFUL());
-        singleMessageLabel.setVisible(true);
-        btnStartUnwantedBattle.setVisible(false);
-        btnSuccessfullyRun.setVisible(true);
-        singleMessagePanel.setVisible(true);
+        disableKeyboard();
+        showElementsOf(ViewType.RUN_SUCCESSFUL);
+        singleMessageLabel.setText(UserMessages.RUN_SUCCESSFUL);
     }
 
     @Override
     public void runFailedView() {
-        fightOrRunPanel.setVisible(false);
-        singleMessageLabel.setVisible(true);
-        singleMessageLabel.setText(UserMessages.getRUN_FAILED());
-        btnSuccessfullyRun.setVisible(false);
-        btnStartUnwantedBattle.setVisible(true);
-        singleMessagePanel.setVisible(true);
+        disableKeyboard();
+        showElementsOf(ViewType.RUN_FAILED);
+        singleMessageLabel.setText(UserMessages.RUN_FAILED);
     }
 
     @Override
     public void winBattleView() {
-        moveInstructionsPanel.setVisible(false);
-        btnStartUnwantedBattle.setVisible(false);
-        fightOrRunPanel.setVisible(false);
-        singleMessageLabel.setVisible(true);
-        singleMessageLabel.setText(UserMessages.getYOU_WIN_THE_BATTLE());
+        disableKeyboard();
+        showElementsOf(ViewType.WIN_BATTLE);
+        singleMessageLabel.setText(UserMessages.getYouWinTheBattle());
         if (controller.getActiveHero().isLeveledUp()) {
             lblLvlUp1.setText(UserMessages.getLevelUp(controller.getActiveHero())[0]);
             lblLvlUp2.setText(UserMessages.getLevelUp(controller.getActiveHero())[1]);
             lblLvlUp1.setVisible(true);
             lblLvlUp2.setVisible(true);
         }
-        btnOkWinBattle.setVisible(true);
-        singleMessagePanel.setVisible(true);
     }
 
     @Override
     public void looseBattleView() {
-        fightOrRunPanel.setVisible(false);
-        btnStartUnwantedBattle.setVisible(false);
-        singleMessageLabel.setText(UserMessages.getYOU_LOSE_THE_BATTLE());
-        singleMessageLabel.setVisible(true);
-        btnGoToWelcome.setVisible(true);
-        singleMessagePanel.setVisible(true);
+        disableKeyboard();
+        showElementsOf(ViewType.LOOSE_BATTLE);
+        singleMessageLabel.setText(UserMessages.getYouLoseTheBattle());
     }
 
     @Override
     public void artifactDroppedView() {
         disableKeyboard();
+        showElementsOf(ViewType.ARTIFACT_DROPPED);
         Artifact artifact = controller.getDroppedArtifact();
         artifactType.setText("Type: " + artifact.getType());
         artifactAttack.setText("Attack: " + artifact.getStats().getAttack());
         artifactDefense.setText("Defense: " + artifact.getStats().getDefense());
         artifactHitPoints.setText("HitPoints: " + artifact.getStats().getHitPoints());
-
-        moveInstructionsPanel.setVisible(false);
-        fightOrRunPanel.setVisible(false);
-        artifactPanel.setVisible(true);
     }
 
     @Override
     public void winMapView() {
         disableKeyboard();
-        moveInstructionsPanel.setVisible(false);
-        fightOrRunPanel.setVisible(false);
-        singleMessageLabel.setVisible(true);
-        btnStartUnwantedBattle.setVisible(false);
-        btnSuccessfullyRun.setVisible(false);
-        btnOkWinBattle.setVisible(false);
-        singleMessagePanel.setVisible(true);
+        showElementsOf(ViewType.WIN_MAP);
         if (controller.getMap().maximumLevelReached()) {
-            singleMessageLabel.setText(UserMessages.getYOU_WIN_THE_GAME());
+            singleMessageLabel.setText(UserMessages.YOU_WIN_THE_GAME);
             btnGoToWelcomeWindow.setVisible(true);
-            btnOkGoNextMap.setVisible(false);
         } else {
-            singleMessageLabel.setText(UserMessages.getYOU_WIN_THE_MAP());
-            btnGoToWelcomeWindow.setVisible(false);
+            singleMessageLabel.setText(UserMessages.getYouWinTheMap());
             btnOkGoNextMap.setVisible(true);
         }
     }
@@ -330,6 +351,7 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     @Override
     public void becomeActiveViewer() {
         globalFrame.setVisible(true);
+        updateView();
     }
 
     @Override

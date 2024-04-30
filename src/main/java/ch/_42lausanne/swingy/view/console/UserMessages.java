@@ -3,13 +3,15 @@ package ch._42lausanne.swingy.view.console;
 import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.ObjectTypeEnum;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserMessages {
     public static final String PRESS_ENTER = "Press enter to start the battle:";
+    public static final String RUN_FAILED = "The enemy is closing in! You must fight or die!";
+    public static final String YOU_WIN_THE_GAME = "You have won the game!";
+    public static final String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
     private static final String USAGE = """
             Usage:
                     java -jar swingy.jar console
@@ -29,7 +31,8 @@ public class UserMessages {
             Do you wish to:
             """ + ConsoleColors.RESET + """
             (c) Create Character: Forge your own hero with unique abilities and appearance.
-            (p) Play: Select one of your heroes to start your journey immediately.""";
+            (p) Play: Select one of your heroes to start your journey immediately.
+            (switch) Switch to graphic user interface.""";
     private static final String MOVEMENT_INSTRUCTIONS = ConsoleColors.BLUE_UNDERLINED + """
             Choose your direction!
             """ + ConsoleColors.RESET
@@ -61,12 +64,6 @@ public class UserMessages {
             "You have uncovered all the secrets of the map and emerged victorious!",
             "Your journey across the map is complete. You are a master explorer!",
     };
-    @Getter
-    private static final String YOU_WIN_THE_GAME = "You have won the game!";
-    @Getter
-    private static final String RUN_SUCCESSFUL = "You have eluded your enemy! Well done!";
-    @Getter
-    private static final String RUN_FAILED = "The enemy is closing in! You must fight or die!";
     private static final String[] LEVEL_UP = {"Congratulations! Your ", " has reached level "};
     private static final String[] ARTIFACT_KEPT = {"The " + ConsoleColors.BLUE_UNDERLINED + "ARTIFACT" + ConsoleColors.RESET, " has been kept\n"};
     private static final String[] DROPPED_ARTIFACT = {"You have found an" + ConsoleColors.PURPLE + " ARTIFACT\n" + ConsoleColors.RESET,
@@ -121,7 +118,7 @@ public class UserMessages {
         System.out.println(message);
     }
 
-    public static String getYOU_WIN_THE_BATTLE() {
+    public static String getYouWinTheBattle() {
         return YOU_WIN_THE_BATTLE[randomSeeds[1]++ % YOU_WIN_THE_BATTLE.length];
     }
 
@@ -130,7 +127,7 @@ public class UserMessages {
         System.out.println(message);
     }
 
-    public static String getYOU_LOSE_THE_BATTLE() {
+    public static String getYouLoseTheBattle() {
         return YOU_LOSE_THE_BATTLE[randomSeeds[2]++ % YOU_LOSE_THE_BATTLE.length];
     }
 
@@ -139,7 +136,7 @@ public class UserMessages {
         System.out.println(message);
     }
 
-    public static String getYOU_WIN_THE_MAP() {
+    public static String getYouWinTheMap() {
         return YOU_WIN_THE_MAP[randomSeeds[3]++ % YOU_WIN_THE_MAP.length];
     }
 

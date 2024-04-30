@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MapPanel extends JPanel {
     private BufferedImage heroIcon, villainIcon, backgroundIcon;
@@ -17,12 +18,11 @@ public class MapPanel extends JPanel {
 
     public MapPanel(Dimension size) {
         this.setPreferredSize(size);
-//        this.setBackground(new Color(86, 151, 76));
         this.setBackground(new Color(103, 165, 94));
         try {
-            this.heroIcon = ImageIO.read(getClass().getResource("/boy_down_1.png"));
-            this.villainIcon = ImageIO.read(getClass().getResource("/skeletonlord_phase2_down_2.png"));
-            this.backgroundIcon = ImageIO.read(getClass().getResource("/grass01.png"));
+            this.heroIcon = ImageIO.read(Objects.requireNonNull(getClass().getResource("/hero.png")));
+            this.villainIcon = ImageIO.read(Objects.requireNonNull(getClass().getResource("/villain.png")));
+            this.backgroundIcon = ImageIO.read(Objects.requireNonNull(getClass().getResource("/grass01.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

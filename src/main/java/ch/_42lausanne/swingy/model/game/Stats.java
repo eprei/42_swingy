@@ -31,37 +31,30 @@ public class Stats {
     public Stats() {
     }
 
-    //    @Contract(value = " -> new", pure = true)
     public static Stats archerStats() {
         return new Stats(8, 4, 80);
     }
 
-    //    @Contract(value = " -> new", pure = true)
     public static Stats blacksmithStats() {
         return new Stats(4, 8, 120);
     }
 
-    //    @Contract(value = " -> new", pure = true)
     public static Stats warriorStats() {
         return new Stats(7, 6, 100);
     }
 
-    //    @Contract(value = " -> new", pure = true)
     public static Stats magicianStats() {
         return new Stats(7, 5, 90);
     }
 
-    //    @Contract(value = "_ -> new", pure = true)
     public static Stats weaponStats(int villainAttack) {
         return new Stats(villainAttack / 2, 0, 0);
     }
 
-    //    @Contract(value = "_ -> new", pure = true)
     public static Stats armorStats(int villainDefense) {
         return new Stats(0, villainDefense / 2, 0);
     }
 
-    //    @Contract(value = "_ -> new", pure = true)
     public static Stats helmStats(int villainInitialHitPoints) {
         return new Stats(0, 0, villainInitialHitPoints / 4);
     }

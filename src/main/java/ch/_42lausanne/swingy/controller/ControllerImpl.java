@@ -4,6 +4,7 @@ import ch._42lausanne.swingy.model.artifacts.Artifact;
 import ch._42lausanne.swingy.model.characters.Hero;
 import ch._42lausanne.swingy.model.game.*;
 import ch._42lausanne.swingy.view.GuiViewer;
+import ch._42lausanne.swingy.view.console.ConsoleColors;
 import ch._42lausanne.swingy.view.console.ConsoleViewer;
 import ch._42lausanne.swingy.view.viewer.Viewer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,6 @@ public class ControllerImpl implements Controller {
     public ControllerImpl(Model model, Game game) {
         this.model = model;
         this.game = game;
-    }
-
-    @Override
-    public void runApplication() {
-        activeViewer.updateView();
     }
 
     @Override
@@ -108,11 +104,12 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void setActiveViewer(String selectedViewer) {
+    public void runApplication(String selectedViewer) {
         switch (selectedViewer) {
             case Viewer.CONSOLE_VIEW -> activeViewer = consoleViewer;
             case Viewer.GUI_VIEW -> activeViewer = guiViewer;
         }
+        activeViewer.becomeActiveViewer();
     }
 
     @Override
@@ -156,8 +153,10 @@ public class ControllerImpl implements Controller {
             activeViewer = consoleViewer;
         } else if (activeViewer == consoleViewer) {
             activeViewer = guiViewer;
+            System.out.println(ConsoleColors.YELLOW
+                    + "View changed successfully. Now you can continue playing from the graphical user interface."
+                    + ConsoleColors.RESET);
         }
         activeViewer.becomeActiveViewer();
-        activeViewer.updateView();
     }
 }

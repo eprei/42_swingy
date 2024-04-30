@@ -11,8 +11,6 @@ import ch._42lausanne.swingy.view.console.ConsoleViewer;
 import java.util.List;
 
 public interface Controller {
-    void runApplication();
-
     void fightBattle(boolean wanted);
 
     void startHeroCreation();
@@ -39,7 +37,7 @@ public interface Controller {
 
     void goToNextMap();
 
-    void setActiveViewer(String selectedViewer);
+    void runApplication(String selectedViewer);
 
     void setConsoleViewer(ConsoleViewer consoleViewer);
 

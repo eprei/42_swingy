@@ -39,9 +39,10 @@ public class ConsoleViewer extends BaseViewer {
         UserMessages.printWelcome();
         String userInput = userInputValidator.getAndValidateConsoleInput(WelcomeUserInput.class);
 
-        switch (userInput) {
+        switch (userInput.toLowerCase()) {
             case "c" -> controller.startHeroCreation();
             case "p" -> controller.selectHero();
+            case "switch" -> controller.switchActiveViewer();
         }
     }
 
@@ -92,6 +93,7 @@ public class ConsoleViewer extends BaseViewer {
             case "d" -> controller.handleMovement(Direction.EAST);
             case "s" -> controller.handleMovement(Direction.SOUTH);
             case "a" -> controller.handleMovement(Direction.WEST);
+            case "switch" -> controller.switchActiveViewer();
         }
     }
 
@@ -101,9 +103,10 @@ public class ConsoleViewer extends BaseViewer {
 
         String userChoice = userInputValidator.getAndValidateConsoleInput(FightOrRunUserInput.class);
 
-        switch (userChoice) {
+        switch (userChoice.toLowerCase()) {
             case "f" -> controller.fightBattle(true);
             case "r" -> controller.tryToRunFromBattle();
+            case "switch" -> controller.switchActiveViewer();
         }
     }
 
@@ -147,12 +150,13 @@ public class ConsoleViewer extends BaseViewer {
         UserMessages.printDroppedArtifact(artifact);
         String userChoice = userInputValidator.getAndValidateConsoleInput(ArtifactDroppedUserInput.class);
 
-        switch (userChoice) {
+        switch (userChoice.toLowerCase()) {
             case "k" -> {
                 UserMessages.printArtifactKept(controller.getDroppedArtifact());
                 controller.keepArtifact();
             }
             case "l" -> controller.continueTheAdventure();
+            case "switch" -> controller.switchActiveViewer();
         }
     }
 
@@ -176,5 +180,6 @@ public class ConsoleViewer extends BaseViewer {
         System.out.println(ConsoleColors.YELLOW
                 + "View changed successfully. Now you can continue playing from the terminal."
                 + ConsoleColors.RESET);
+        updateView();
     }
 }
