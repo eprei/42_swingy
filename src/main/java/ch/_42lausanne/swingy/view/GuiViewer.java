@@ -109,10 +109,10 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         this.controller = controller;
         this.game = game;
         this.controller.setGuiViewer(this);
+        // initialize swing components using the Event Dispatch Thread to avoid concurrency problems
         SwingUtilities.invokeLater(this::initializeSwingComponents);
     }
 
-    // initialize swing components using the Event Dispatch Thread to avoid concurrency problems
     private void initializeSwingComponents() {
         // set global frame
         globalFrame = new JFrame("swingy");
@@ -169,8 +169,6 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
             controller.tryToRunFromBattle();
         } else if (e.getSource() == btnOkWinBattle) {
             singleMessagePanel.setVisible(false);
-            lblLvlUp1.setVisible(false);
-            lblLvlUp2.setVisible(false);
             controller.searchForDroppedArtifacts();
         } else if (e.getSource() == btnGoToWelcome) {
             controller.goToWelcomeWindow();
@@ -183,7 +181,7 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
         } else if (e.getSource() == btnOkGoNextMap) {
             controller.goToNextMap();
         } else if (e.getSource() == btnGoToWelcomeWindow) {
-            controller.goToWelcomeWindow();
+            controller.goToNextMap();
         } else if (e.getSource() == btnSwitchToConsole1 || e.getSource() == btnSwitchToConsole2) {
             globalFrame.setVisible(false);
             controller.switchActiveViewer();
@@ -231,11 +229,9 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
     public void welcomeView() {
         showElementsOf(ViewType.WELCOME);
         btnPlay.setEnabled(!controller.getHeroes().isEmpty());
-
-        // TODO: fix bug when multiple characters has the same name
         cmbHeroList.removeAllItems();
         for (Hero hero : controller.getHeroes()) {
-            cmbHeroList.addItem(hero.getName());
+            cmbHeroList.addItem(hero.getId() + ": " + hero.getName());
         }
     }
 
@@ -346,6 +342,8 @@ public class GuiViewer extends BaseViewer implements ActionListener, KeyListener
 
     @Override
     public void winGameView() {
+        // implement multilevel management for the GUI here if necessary as there is in the console
+        controller.goToWelcomeWindow();
     }
 
     @Override
