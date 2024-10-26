@@ -1,0 +1,4 @@
+MYSQL_ROOT_PASSWORD=development_password
+MYSQL_DATABASE=swingy
+MYSQL_USER=swingyuser
+MYSQL_PASSWORD=swingypass
